@@ -1,0 +1,84 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme {  
+  /* Declaring Font Sans */
+  --font-sans: 'Inter', sans-serif;
+
+  /* Extending default Tailwind utilities */
+  --container-8xl: 90rem;
+
+  /* Adding Nuxt UI color aliases to Tailwind colors */
+  --color-primary-50: var(--ui-color-primary-50);
+  --color-primary-100: var(--ui-color-primary-100);
+  --color-primary-200: var(--ui-color-primary-200);
+  --color-primary-300: var(--ui-color-primary-300);
+  --color-primary-400: var(--ui-color-primary-400);
+  --color-primary-500: var(--ui-color-primary-500);
+  --color-primary-600: var(--ui-color-primary-600);
+  --color-primary-700: var(--ui-color-primary-700);
+  --color-primary-800: var(--ui-color-primary-800);
+  --color-primary-900: var(--ui-color-primary-900);
+  --color-primary-950: var(--ui-color-primary-950);
+
+  /* Overriding Tailwind neutral color with the Nuxt UI neutral color */
+  --color-neutral-50: var(--ui-color-neutral-50);
+  --color-neutral-100: var(--ui-color-neutral-100);
+  --color-neutral-200: var(--ui-color-neutral-200);
+  --color-neutral-300: var(--ui-color-neutral-300);
+  --color-neutral-400: var(--ui-color-neutral-400);
+  --color-neutral-500: var(--ui-color-neutral-500);
+  --color-neutral-600: var(--ui-color-neutral-600);
+  --color-neutral-700: var(--ui-color-neutral-700);
+  --color-neutral-800: var(--ui-color-neutral-800);
+  --color-neutral-900: var(--ui-color-neutral-900);
+  --color-neutral-950: var(--ui-color-neutral-950);
+
+  /* Overriding the most prominent text var */
+  /* --ui-text-highlighted: var(--color-neutral-950); */
+
+  /* Adding custom text formatting */
+  --text-big: 4rem;
+  --text-big--line-height: 24rem;
+  --text-big--font-weight: 900;
+  --text-big--letter-spacing: -0.025em;
+}
+
+:root {
+  /* Changing the default Nuxt UI container component size */
+  --ui-container: var(--container-8xl);
+}
+
+body {
+  /* Changing the antialiased font to subpixel-antialiased */
+  @apply subpixel-antialiased;
+}
+
+/* Adding a custom utility class */
+@utility text-color-dimmed {
+  color: var(--ui-text-dimmed);
+}
+@utility text-color-muted {
+  color: var(--ui-text-muted);
+}
+@utility text-color-toned {
+  color: var(--ui-text-toned);
+}
+/* @utility text-color-normal {
+  color: var(--ui-text);
+} */
+@utility text-color-highlighted {
+  color: var(--ui-text-highlighted);
+}
+
+@utility bg-color-muted {
+  background-color: var(--ui-bg-muted);
+}
+@utility bg-color-elevated {
+  background-color: var(--ui-bg-elevated);
+}
+
+@utility border-color-muted {
+  border-color: var(--ui-border-muted);
+} 
+

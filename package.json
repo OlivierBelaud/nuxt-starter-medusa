@@ -1,0 +1,44 @@
+{
+  "name": "nuxt-starter-medusa",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "author": "Olivier Belaud <olivierbelaudpro@gmail.com>",
+  "description": "Nuxt Starter Storefront to be used with Medusa V2",
+  "keywords": [
+    "nuxt",
+    "medusa",
+    "e-commerce",
+    "storefront",
+    "medusa-storefront"
+  ],
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/image": "^1.9.0",
+    "@nuxt/ui": "3.0.0-alpha.12",
+    "@nuxthub/core": "^0.8.16",
+    "@unhead/vue": "^1.11.18",
+    "lodash": "^4.17.21",
+    "nuxt": "^3.15.2",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee",
+  "devDependencies": {
+    "@iconify-json/flag": "^1.2.5",
+    "@iconify-json/lucide": "^1.2.25",
+    "@iconify-json/simple-icons": "^1.2.22",
+    "@medusajs/types": "^2.4.0",
+    "@nuxt/eslint": "^0.7.5",
+    "@types/lodash": "^4.17.14",
+    "eslint": "^9.18.0",
+    "typescript": "^5.7.3",
+    "wrangler": "^3.107.3"
+  }
+}
