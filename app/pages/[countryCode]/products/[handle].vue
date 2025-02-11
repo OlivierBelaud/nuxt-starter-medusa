@@ -1,12 +1,12 @@
 <script setup lang="ts">
 const route = useRoute()
-const { currentRegionId } = useRegions()
+const { userRegionId } = useUserCountry()
 
 const handle = route.params.handle as string
 
 const fetchProductsParams = computed(() => ({
   handle,
-  region_id: currentRegionId.value,
+  region_id: userRegionId.value,
 }))
 const fetchProductKey = computed(() => `product:${JSON.stringify(fetchProductsParams.value)}`)
 const { data } = await useLazyFetch('/api/products', {

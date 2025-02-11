@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { StoreCollection } from '@medusajs/types'
 
-const { currentRegionId } = useRegions()
+const { userRegionId } = useUserCountry()
 
 const {
   handle,
@@ -12,7 +12,7 @@ const {
 const { data: collection } = await useFetchCollectionByHandle(handle)
 
 const fetchProductsParams = computed(() => ({
-  region_id: currentRegionId.value,
+  region_id: userRegionId.value,
   collection_id: collection.value?.id,
   limit: 4,
 }))

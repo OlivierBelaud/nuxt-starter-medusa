@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { currentRegionId } = useRegions()
+const { userRegionId } = useUserCountry()
 const { defaultProductsPerPage } = useAppConfig()
 
 const {
@@ -19,7 +19,7 @@ const {
 } = useFilters()
 
 const fetchProductsParams = computed(() => ({
-  region_id: currentRegionId.value,
+  region_id: userRegionId.value,
   collection_id: collectionId,
   category_id: categoryId,
   limit: defaultProductsPerPage,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { StoreProduct } from '@medusajs/types'
 
-const { currentRegionId } = useRegions()
+const { userRegionId } = useUserCountry()
 
 const {
   productFromList,
@@ -10,7 +10,7 @@ const {
 }>()
 
 const fetchProductsParams = computed(() => ({
-  region_id: currentRegionId.value,
+  region_id: userRegionId.value,
 }))
 const fetchProductKey = computed(() => `product:${productFromList.handle}-${JSON.stringify(fetchProductsParams.value)}`)
 const { data } = await useLazyFetch(`/api/products/${productFromList.handle}`, {

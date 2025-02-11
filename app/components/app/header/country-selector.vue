@@ -1,8 +1,18 @@
 <script setup lang="ts">
-const { countries } = useRegions()
+const {
+  countries,
+} = defineProps<{
+  countries: BaseRegionCountryWithRegionId[]
+}>()
 
 const route = useRoute()
-const path = computed(() => route.path.split('/').slice(2).join('/') ? `/${route.path.split('/').slice(2).join('/')}` : '')
+const { setCountry } = useUserCountry()
+
+function handleCountryChange(country: BaseRegionCountryWithRegionId) {
+  const path = route.path.split('/').slice(2).join('/') ? `/${route.path.split('/').slice(2).join('/')}` : ''
+  setCountry(country)
+  navigateTo(`/${country.iso_2}${path}`)
+}
 </script>
 
 <template>
@@ -26,7 +36,7 @@ const path = computed(() => route.path.split('/').slice(2).join('/') ? `/${route
           <ULink
             active-class="text-color-highlighted"
             class="flex items-center w-full px-4 py-3"
-            :to="`/${country.iso_2}${path}`"
+            @click="handleCountryChange(country)"
           >
             <div class="flex items-center space-x-2 uppercase text-sm">
               <UIcon :name="`i-flag-${country.iso_2}-4x3`" />

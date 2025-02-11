@@ -1,25 +1,32 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const countryCodeParam = to.params.countryCode as string
+  const paramCountryCode = to.params.countryCode as string | undefined
   const { defaultCountry } = useAppConfig()
+
+  const { userCountryCode, setCountry } = useUserCountry()
+
+  if (!userCountryCode.value && !paramCountryCode) {
+    return navigateTo(`/${defaultCountry}`)
+  }
 
   const { data } = await useFetchRegions()
   const countries = getCountriesFromRegions(data.value?.regions)
 
-  const { setCurrentCountryCode, setCountries, setRegionId, currentCountryCode } = useRegions()
-
-  if (currentCountryCode.value !== countryCodeParam) {
-    setCurrentCountryCode(countryCodeParam || defaultCountry)
-    setCountries(countries)
-    setRegionId()
+  if (userCountryCode.value) {
+    const countryFromCookie = countries.find(country => country.iso_2 === userCountryCode.value)
+    if (countryFromCookie?.iso_2 !== paramCountryCode) {
+      return navigateTo(`/${countryFromCookie?.iso_2}`)
+    }
+    return
   }
 
-  if (
-    !countryCodeParam
-    || (
-      countryCodeParam !== defaultCountry
-      && !countries?.find(country => country?.iso_2 === countryCodeParam)
-    )
-  ) {
-    return navigateTo(`/${defaultCountry}`)
+  if (paramCountryCode) {
+    const countryFromNavigation = countries.find(country => country.iso_2 === paramCountryCode)
+    if (!countryFromNavigation) {
+      const countryFromDefault = countries.find(country => country.iso_2 === defaultCountry)
+      if (countryFromDefault)
+        setCountry(countryFromDefault)
+      return navigateTo(`/${defaultCountry}`)
+    }
+    setCountry(countryFromNavigation)
   }
 })

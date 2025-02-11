@@ -1,7 +1,12 @@
 <script setup lang="ts">
 const isOpen = defineModel<boolean>()
 const { title } = useAppConfig()
-const { currentCountry } = useRegions()
+
+const { data } = await useFetchRegions()
+const countries = getCountriesFromRegions(data.value?.regions)
+const { userCountryCode } = useUserCountry()
+
+const userCountry = countries.find(country => country.iso_2 === userCountryCode.value)
 </script>
 
 <template>
@@ -39,14 +44,16 @@ const { currentCountry } = useRegions()
           </AppLink>
         </div>
         <div>
-          <AppHeaderCountrySelector>
+          <AppHeaderCountrySelector
+            :countries="countries"
+          >
             <div
               class="flex items-center justify-between cursor-pointer group"
             >
               <div class="text-xs flex items-center space-x-2">
                 <span>Shipping to:</span>
-                <UIcon :name="`i-flag-${currentCountry?.iso_2}-4x3`" />
-                <span>{{ currentCountry?.display_name }}</span>
+                <UIcon :name="`i-flag-${userCountry?.iso_2}-4x3`" />
+                <span>{{ userCountry?.display_name }}</span>
               </div>
               <UIcon
                 name="i-lucide-arrow-right"

@@ -76,7 +76,7 @@ export const convertToLocale = ({
 }: {
   amount?: number
   currency_code?: string
-  country?: string
+  country?: string | null
   minimumFractionDigits?: number
   maximumFractionDigits?: number
 }) => {
