@@ -12,7 +12,7 @@
       </h2>
     </div>
     <UButton
-      to="https://github.com"
+      to="https://github.com/OlivierBelaud/nuxt-starter-medusa"
       target="_blank"
       color="neutral"
       variant="subtle"
@@ -20,6 +20,6 @@
       icon="i-simple-icons-github"
     >
       View on GitHub
-    </UButton>
+    </UButton>ƒ
   </div>
 </template>
