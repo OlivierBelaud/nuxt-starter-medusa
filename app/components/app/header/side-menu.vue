@@ -6,7 +6,7 @@ const { data } = await useFetchRegions()
 const countries = getCountriesFromRegions(data.value?.regions)
 const { userCountryCode } = useUserCountry()
 
-const userCountry = countries.find(country => country.iso_2 === userCountryCode.value)
+const userCountry = computed(() => countries.find(country => country.iso_2 === userCountryCode.value))
 </script>
 
 <template>
@@ -46,6 +46,7 @@ const userCountry = countries.find(country => country.iso_2 === userCountryCode.
         <div>
           <AppHeaderCountrySelector
             :countries="countries"
+            @select:country="isOpen = false"
           >
             <div
               class="flex items-center justify-between cursor-pointer group"
