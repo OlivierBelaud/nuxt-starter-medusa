@@ -10,8 +10,7 @@ export const $fetchMedusa = <T>(endpoint: string, opts: NitroFetchOptions<string
   }
   return $fetch<T>(`${config.medusaBackendUrl}/store${endpoint}`, {
     ...opts,
-    // Apparently Cloudflare Workers could not manage the credentials option
-    // credentials: 'include',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       'x-publishable-api-key': config.medusaPublishableKey,

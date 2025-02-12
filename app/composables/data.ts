@@ -76,10 +76,6 @@ export const useFetchProducts = ({ query }: {
 
   const queryRef = toRef(query)
 
-  watchEffect(() => {
-    console.log('queryRef', queryRef.value)
-  })
-
   const queryParams = computed(() => ({
     region_id: userRegionId.value,
     ...queryRef.value,
@@ -88,6 +84,9 @@ export const useFetchProducts = ({ query }: {
   return useLazyFetch('/api/products', {
     params: queryParams,
     cache: 'force-cache',
+    getCachedData(key, nuxtApp) {
+      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    },
   })
 
   // return useAsyncData(
