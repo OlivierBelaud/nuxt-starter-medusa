@@ -1,4 +1,5 @@
 import type { StoreProductListParams } from '@medusajs/types'
+import { SORT_OPTIONS } from '~/types/filter'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
@@ -68,29 +69,45 @@ export const useFetchRegions = () => {
     })
 }
 
-// TODO: Implement Cache
 export const useFetchProducts = ({ query }: {
   query: MaybeRef<StoreProductListParams>
 }) => {
-  const medusa = useMedusaClient()
   const { userRegionId } = useUserCountry()
 
   const queryRef = toRef(query)
 
-  return useLazyAsyncData(
-    `products:${JSON.stringify(queryRef.value)}`,
-    async () => {
-      return await medusa.store.product.list({
-        fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
-        region_id: userRegionId.value,
-        ...queryRef.value,
-      })
-    }, {
-      watch: [queryRef],
-      getCachedData(key, nuxtApp) {
-        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-      },
-    })
+  watchEffect(() => {
+    console.log('queryRef', queryRef.value)
+  })
+
+  const queryParams = computed(() => ({
+    fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
+    region_id: userRegionId.value,
+    order: SORT_OPTIONS.CREATED_AT,
+    ...queryRef.value,
+  }))
+
+  return useLazyFetch('/api/products', {
+    params: queryParams,
+    cache: 'force-cache',
+  })
+
+  // return useAsyncData(
+  //   `products:${JSON.stringify(queryRef.value)}`,
+  //   async () => {
+  //     console.log('fetch')
+  //     return await medusa.store.product.list({
+  //       fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
+  //       region_id: userRegionId.value,
+  //       ...queryRef.value,
+  //     })
+  //   }, {
+  //     watch: [queryRef],
+  //     getCachedData(key, nuxtApp) {
+  //       console.log('nuxtApp.payload.data[key])', key, nuxtApp.payload.data[key])
+  //       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+  //     },
+  //   })
 }
 
 export const useFetchProductByHandle = (handle: string) => {
@@ -98,7 +115,7 @@ export const useFetchProductByHandle = (handle: string) => {
   const { userRegionId } = useUserCountry()
 
   return useLazyAsyncData(
-    `product:${handle}`,
+    `product:${handle}:region:${userRegionId.value}`,
     async () => {
       return await medusa.store.product.list({
         handle: handle,
