@@ -64,12 +64,6 @@ export default defineNuxtConfig({
     },
   },
 
-  vite: {
-    ssr: {
-      noExternal: ['qs'],
-    },
-  },
-
   eslint: {
     config: {
       stylistic: true,
@@ -77,7 +71,7 @@ export default defineNuxtConfig({
   },
 
   medusa: {
-    baseUrl: process.env.NUXT_MEDUSA_BACKEND_URL,
-    publishableKey: process.env.NUXT_MEDUSA_PUBLISHABLE_KEY,
+    baseUrl: 'https://medusa-base-production.up.railway.app',
+    publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
   },
 })
