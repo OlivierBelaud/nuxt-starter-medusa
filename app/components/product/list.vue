@@ -22,7 +22,7 @@ const productsSorted = computed(() => sortProducts(products, sortBy))
       :key="product.id"
     >
       <ProductCard
-        :product-from-list="product"
+        :product="product"
       />
     </li>
   </ul>

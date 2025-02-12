@@ -3,6 +3,7 @@ import type { StoreProduct } from '@medusajs/types'
 import lodash from 'lodash'
 
 const { isEqual } = lodash
+const { currentRegionId } = useCurrentCountry()
 
 const {
   product: _product,
@@ -15,7 +16,7 @@ const { data } = await useFetchProductByHandle(_product?.handle)
 const product = computed(() => data.value || _product)
 
 onMounted(() => {
-  refreshNuxtData(`product:${_product?.handle}`)
+  refreshNuxtData(`product:${_product?.handle}:region:${currentRegionId.value}`)
 })
 const selectedOptions = ref<Record<string, string | undefined>>()
 

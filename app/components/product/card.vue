@@ -4,19 +4,19 @@ import type { StoreProduct } from '@medusajs/types'
 const { currentRegionId } = useCurrentCountry()
 
 const {
-  productFromList,
+  product: _product,
 } = defineProps<{
-  productFromList: StoreProduct
+  product: StoreProduct
 }>()
 
-const { data } = await useFetchProductByHandle(productFromList.handle)
+const { data } = await useFetchProductByHandle(_product.handle)
 
-const product = computed(() => data.value || productFromList)
+const product = computed(() => data.value || _product)
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
 
 onMounted(() => {
-  refreshNuxtData(`product:${productFromList.handle}:region:${currentRegionId.value}`)
+  refreshNuxtData(`product:${_product.handle}:region:${currentRegionId.value}`)
 })
 </script>
 
