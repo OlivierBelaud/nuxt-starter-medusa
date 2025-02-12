@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const { userRegionId } = useUserCountry()
 const { defaultProductsPerPage } = useAppConfig()
 
 const {
@@ -18,16 +17,15 @@ const {
   pageNumber,
 } = useFilters()
 
-const fetchProductsParams = computed(() => ({
-  region_id: userRegionId.value,
+const productsQuery = computed(() => ({
   collection_id: collectionId,
   category_id: categoryId,
   limit: defaultProductsPerPage,
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
-const { data } = await useLazyFetch('/api/products', {
-  params: fetchProductsParams,
-  cache: 'force-cache',
+
+const { data } = await useFetchProducts({
+  query: productsQuery,
 })
 
 const products = computed(() => data.value?.products || [])

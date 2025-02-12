@@ -8,8 +8,8 @@ export const useUserCountry = () => {
   }
 
   return {
-    userRegionId: readonly(regionIdFromCookie),
-    userCountryCode: readonly(countryCodeFromCookie),
+    userRegionId: computed(() => regionIdFromCookie.value || undefined),
+    userCountryCode: computed(() => countryCodeFromCookie.value || undefined),
     setCountry,
   }
 }

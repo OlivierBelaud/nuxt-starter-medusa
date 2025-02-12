@@ -1,24 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
-const { userRegionId } = useUserCountry()
 
 const handle = route.params.handle as string
-
-const fetchProductsParams = computed(() => ({
-  handle,
-  region_id: userRegionId.value,
-}))
-const fetchProductKey = computed(() => `product:${JSON.stringify(fetchProductsParams.value)}`)
-const { data } = await useLazyFetch('/api/products', {
-  params: fetchProductsParams,
-  key: fetchProductKey.value,
-})
-const product = computed(() => data.value?.products?.[0])
-
-onMounted(async () => {
-  // Refresh the static cache with the latest data on client side
-  await refreshNuxtData(fetchProductKey.value)
-})
+const { data: product } = await useFetchProductByHandle(handle)
 </script>
 
 <template>

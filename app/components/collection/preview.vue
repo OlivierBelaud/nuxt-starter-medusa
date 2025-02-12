@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { StoreCollection } from '@medusajs/types'
 
-const { userRegionId } = useUserCountry()
-
 const {
   handle,
 } = defineProps<{
@@ -11,13 +9,11 @@ const {
 
 const { data: collection } = await useFetchCollectionByHandle(handle)
 
-const fetchProductsParams = computed(() => ({
-  region_id: userRegionId.value,
-  collection_id: collection.value?.id,
-  limit: 4,
-}))
-const { data } = await useLazyFetch('/api/products', {
-  params: fetchProductsParams,
+const { data } = await useFetchProducts({
+  query: {
+    collection_id: collection.value?.id,
+    limit: 4,
+  },
 })
 
 const products = computed(() => data.value?.products || [])
