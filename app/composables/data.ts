@@ -87,10 +87,9 @@ export const useFetchProducts = ({ query }: {
       })
     }, {
       watch: [queryRef],
-      default: () => ({
-        products: [],
-        count: 0,
-      }),
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+      },
     })
 }
 
