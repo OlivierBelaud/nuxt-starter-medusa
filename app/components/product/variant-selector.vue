@@ -10,7 +10,9 @@ const {
   product: StoreProduct
 }>()
 
-const { data: product } = await useFetchProductByHandle(_product?.handle)
+const { data } = await useFetchProductByHandle(_product?.handle)
+
+const product = computed(() => data.value || _product)
 
 onMounted(() => {
   refreshNuxtData(`product:${_product?.handle}`)

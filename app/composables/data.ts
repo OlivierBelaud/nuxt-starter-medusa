@@ -96,7 +96,7 @@ export const useFetchProducts = ({ query }: {
   const { userRegionId } = useUserCountry()
 
   const queryRef = toRef(query)
-  return useAsyncData(
+  return useLazyAsyncData(
     `products:${JSON.stringify(queryRef.value)}`,
     async () => {
       return await medusa.store.product.list({
