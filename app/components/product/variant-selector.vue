@@ -10,7 +10,11 @@ const {
   product: StoreProduct
 }>()
 
-const { data: product } = await useFetchProductByHandle(_product?.handle)
+const { data: product, refresh } = await useFetchProductByHandle(_product?.handle)
+
+onMounted(() => {
+  refresh()
+})
 
 const selectedOptions = ref<Record<string, string | undefined>>()
 

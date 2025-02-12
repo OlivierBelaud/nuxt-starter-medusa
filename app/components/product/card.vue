@@ -7,9 +7,13 @@ const {
   productFromList: StoreProduct
 }>()
 
-const { data: product } = await useFetchProductByHandle(productFromList.handle)
+const { data: product, refresh } = await useFetchProductByHandle(productFromList.handle)
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
+
+onMounted(() => {
+  refresh()
+})
 </script>
 
 <template>

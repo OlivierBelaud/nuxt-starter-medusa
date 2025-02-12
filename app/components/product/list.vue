@@ -21,16 +21,9 @@ const productsSorted = computed(() => sortProducts(products, sortBy))
       v-for="product in productsSorted"
       :key="product.id"
     >
-      <ClientOnly>
-        <ProductCard
-          :product-from-list="product"
-        />
-        <template #fallback>
-          <ProductCard
-            :product-from-list="product"
-          />
-        </template>
-      </ClientOnly>
+      <ProductCard
+        :product-from-list="product"
+      />
     </li>
   </ul>
 </template>

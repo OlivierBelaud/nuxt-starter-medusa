@@ -16,16 +16,9 @@ defineProps<{
         <ProductGallery :product="product" />
       </div>
       <div class="flex flex-col sm:sticky sm:top-48 sm:py-0 sm:max-w-[300px] w-full py-8 gap-y-12">
-        <ClientOnly>
-          <ProductVariantSelector
-            :product="product"
-          />
-          <template #fallback>
-            <ProductVariantSelector
-              :product="product"
-            />
-          </template>
-        </ClientOnly>
+        <ProductVariantSelector
+          :product="product"
+        />
       </div>
     </UContainer>
   </div>
