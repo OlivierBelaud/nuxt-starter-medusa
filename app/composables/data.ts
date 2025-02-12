@@ -81,9 +81,7 @@ export const useFetchProducts = ({ query }: {
   })
 
   const queryParams = computed(() => ({
-    fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
     region_id: userRegionId.value,
-    order: SORT_OPTIONS.CREATED_AT,
     ...queryRef.value,
   }))
 
