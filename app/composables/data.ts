@@ -99,7 +99,6 @@ export const useFetchProducts = ({ query }: {
   return useAsyncData(
     `products:${JSON.stringify(queryRef.value)}`,
     async () => {
-      console.log('fetch')
       return await medusa.store.product.list({
         fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
         region_id: userRegionId.value,
@@ -108,7 +107,6 @@ export const useFetchProducts = ({ query }: {
     }, {
       watch: [queryRef],
       getCachedData(key, nuxtApp) {
-        console.log('nuxtApp.payload.data[key])', key, nuxtApp.payload.data[key])
         return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
       },
     })
@@ -130,5 +128,8 @@ export const useFetchProductByHandle = (handle: string) => {
     {
       transform: data => data.products[0],
       dedupe: 'defer',
+      getCachedData(key, nuxtApp) {
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+      },
     })
 }
