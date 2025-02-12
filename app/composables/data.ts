@@ -1,5 +1,4 @@
 import type { StoreProductListParams } from '@medusajs/types'
-import { SORT_OPTIONS } from '~/types/filter'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
@@ -69,7 +68,7 @@ export const useFetchRegions = () => {
     })
 }
 
-export const useFetchProducts = ({ query }: {
+export const useFetchClientProducts = ({ query }: {
   query: MaybeRef<StoreProductListParams>
 }) => {
   const { userRegionId } = useUserCountry()
@@ -88,23 +87,31 @@ export const useFetchProducts = ({ query }: {
       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
     },
   })
+}
 
-  // return useAsyncData(
-  //   `products:${JSON.stringify(queryRef.value)}`,
-  //   async () => {
-  //     console.log('fetch')
-  //     return await medusa.store.product.list({
-  //       fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
-  //       region_id: userRegionId.value,
-  //       ...queryRef.value,
-  //     })
-  //   }, {
-  //     watch: [queryRef],
-  //     getCachedData(key, nuxtApp) {
-  //       console.log('nuxtApp.payload.data[key])', key, nuxtApp.payload.data[key])
-  //       return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-  //     },
-  //   })
+export const useFetchProducts = ({ query }: {
+  query: MaybeRef<StoreProductListParams>
+}) => {
+  const medusa = useMedusaClient()
+  const { userRegionId } = useUserCountry()
+
+  const queryRef = toRef(query)
+  return useAsyncData(
+    `products:${JSON.stringify(queryRef.value)}`,
+    async () => {
+      console.log('fetch')
+      return await medusa.store.product.list({
+        fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
+        region_id: userRegionId.value,
+        ...queryRef.value,
+      })
+    }, {
+      watch: [queryRef],
+      getCachedData(key, nuxtApp) {
+        console.log('nuxtApp.payload.data[key])', key, nuxtApp.payload.data[key])
+        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+      },
+    })
 }
 
 export const useFetchProductByHandle = (handle: string) => {
