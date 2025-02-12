@@ -128,8 +128,5 @@ export const useFetchProductByHandle = (handle: string) => {
     {
       transform: data => data.products[0],
       dedupe: 'defer',
-      getCachedData(key, nuxtApp) {
-        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-      },
     })
 }
