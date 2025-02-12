@@ -7,12 +7,12 @@ const {
   productFromList: StoreProduct
 }>()
 
-const { data: product, refresh } = await useFetchProductByHandle(productFromList.handle)
+const { data: product } = await useFetchProductByHandle(productFromList.handle)
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
 
 onMounted(() => {
-  refresh()
+  refreshNuxtData(`product:${productFromList.handle}`)
 })
 </script>
 

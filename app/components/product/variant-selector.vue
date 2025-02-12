@@ -10,12 +10,11 @@ const {
   product: StoreProduct
 }>()
 
-const { data: product, refresh } = await useFetchProductByHandle(_product?.handle)
+const { data: product } = await useFetchProductByHandle(_product?.handle)
 
 onMounted(() => {
-  refresh()
+  refreshNuxtData(`product:${_product?.handle}`)
 })
-
 const selectedOptions = ref<Record<string, string | undefined>>()
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
