@@ -5,18 +5,20 @@ import lodash from 'lodash'
 const { isEqual } = lodash
 
 const {
-  product,
+  product: _product,
 } = defineProps<{
-  product?: StoreProduct
+  product: StoreProduct
 }>()
+
+const { data: product } = await useFetchProductByHandle(_product?.handle)
 
 const selectedOptions = ref<Record<string, string | undefined>>()
 
-const cheapestVariant = computed(() => getCheapestVariant(product))
-const hasMoreThanOneVariant = computed(() => (product?.variants?.length ?? 0) > 1)
+const cheapestVariant = computed(() => getCheapestVariant(product.value))
+const hasMoreThanOneVariant = computed(() => (product.value?.variants?.length ?? 0) > 1)
 
 // If there is only 1 variant, preselect the options
-watch(() => product?.variants, (variants) => {
+watch(() => product.value?.variants, (variants) => {
   if (variants?.length === 1 && variants[0]?.options) {
     const variantOptions = optionsAsKeyMap(variants[0].options)
     if (!variantOptions) return
@@ -25,15 +27,15 @@ watch(() => product?.variants, (variants) => {
 }, { immediate: true })
 
 const selectedVariant = computed(() => {
-  if (!selectedOptions.value || !product?.variants || product.variants.length === 0) return
-  return product.variants.find((variant) => {
+  if (!selectedOptions.value || !product.value?.variants || product.value.variants.length === 0) return
+  return product.value.variants.find((variant) => {
     const variantOptions = optionsAsKeyMap(variant.options)
     return isEqual(variantOptions, selectedOptions.value)
   })
 })
 
 const isValidVariant = computed(() => {
-  return product?.variants?.some((variant) => {
+  return product.value?.variants?.some((variant) => {
     const variantOptions = optionsAsKeyMap(variant.options)
     return isEqual(variantOptions, selectedOptions.value)
   })

@@ -7,9 +7,7 @@ const {
   productFromList: StoreProduct
 }>()
 
-const { data } = await useFetchProductByHandle(productFromList.handle)
-
-const product = computed(() => data.value || productFromList)
+const { data: product } = await useFetchProductByHandle(productFromList.handle)
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
 </script>

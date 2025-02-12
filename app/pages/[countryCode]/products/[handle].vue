@@ -7,7 +7,10 @@ const { data: product } = await useFetchProductByHandle(handle)
 
 <template>
   <div>
-    <ProductDetail :product="product" />
+    <ProductDetail
+      v-if="product"
+      :product="product"
+    />
     <!-- TODO: Implement ProductRelated component -->
     <!-- <LazyProductRelated :product="product" /> -->
   </div>
