@@ -71,12 +71,12 @@ export const useFetchRegions = () => {
 export const useFetchClientProducts = ({ query }: {
   query: MaybeRef<StoreProductListParams>
 }) => {
-  const { userRegionId } = useUserCountry()
+  const { currentRegionId } = useCurrentCountry()
 
   const queryRef = toRef(query)
 
   const queryParams = computed(() => ({
-    region_id: userRegionId.value,
+    region_id: currentRegionId.value,
     ...queryRef.value,
   }))
 
@@ -93,15 +93,15 @@ export const useFetchProducts = ({ query }: {
   query: MaybeRef<StoreProductListParams>
 }) => {
   const medusa = useMedusaClient()
-  const { userRegionId } = useUserCountry()
+  const { currentRegionId } = useCurrentCountry()
 
   const queryRef = toRef(query)
   return useLazyAsyncData(
-    `products:${JSON.stringify(queryRef.value)}`,
+    `products:${JSON.stringify(queryRef.value)}:region:${currentRegionId.value}`,
     async () => {
       return await medusa.store.product.list({
         fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
-        region_id: userRegionId.value,
+        region_id: currentRegionId.value,
         ...queryRef.value,
       })
     }, {
@@ -114,14 +114,14 @@ export const useFetchProducts = ({ query }: {
 
 export const useFetchProductByHandle = (handle: string) => {
   const medusa = useMedusaClient()
-  const { userRegionId } = useUserCountry()
+  const { currentRegionId } = useCurrentCountry()
 
   return useLazyAsyncData(
-    `product:${handle}:region:${userRegionId.value}`,
+    `product:${handle}:region:${currentRegionId.value}`,
     async () => {
       return await medusa.store.product.list({
         handle: handle,
-        region_id: userRegionId.value,
+        region_id: currentRegionId.value,
         fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
       })
     },

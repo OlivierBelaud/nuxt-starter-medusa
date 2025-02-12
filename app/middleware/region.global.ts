@@ -1,32 +1,34 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const paramCountryCode = to.params.countryCode as string | undefined
-  const { defaultCountry } = useAppConfig()
-
-  const { userCountryCode, setCountry } = useUserCountry()
-
-  if (!userCountryCode.value && !paramCountryCode) {
-    return navigateTo(`/${defaultCountry}`)
-  }
+  const newCountryCode = to.params.countryCode as string | undefined
+  const { defaultCountry: defaultCountryCode } = useAppConfig()
 
   const { data } = await useFetchRegions()
   const countries = getCountriesFromRegions(data.value?.regions)
 
+  function getCountryFromCountryCode(countryCode?: string) {
+    return countries.find(country => country.iso_2 === countryCode)
+  }
+
+  const { userCountryCode, setCurrentCountry } = useCurrentCountry()
+  const defaultCountry = getCountryFromCountryCode(defaultCountryCode)
+  const newCountry = getCountryFromCountryCode(newCountryCode)
+
+  // Handle User Country from cookie
   if (userCountryCode.value) {
-    const countryFromCookie = countries.find(country => country.iso_2 === userCountryCode.value)
-    if (countryFromCookie?.iso_2 !== paramCountryCode) {
-      return navigateTo(`/${countryFromCookie?.iso_2}`)
+    const userCountry = getCountryFromCountryCode(userCountryCode.value)
+    if (userCountry?.iso_2 !== newCountryCode) {
+      setCurrentCountry(userCountry)
+      return navigateTo(`/${userCountry?.iso_2}`)
     }
+    setCurrentCountry(newCountry)
     return
   }
 
-  if (paramCountryCode) {
-    const countryFromNavigation = countries.find(country => country.iso_2 === paramCountryCode)
-    if (!countryFromNavigation) {
-      const countryFromDefault = countries.find(country => country.iso_2 === defaultCountry)
-      if (countryFromDefault)
-        setCountry(countryFromDefault)
-      return navigateTo(`/${defaultCountry}`)
-    }
-    setCountry(countryFromNavigation)
+  if (newCountry) { // Check if the asked country is valid
+    setCurrentCountry(newCountry)
+    return
   }
+
+  setCurrentCountry(defaultCountry)
+  return navigateTo(`/${defaultCountry?.iso_2}`)
 })

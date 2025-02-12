@@ -4,9 +4,7 @@ const { title } = useAppConfig()
 
 const { data } = await useFetchRegions()
 const countries = getCountriesFromRegions(data.value?.regions)
-const { userCountryCode } = useUserCountry()
-
-const userCountry = computed(() => countries.find(country => country.iso_2 === userCountryCode.value))
+const { currentCountry } = useCurrentCountry()
 </script>
 
 <template>
@@ -53,8 +51,8 @@ const userCountry = computed(() => countries.find(country => country.iso_2 === u
             >
               <div class="text-xs flex items-center space-x-2">
                 <span>Shipping to:</span>
-                <UIcon :name="`i-flag-${userCountry?.iso_2}-4x3`" />
-                <span>{{ userCountry?.display_name }}</span>
+                <UIcon :name="`i-flag-${currentCountry?.iso_2}-4x3`" />
+                <span>{{ currentCountry?.display_name }}</span>
               </div>
               <UIcon
                 name="i-lucide-arrow-right"

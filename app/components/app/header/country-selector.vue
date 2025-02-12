@@ -12,13 +12,13 @@ const emit = defineEmits<{
 }>()
 
 const route = useRoute()
-const { setCountry } = useUserCountry()
+const { setCurrentCountry } = useCurrentCountry()
 
 const isOpen = ref(false)
 
 function handleCountryChange(country: BaseRegionCountryWithRegionId) {
   const path = route.path.split('/').slice(2).join('/') ? `/${route.path.split('/').slice(2).join('/')}` : ''
-  setCountry(country)
+  setCurrentCountry(country)
   navigateTo(`/${country.iso_2}${path}`)
   isOpen.value = false
   setTimeout(() => {

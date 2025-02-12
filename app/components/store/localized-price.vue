@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { userCountryCode } = useUserCountry()
+const { currentCountryCode } = useCurrentCountry()
 
 const {
   amount,
@@ -12,7 +12,7 @@ const {
 const localizedPrice = computed(() => convertToLocale({
   amount: amount,
   currency_code: currencyCode,
-  country: userCountryCode.value,
+  country: currentCountryCode.value,
 }))
 </script>
 

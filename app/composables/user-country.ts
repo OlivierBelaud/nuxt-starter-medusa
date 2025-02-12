@@ -1,19 +1,38 @@
 export const useUserCountry = () => {
-  const route = useRoute()
-
-  const regionIdFromCookie = useCookie('user_region')
   const countryCodeFromCookie = useCookie('user_country')
 
-  const countryCodeFromRoute = computed(() => route.params.countryCode as string)
-
-  const setCountry = (country: BaseRegionCountryWithRegionId) => {
-    regionIdFromCookie.value = country.region_id
+  const setUserCountry = (country?: BaseRegionCountryWithRegionId) => {
+    if (!country) {
+      return
+    }
     countryCodeFromCookie.value = country.iso_2
   }
 
   return {
-    userRegionId: computed(() => regionIdFromCookie.value || undefined),
-    userCountryCode: computed(() => countryCodeFromCookie.value || countryCodeFromRoute.value || undefined),
-    setCountry,
+    userCountryCode: computed(() => countryCodeFromCookie.value || undefined),
+    setUserCountry,
+  }
+}
+
+// CurrentCountryStore
+export const useCurrentCountry = () => {
+  const { userCountryCode, setUserCountry } = useUserCountry()
+
+  const country = useState<BaseRegionCountryWithRegionId | undefined>('country', () => undefined)
+
+  function setCurrentCountry(newCountry?: BaseRegionCountryWithRegionId) {
+    if (!newCountry) {
+      return
+    }
+    country.value = newCountry
+    setUserCountry(newCountry)
+  }
+
+  return {
+    userCountryCode,
+    currentCountry: readonly(country),
+    currentCountryCode: computed(() => country.value?.iso_2),
+    currentRegionId: computed(() => country.value?.region_id),
+    setCurrentCountry,
   }
 }

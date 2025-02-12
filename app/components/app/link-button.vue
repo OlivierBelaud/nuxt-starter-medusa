@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { userCountryCode } = useUserCountry()
+const { currentCountryCode } = useCurrentCountry()
 
 const {
   to,
@@ -10,7 +10,7 @@ const {
 }>()
 
 const link = computed(() => {
-  return `/${countryCode || userCountryCode.value}${to}`
+  return `/${countryCode || currentCountryCode.value}${to}`
 })
 </script>
 
