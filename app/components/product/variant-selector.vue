@@ -11,14 +11,13 @@ const {
   product: StoreProduct
 }>()
 
-// const { data } = await useFetchProductByHandle(_product?.handle)
+const { data } = await useFetchProductByHandle(_product?.handle)
 
-// const product = computed(() => data.value || _product)
-const product = computed(() => _product)
+const product = computed(() => data.value || _product)
 
-// onMounted(() => {
-//   refreshNuxtData(`product:${_product?.handle}:region:${currentRegionId.value}`)
-// })
+onMounted(() => {
+  refreshNuxtData(`product:${_product?.handle}:region:${currentRegionId.value}`)
+})
 const selectedOptions = ref<Record<string, string | undefined>>()
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
