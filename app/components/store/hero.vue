@@ -20,6 +20,6 @@
       icon="i-simple-icons-github"
     >
       View on GitHub
-    </UButton>ƒ
+    </UButton>
   </div>
 </template>

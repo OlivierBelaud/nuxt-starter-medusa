@@ -20,9 +20,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@medusajs/js-sdk": "^2.5.0",
     "@nuxt/image": "^1.9.0",
     "@nuxt/ui": "3.0.0-alpha.12",
     "@nuxthub/core": "^0.8.16",
+    "@nuxtjs/medusa": "1.0.0",
     "@unhead/vue": "^1.11.18",
     "lodash": "^4.17.21",
     "nuxt": "^3.15.2",
@@ -34,7 +36,7 @@
     "@iconify-json/flag": "^1.2.5",
     "@iconify-json/lucide": "^1.2.25",
     "@iconify-json/simple-icons": "^1.2.22",
-    "@medusajs/types": "^2.4.0",
+    "@medusajs/types": "^2.5.0",
     "@nuxt/eslint": "^0.7.5",
     "@types/lodash": "^4.17.14",
     "eslint": "^9.18.0",

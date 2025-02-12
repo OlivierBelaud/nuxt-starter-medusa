@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
 
   modules: [
+    '@nuxtjs/medusa',
     '@nuxt/ui',
     '@nuxt/image',
     '@nuxthub/core',
@@ -63,9 +64,20 @@ export default defineNuxtConfig({
     },
   },
 
+  vite: {
+    ssr: {
+      noExternal: ['qs'],
+    },
+  },
+
   eslint: {
     config: {
       stylistic: true,
     },
+  },
+
+  medusa: {
+    baseUrl: process.env.NUXT_MEDUSA_BACKEND_URL,
+    publishableKey: process.env.NUXT_MEDUSA_PUBLISHABLE_KEY,
   },
 })
