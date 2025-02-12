@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { StoreProduct } from '@medusajs/types'
 
+const { currentRegionId } = useCurrentCountry()
+
 const {
   productFromList,
 } = defineProps<{
@@ -14,7 +16,7 @@ const product = computed(() => data.value || productFromList)
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
 
 onMounted(() => {
-  refreshNuxtData(`product:${productFromList.handle}`)
+  refreshNuxtData(`product:${productFromList.handle}:region:${currentRegionId.value}`)
 })
 </script>
 
