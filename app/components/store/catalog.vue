@@ -24,7 +24,7 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data } = await useFetchProducts({
+const { data } = await useFetchClientProducts({
   query: productsQuery,
 })
 
