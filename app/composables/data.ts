@@ -1,4 +1,4 @@
-import type { StoreProductListParams } from '@medusajs/types'
+import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
@@ -129,4 +129,197 @@ export const useFetchProductByHandle = (handle: string) => {
       transform: data => data.products[0],
       dedupe: 'defer',
     })
+}
+
+export const useCart = () => {
+  const medusa = useMedusaClient()
+  const { cartId, setCartId } = useUserCart()
+  const { currentRegionId } = useCurrentCountry()
+
+  const retrieveCart = async () => {
+    if (!cartId.value)
+      return null
+
+    const cartResponse = await medusa.store.cart.retrieve(cartId.value, {
+      fields: '*items,*region,*items.product,*items.variant,*items.thumbnail,*items.metadata,+items.total,*promotions,+shipping_methods.name',
+    })
+
+    const cart = cartResponse.cart
+
+    if (cart && cart?.region_id !== currentRegionId.value) {
+      return await updateCart({ region_id: currentRegionId.value })
+    }
+
+    return cart
+  }
+
+  const createCart = async () => {
+    const cartResponse = await medusa.store.cart.create({
+      region_id: currentRegionId.value,
+    })
+    const cart = cartResponse.cart
+    setCartId(cart.id)
+    return cart
+  }
+
+  const retrieveOrCreateCart = async () => {
+    const cart = await retrieveCart()
+    if (!cart)
+      return await createCart()
+    return cart
+  }
+
+  const updateCart = async (data: StoreUpdateCart) => {
+    if (!cartId.value)
+      throw new Error('No existing cart found, please create one before updating')
+
+    const cartResponse = await medusa.store.cart.update(cartId.value, data)
+    await refreshNuxtData('cart')
+    return cartResponse.cart
+  }
+
+  const createLineItem = async (item: StoreAddCartLineItem) => {
+    if (!cartId.value)
+      throw new Error('No existing cart found, please create one before updating')
+
+    const cartResponse = await medusa.store.cart.createLineItem(cartId.value, item)
+    await refreshNuxtData('cart')
+    return cartResponse.cart
+  }
+
+  const updateLineItem = async (lineItemId: string, data: StoreUpdateCartLineItem) => {
+    if (!cartId.value)
+      throw new Error('No existing cart found, please create one before updating')
+
+    const cartResponse = await medusa.store.cart.updateLineItem(cartId.value, lineItemId, data)
+    await refreshNuxtData('cart')
+    return cartResponse.cart
+  }
+
+  const updateOrCreateLineItem = async (item: StoreAddCartLineItem) => {
+    const cart = await retrieveOrCreateCart()
+    if (!cart)
+      throw new Error('No existing cart found, please create one before adding items')
+
+    const existingItem = cart.items?.find(
+      lineItem => lineItem.variant_id === item.variant_id,
+    )
+
+    if (existingItem) {
+      const updatedQuantity = existingItem.quantity + (item.quantity || 1)
+      return await updateLineItem(existingItem.id, { quantity: updatedQuantity })
+    }
+    else {
+      return await createLineItem(item)
+    }
+  }
+
+  const deleteLineItem = async (lineItemId: string) => {
+    if (!cartId.value)
+      throw new Error('No existing cart found, please create one before updating')
+
+    const cartResponse = await medusa.store.cart.deleteLineItem(cartId.value, lineItemId)
+    await refreshNuxtData('cart')
+    return cartResponse.deleted
+  }
+
+  const addShippingMethod = async (shippingMethodId: StoreCartShippingMethod['id']) => {
+    if (!cartId.value)
+      throw new Error('No existing cart found, please create one before updating')
+
+    const cartResponse = await medusa.store.cart.addShippingMethod(cartId.value, { option_id: shippingMethodId })
+    await refreshNuxtData('cart')
+    return cartResponse.cart
+  }
+
+  const completeOrder = async () => {
+    if (!cartId.value)
+      throw new Error('No existing cart found')
+
+    return await medusa.store.cart.complete(cartId.value)
+  }
+
+  return {
+    retrieveCart,
+    createCart,
+    retrieveOrCreateCart,
+    updateCart,
+    createLineItem,
+    updateLineItem,
+    updateOrCreateLineItem,
+    deleteLineItem,
+    addShippingMethod,
+    completeOrder,
+  }
+}
+
+export const useFetchOrder = (orderId: StoreOrder['id']) => {
+  const medusa = useMedusaClient()
+
+  return useLazyAsyncData(
+    `order:${orderId}`,
+    async () => await medusa.store.order.retrieve(orderId, {
+      fields: '*payment_collections.payments,*items,*items.metadata,*items.variant,*items.product',
+    }),
+    {
+      transform: data => data.order,
+    },
+  )
+}
+
+export const useFetchShippingOptions = () => {
+  const medusa = useMedusaClient()
+  const { cartId } = useUserCart()
+
+  return useLazyAsyncData(
+    `shipping-options`,
+    async () => {
+      if (!cartId.value) {
+        return null
+      }
+      return await medusa.store.fulfillment.listCartOptions({
+        cart_id: cartId.value,
+      })
+    },
+    {},
+  )
+}
+
+export const useFetchPaymentProviders = () => {
+  const medusa = useMedusaClient()
+  const { currentRegionId } = useCurrentCountry()
+
+  return useLazyAsyncData(
+    `payment-providers`,
+    async () => {
+      if (!currentRegionId.value) {
+        return null
+      }
+      return await medusa.store.payment.listPaymentProviders({
+        region_id: currentRegionId.value,
+      })
+    },
+    {},
+  )
+}
+
+export const usePaymentSession = () => {
+  const medusa = useMedusaClient()
+  const { retrieveCart } = useCart()
+
+  const initiatePaymentSession = async (provider_id: string) => {
+    const cart = await retrieveCart()
+    if (!cart)
+      throw new Error('No existing cart found, please create one before updating')
+
+    const paymentResponse = await medusa.store.payment.initiatePaymentSession(cart, {
+      provider_id,
+    })
+    await refreshNuxtData('cart')
+    return paymentResponse.payment_collection
+  }
+
+  return {
+    initiatePaymentSession,
+  }
 }

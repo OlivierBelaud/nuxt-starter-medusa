@@ -68,9 +68,9 @@ const countryToLocaleMap = {
 }
 
 export const convertToLocale = ({
-  amount,
-  currency_code,
-  country,
+  amount = 0,
+  currency_code = 'EUR',
+  country = 'fr-FR',
   minimumFractionDigits,
   maximumFractionDigits,
 }: {
@@ -80,10 +80,6 @@ export const convertToLocale = ({
   minimumFractionDigits?: number
   maximumFractionDigits?: number
 }) => {
-  if (!amount || !currency_code || !(country && country in countryToLocaleMap)) {
-    return
-  }
-
   const locale = countryToLocaleMap[country as keyof typeof countryToLocaleMap]
 
   return new Intl.NumberFormat(locale, {

@@ -1,10 +1,11 @@
 export const useUserCountry = () => {
-  const countryCodeFromCookie = useCookie('user_country')
+  const countryCodeFromCookie = useCookie('country_code', {
+    maxAge: 60 * 60 * 24 * 365,
+  })
 
   const setUserCountry = (country?: BaseRegionCountryWithRegionId) => {
-    if (!country) {
-      return
-    }
+    if (!country)
+      return null
     countryCodeFromCookie.value = country.iso_2
   }
 
@@ -21,9 +22,8 @@ export const useCurrentCountry = () => {
   const country = useState<BaseRegionCountryWithRegionId | undefined>('country', () => undefined)
 
   function setCurrentCountry(newCountry?: BaseRegionCountryWithRegionId) {
-    if (!newCountry) {
+    if (!newCountry)
       return
-    }
     country.value = newCountry
     setUserCountry(newCountry)
   }

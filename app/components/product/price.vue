@@ -1,23 +1,22 @@
 <script lang="ts" setup>
-import type { StoreProductVariant } from '@medusajs/types'
-
 const {
-  variant,
+  originalPrice,
+  currentPrice,
+  currencyCode,
   displayInline,
   isCheapest,
   extended,
 } = defineProps<{
-  variant?: StoreProductVariant
+  originalPrice?: number
+  currentPrice?: number
+  currencyCode?: string
   displayInline?: boolean
   isCheapest?: boolean
   extended?: boolean
 }>()
 
-const calculatedPrice = computed(() => variant?.calculated_price?.calculated_amount || undefined)
-const originalPrice = computed(() => variant?.calculated_price?.original_amount || undefined)
-const percentageDiff = computed(() => getPercentageDiff(originalPrice.value, calculatedPrice.value))
-const isOnSale = computed(() => variant?.calculated_price?.calculated_price?.price_list_type === 'sale')
-const currencyCode = computed(() => variant?.calculated_price?.currency_code || undefined)
+const percentageDiff = computed(() => getPercentageDiff(originalPrice, currentPrice))
+const hasReducedPrice = computed(() => currentPrice && originalPrice ? currentPrice < originalPrice : false)
 </script>
 
 <template>
@@ -26,7 +25,7 @@ const currencyCode = computed(() => variant?.calculated_price?.currency_code || 
     :class="[displayInline ? 'flex-row items-center' : 'flex-col']"
   >
     <div
-      v-if="isOnSale"
+      v-if="hasReducedPrice"
       class="flex items-center gap-x-1"
     >
       <span v-if="extended">Original:</span>
@@ -38,15 +37,15 @@ const currencyCode = computed(() => variant?.calculated_price?.currency_code || 
     </div>
     <div
       class="flex items-center gap-x-1"
-      :class="{ 'text-primary-500': isOnSale }"
+      :class="{ 'text-primary-500': hasReducedPrice }"
     >
       <span v-if="isCheapest">From</span>
       <StoreLocalizedPrice
-        :amount="calculatedPrice"
+        :amount="currentPrice"
         :currency-code="currencyCode"
       />
       <div
-        v-if="isOnSale && extended"
+        v-if="hasReducedPrice && extended"
         class="text-primary-500"
       >
         (-{{ percentageDiff }}%)

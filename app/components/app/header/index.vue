@@ -27,7 +27,7 @@ const isSideMenuOpen = ref(false)
           >
             Account
           </AppLink>
-          <!-- <LazyAppCartDropdown /> -->
+          <LazyCartDropdown />
         </nav>
       </UContainer>
       <AppHeaderSideMenu

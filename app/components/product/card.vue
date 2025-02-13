@@ -15,6 +15,10 @@ const product = computed(() => data.value || _product)
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
 
+const currentPrice = computed(() => cheapestVariant.value?.calculated_price?.calculated_amount || undefined)
+const originalPrice = computed(() => cheapestVariant.value?.calculated_price?.original_amount || undefined)
+const currencyCode = computed(() => cheapestVariant.value?.calculated_price?.currency_code || undefined)
+
 onMounted(() => {
   refreshNuxtData(`product:${_product.handle}:region:${currentRegionId.value}`)
 })
@@ -39,7 +43,9 @@ onMounted(() => {
       </h3>
       <div class="text-color-dimmed">
         <ProductPrice
-          :variant="cheapestVariant"
+          :original-price="originalPrice"
+          :current-price="currentPrice"
+          :currency-code="currencyCode"
           display-inline
         />
       </div>

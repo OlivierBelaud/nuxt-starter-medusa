@@ -93,11 +93,23 @@ function setOptionValue({ optionId, value }: { optionId: string, value: string }
     [optionId]: value,
   }
 }
-
-function handleAddToCart() {
+const { loading, mutate } = useAddToCart()
+const { isCartDropdownOpen } = useCartDropdown()
+async function handleAddToCart() {
   if (!selectedVariant.value) return
   console.log('Added to cart', selectedVariant.value)
+  await mutate({
+    variant_id: selectedVariant.value?.id,
+    quantity: 1,
+  })
+  isCartDropdownOpen.value = true
 }
+
+const variantForPrice = computed(() => selectedVariant.value || cheapestVariant.value)
+
+const currentPrice = computed(() => variantForPrice.value?.calculated_price?.calculated_amount || undefined)
+const originalPrice = computed(() => variantForPrice.value?.calculated_price?.original_amount || undefined)
+const currencyCode = computed(() => variantForPrice.value?.calculated_price?.currency_code || undefined)
 </script>
 
 <template>
@@ -116,7 +128,9 @@ function handleAddToCart() {
       <USeparator />
     </div>
     <ProductPrice
-      :variant="selectedVariant || cheapestVariant"
+      :original-price="originalPrice"
+      :current-price="currentPrice"
+      :currency-code="currencyCode"
       :is-cheapest="!selectedVariant"
       extended
     />
@@ -126,6 +140,7 @@ function handleAddToCart() {
       class="cursor-pointer"
       :block="true"
       :disabled="disabled"
+      :loading="loading"
       @click="handleAddToCart"
     >
       {{ buttonLabel }}
