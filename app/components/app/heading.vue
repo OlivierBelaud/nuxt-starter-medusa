@@ -7,7 +7,7 @@ defineProps<{
 <template>
   <component
     :is="as"
-    class="text-3xl font-semibold text-color-highlighted"
+    class="text-3xl font-medium text-color-highlighted"
   >
     <slot />
   </component>

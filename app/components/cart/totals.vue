@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { StoreCart } from '@medusajs/types'
+import type { StoreCart, StoreOrder } from '@medusajs/types'
 
 defineProps<{
-  cart: StoreCart
+  cart: StoreCart | StoreOrder
 }>()
 </script>
 

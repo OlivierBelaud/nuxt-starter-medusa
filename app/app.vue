@@ -2,15 +2,9 @@
 </script>
 
 <template>
-  <UApp>
-    <NuxtRouteAnnouncer />
-    <AppHeader />
-    <NuxtLoadingIndicator color="black" />
-    <main class="relative">
-      <NuxtPage />
-    </main>
-    <AppFooter />
-  </UApp>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
 
 <style>

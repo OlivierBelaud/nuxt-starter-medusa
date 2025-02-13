@@ -7,7 +7,7 @@ export const useUserCart = () => {
 
   const setCartId = (cartId?: string) => {
     if (!cartId)
-      return null
+      cartIdCookie.value = null
     cartIdCookie.value = cartId
   }
 

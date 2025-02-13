@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { StoreCartLineItem } from '@medusajs/types'
+import type { StoreCartLineItem, StoreOrderLineItem } from '@medusajs/types'
 
 const {
   item,
   currencyCode,
 } = defineProps<{
-  item: StoreCartLineItem
+  item: StoreCartLineItem | StoreOrderLineItem
   currencyCode: string
 }>()
 

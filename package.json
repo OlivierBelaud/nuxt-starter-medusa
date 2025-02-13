@@ -35,7 +35,7 @@
   "devDependencies": {
     "@iconify-json/flag": "^1.2.5",
     "@iconify-json/lucide": "^1.2.25",
-    "@iconify-json/simple-icons": "^1.2.22",
+    "@iconify-json/simple-icons": "^1.2.23",
     "@medusajs/types": "^2.5.0",
     "@nuxt/eslint": "^0.7.5",
     "@types/lodash": "^4.17.14",

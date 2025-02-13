@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { StoreCart } from '@medusajs/types'
+import type { StoreCart, StoreOrder } from '@medusajs/types'
 import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
 
 const {
@@ -7,7 +7,7 @@ const {
   isPreview,
   isDropDown,
 } = defineProps<{
-  cart: StoreCart
+  cart: StoreCart | StoreOrder
   isPreview?: boolean
   isDropDown?: boolean
 }>()
@@ -82,7 +82,7 @@ const columnVisibility = computed(() => {
         >
           <div :class="isPreview ? 'w-16' : 'w-24'">
             <CartItemThumbnail
-              :src="row.original.thumbnail"
+              :src="row.original.thumbnail || undefined"
               :alt="row.original.title"
               :link="`/products/${row.original.product_handle}`"
             />

@@ -97,7 +97,6 @@ const { loading, mutate } = useAddToCart()
 const { isCartDropdownOpen } = useCartDropdown()
 async function handleAddToCart() {
   if (!selectedVariant.value) return
-  console.log('Added to cart', selectedVariant.value)
   await mutate({
     variant_id: selectedVariant.value?.id,
     quantity: 1,

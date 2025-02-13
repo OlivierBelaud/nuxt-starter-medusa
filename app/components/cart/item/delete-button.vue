@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { StoreCartLineItem } from '@medusajs/types'
+import type { StoreCartLineItem, StoreOrderLineItem } from '@medusajs/types'
 
 const {
   item,
 } = defineProps<{
-  item?: StoreCartLineItem
+  item?: StoreCartLineItem | StoreOrderLineItem
 }>()
 
 const { mutate, loading } = useDeleteLineItem()
@@ -27,7 +27,7 @@ const removeItem = () => {
     />
     <UIcon
       v-else
-      name="i-heroicons-trash"
+      name="i-lucide-trash-2"
       class="size-4"
     />
     <slot />

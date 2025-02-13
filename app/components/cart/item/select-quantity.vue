@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { StoreCartLineItem } from '@medusajs/types'
+import type { StoreCartLineItem, StoreOrderLineItem } from '@medusajs/types'
 
 const {
   item,
 } = defineProps<{
-  item: StoreCartLineItem
+  item: StoreCartLineItem | StoreOrderLineItem
 }>()
 
 const { mutate, loading } = useUpdateLineItem()
