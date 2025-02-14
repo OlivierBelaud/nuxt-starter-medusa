@@ -6,9 +6,8 @@ const { data: collection } = await useFetchCollectionByHandle(handle)
 </script>
 
 <template>
-  <div>{{ collection?.title }}</div>
-  <!-- <StoreCatalog
+  <StoreCatalog
     :title="collection?.title"
     :collection-id="collection?.id"
-  /> -->
+  />
 </template>

@@ -7,7 +7,6 @@ const { data: product } = await useFetchProductByHandle(handle)
 
 <template>
   <div>
-    <div>{{ product?.title }}</div>
     <LazyProductDetail
       v-if="product"
       :product="product"

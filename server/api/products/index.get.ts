@@ -1,4 +1,3 @@
-// import type { StoreProductListResponse } from '@medusajs/types'
 import { SORT_OPTIONS } from '~/types/filter'
 import { serverMedusaClient } from '#medusa/server'
 
