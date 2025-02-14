@@ -9,7 +9,7 @@ const isSideMenuOpen = ref(false)
     <header class="h-16 mx-auto duration-200 bg-white border-b border-color-muted">
       <UContainer class="flex items-center justify-between w-full h-full text-xs">
         <div
-          class="cursor-pointer h-full flex items-center"
+          class="cursor-pointer h-full flex items-center flex-1 basis-0"
           @click="isSideMenuOpen = !isSideMenuOpen"
         >
           Menu
@@ -20,14 +20,14 @@ const isSideMenuOpen = ref(false)
         >
           {{ title }}
         </AppLink>
-        <nav class="flex items-center space-x-6">
+        <nav class="flex items-center space-x-6 flex-1 basis-0">
           <AppLink
             to="/account"
             class="hidden sm:flex"
           >
             Account
           </AppLink>
-          <LazyCartDropdown />
+          <!-- <LazyCartDropdown /> -->
         </nav>
       </UContainer>
       <AppHeaderSideMenu
