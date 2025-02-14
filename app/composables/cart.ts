@@ -37,6 +37,9 @@ export const useFetchCart = () => {
   return useLazyAsyncData(
     'cart',
     async () => await retrieveCart(),
+    {
+      dedupe: 'defer',
+    },
   )
 }
 
@@ -165,7 +168,7 @@ export const useSetShippingMethod = () => {
       data.value = await addShippingMethod(shippingMethodId)
     }
     catch (error) {
-      console.error('Error updating cart:', error)
+      console.error('Error setting shipping method:', error)
       throw error
     }
     finally {

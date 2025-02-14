@@ -174,7 +174,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.update(cartId.value, data)
-    await refreshNuxtData('cart')
+    refreshNuxtData('cart')
     return cartResponse.cart
   }
 
@@ -183,7 +183,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.createLineItem(cartId.value, item)
-    await refreshNuxtData('cart')
+    refreshNuxtData('cart')
     return cartResponse.cart
   }
 
@@ -192,7 +192,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.updateLineItem(cartId.value, lineItemId, data)
-    await refreshNuxtData('cart')
+    refreshNuxtData('cart')
     return cartResponse.cart
   }
 
@@ -219,7 +219,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.deleteLineItem(cartId.value, lineItemId)
-    await refreshNuxtData('cart')
+    refreshNuxtData('cart')
     return cartResponse.deleted
   }
 
@@ -228,7 +228,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.addShippingMethod(cartId.value, { option_id: shippingMethodId })
-    await refreshNuxtData('cart')
+    refreshNuxtData('cart')
     return cartResponse.cart
   }
 
