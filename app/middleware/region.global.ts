@@ -1,34 +1,34 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  const newCountryCode = to.params.countryCode as string | undefined
-  const { defaultCountry: defaultCountryCode } = useAppConfig()
+  // const newCountryCode = to.params.countryCode as string | undefined
+  // const { defaultCountry: defaultCountryCode } = useAppConfig()
 
-  const { data } = await useFetchRegions()
-  const countries = getCountriesFromRegions(data.value?.regions)
+  // const { data } = await useFetchRegions()
+  // const countries = getCountriesFromRegions(data.value?.regions)
 
-  function getCountryFromCountryCode(countryCode?: string) {
-    return countries.find(country => country.iso_2 === countryCode)
-  }
+  // function getCountryFromCountryCode(countryCode?: string) {
+  //   return countries.find(country => country.iso_2 === countryCode)
+  // }
 
-  const { userCountryCode, setCurrentCountry } = useCurrentCountry()
-  const defaultCountry = getCountryFromCountryCode(defaultCountryCode)
-  const newCountry = getCountryFromCountryCode(newCountryCode)
+  // const { userCountryCode, setCurrentCountry } = useCurrentCountry()
+  // const defaultCountry = getCountryFromCountryCode(defaultCountryCode)
+  // const newCountry = getCountryFromCountryCode(newCountryCode)
 
-  // Handle User Country from cookie
-  if (userCountryCode.value) {
-    const userCountry = getCountryFromCountryCode(userCountryCode.value)
-    if (userCountry?.iso_2 !== newCountryCode) {
-      setCurrentCountry(userCountry)
-      return navigateTo(`/${userCountry?.iso_2}`)
-    }
-    setCurrentCountry(newCountry)
-    return
-  }
+  // // Handle User Country from cookie
+  // if (userCountryCode.value) {
+  //   const userCountry = getCountryFromCountryCode(userCountryCode.value)
+  //   if (userCountry?.iso_2 !== newCountryCode) {
+  //     setCurrentCountry(userCountry)
+  //     return navigateTo(`/${userCountry?.iso_2}`)
+  //   }
+  //   setCurrentCountry(newCountry)
+  //   return
+  // }
 
-  if (newCountry) { // Check if the asked country is valid
-    setCurrentCountry(newCountry)
-    return
-  }
+  // if (newCountry) { // Check if the asked country is valid
+  //   setCurrentCountry(newCountry)
+  //   return
+  // }
 
-  setCurrentCountry(defaultCountry)
-  return navigateTo(`/${defaultCountry?.iso_2}`)
+  // setCurrentCountry(defaultCountry)
+  // return navigateTo(`/${defaultCountry?.iso_2}`)
 })
