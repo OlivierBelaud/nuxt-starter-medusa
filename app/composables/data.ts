@@ -191,12 +191,12 @@ export const useCart = () => {
     if (!cartId.value)
       throw new Error('No existing cart found, please create one before updating')
 
-    const cartResponse = await $fetch(`/api/cart/line-item/${lineItemId}/update`, {
-      method: 'POST',
-      body: JSON.stringify(data),
-    })
+    // const cartResponse = await $fetch(`/api/cart/line-item/${lineItemId}/update`, {
+    //   method: 'POST',
+    //   body: JSON.stringify(data),
+    // })
 
-    // const cartResponse = await medusa.store.cart.updateLineItem(cartId.value, lineItemId, data)
+    const cartResponse = await medusa.store.cart.updateLineItem(cartId.value, lineItemId, data)
     refreshNuxtData('cart')
     return cartResponse.cart
   }
