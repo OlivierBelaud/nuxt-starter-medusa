@@ -20,15 +20,17 @@ const isSideMenuOpen = ref(false)
         >
           {{ title }}
         </AppLink>
-        <nav class="flex items-center space-x-6 flex-1 basis-0">
-          <AppLink
-            to="/account"
-            class="hidden sm:flex"
-          >
-            Account
-          </AppLink>
+        <div class="flex-1 basis-0">
+          <nav class="flex items-center space-x-6">
+            <AppLink
+              to="/account"
+              class="hidden sm:flex"
+            >
+              Account
+            </AppLink>
           <!-- <LazyCartDropdown /> -->
-        </nav>
+          </nav>
+        </div>
       </UContainer>
       <AppHeaderSideMenu
         v-model="isSideMenuOpen"

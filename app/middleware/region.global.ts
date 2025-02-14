@@ -1,6 +1,12 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const newCountryCode = to.params.countryCode as string | undefined
   const { defaultCountry: defaultCountryCode } = useAppConfig()
+  const { userCountryCode, setCurrentCountry } = useCurrentCountry()
+
+  setCurrentCountry({
+    iso_2: newCountryCode,
+  })
+  return
 
   const { data } = await useFetchRegions()
   const countries = getCountriesFromRegions(data.value?.regions)
@@ -9,7 +15,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return countries.find(country => country.iso_2 === countryCode)
   }
 
-  const { userCountryCode, setCurrentCountry } = useCurrentCountry()
   const defaultCountry = getCountryFromCountryCode(defaultCountryCode)
   const newCountry = getCountryFromCountryCode(newCountryCode)
 
