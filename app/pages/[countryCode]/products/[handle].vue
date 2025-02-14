@@ -8,10 +8,10 @@ const { data: product } = await useFetchProductByHandle(handle)
 <template>
   <div>
     <div>{{ product?.title }}</div>
-    <LazyProductDetail
+    <!-- <LazyProductDetail
       v-if="product"
       :product="product"
-    />
+    /> -->
     <!-- TODO: Implement ProductRelated component -->
     <!-- <LazyProductRelated :product="product" /> -->
   </div>
