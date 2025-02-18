@@ -17,9 +17,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
-    // FIX: Pb with NuxtHub, Github Action and env var access during build time
-    medusaBackendUrl: 'https://medusa-base-production.up.railway.app',
-    medusaPublishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
+    public: {
+      medusaBackendUrl: process.env.MEDUSA_PUBLIC_BACKEND_URL,
+      medusaPublishableKey: process.env.MEDUSA_PUBLIC_PUBLISHABLE_KEY,
+    },
   },
 
   future: {
@@ -71,8 +72,8 @@ export default defineNuxtConfig({
   },
 
   medusa: {
-    baseUrl: 'https://medusa-base-production.up.railway.app',
-    publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
+    baseUrl: process.env.MEDUSA_PUBLIC_BACKEND_URL,
+    publishableKey: process.env.MEDUSA_PUBLIC_PUBLISHABLE_KEY,
     server: true,
   },
 })
