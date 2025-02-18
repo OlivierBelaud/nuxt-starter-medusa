@@ -28,7 +28,7 @@ jobs:
         run: pnpm install
 
       - name: Build application
-        run: pnpm Build
+        run: pnpm build
         env:
           NUXT_PUBLIC_MEDUSA_BACKEND_URL: ${{ secrets.NUXT_PUBLIC_MEDUSA_BACKEND_URL }}
 
