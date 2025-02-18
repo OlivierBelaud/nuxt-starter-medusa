@@ -2,15 +2,16 @@
 const route = useRoute()
 
 const handle = route.params.handle as string
-const { data: product } = await useFetchProductByHandle(handle)
+// const { data: product } = await useFetchProductByHandle(handle)
 </script>
 
 <template>
   <div>
-    <LazyProductDetail
+    {{ handle }}
+    <!-- <LazyProductDetail
       v-if="product"
       :product="product"
-    />
+    /> -->
     <!-- TODO: Implement ProductRelated component -->
     <!-- <LazyProductRelated :product="product" /> -->
   </div>
