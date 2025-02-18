@@ -28,10 +28,10 @@ export default defineNuxtConfig({
   },
 
   experimental: {
-    payloadExtraction: true,
-    componentIslands: {
-      selectiveClient: true,
-    },
+    // payloadExtraction: true,
+    // componentIslands: {
+    //   selectiveClient: true,
+    // },
   },
   compatibilityDate: '2024-11-06',
   nitro: {
@@ -72,7 +72,7 @@ export default defineNuxtConfig({
   },
 
   medusa: {
-    baseUrl: 'https://medusa-base-production.up.railway.app',
+    baseUrl: process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL,
     publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
     server: true,
   },
