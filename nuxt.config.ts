@@ -64,6 +64,16 @@ export default defineNuxtConfig({
       crawlLinks: true,
     },
   },
+  // hooks: {
+  //   async 'prerender:routes'(ctx) {
+  //     const { pages } = await fetch('https://api.some-cms.com/pages').then(
+  //       res => res.json(),
+  //     )
+  //     for (const page of pages) {
+  //       ctx.routes.add(`/${page.name}`)
+  //     }
+  //   },
+  // },
 
   eslint: {
     config: {
@@ -72,7 +82,7 @@ export default defineNuxtConfig({
   },
 
   medusa: {
-    baseUrl: process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL,
+    baseUrl: process.env.MEDUSA_URL,
     publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
     server: true,
   },
