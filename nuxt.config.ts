@@ -1,3 +1,5 @@
+import type { StoreRegion } from '@medusajs/types'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -37,43 +39,48 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       // TODO: Get all pages dynamically
-      routes: [
-        '/at',
-        '/be',
-        '/hr',
-        '/cy',
-        '/ee',
-        '/fi',
-        '/fr',
-        '/de',
-        '/gr',
-        '/ie',
-        '/it',
-        '/lv',
-        '/lt',
-        '/lu',
-        '/mt',
-        '/nl',
-        '/pt',
-        '/sk',
-        '/si',
-        '/es',
-        '/gb',
-        '/us',
-      ],
+      // routes: [
+      //   '/at',
+      //   '/be',
+      //   '/hr',
+      //   '/cy',
+      //   '/ee',
+      //   '/fi',
+      //   '/fr',
+      //   '/de',
+      //   '/gr',
+      //   '/ie',
+      //   '/it',
+      //   '/lv',
+      //   '/lt',
+      //   '/lu',
+      //   '/mt',
+      //   '/nl',
+      //   '/pt',
+      //   '/sk',
+      //   '/si',
+      //   '/es',
+      //   '/gb',
+      //   '/us',
+      // ],
       crawlLinks: true,
     },
   },
-  // hooks: {
-  //   async 'prerender:routes'(ctx) {
-  //     const { pages } = await fetch('https://api.some-cms.com/pages').then(
-  //       res => res.json(),
-  //     )
-  //     for (const page of pages) {
-  //       ctx.routes.add(`/${page.name}`)
-  //     }
-  //   },
-  // },
+  hooks: {
+    async 'prerender:routes'(ctx) {
+      const { regions } = await fetch(`https://medusa-base-production.up.railway.app/store/regions`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-publishable-api-key': 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
+        },
+      }).then(res => res.json())
+      const countries = regions.map((region: StoreRegion) => region.countries).flat()
+      for (const country of countries) {
+        ctx.routes.add(`/${country.iso_2.toLowerCase()}`)
+      }
+    },
+  },
 
   eslint: {
     config: {
@@ -82,7 +89,7 @@ export default defineNuxtConfig({
   },
 
   medusa: {
-    baseUrl: process.env.MEDUSA_URL,
+    baseUrl: process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL,
     publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
     server: true,
   },

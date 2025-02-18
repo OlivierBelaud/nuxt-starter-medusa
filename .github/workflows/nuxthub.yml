@@ -28,7 +28,9 @@ jobs:
         run: pnpm install
 
       - name: Build application
-        run: pnpm build
+        run: pnpm Build
+        env:
+          NUXT_PUBLIC_MEDUSA_BACKEND_URL: ${{ secrets.NUXT_PUBLIC_MEDUSA_BACKEND_URL }}
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
