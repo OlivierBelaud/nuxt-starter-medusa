@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/medusa',
     '@nuxt/ui',
     '@nuxt/image',
-    '@nuxthub/core',
+    // '@nuxthub/core',
     '@nuxt/eslint',
   ],
   devtools: { enabled: true },
@@ -39,9 +39,9 @@ export default defineNuxtConfig({
   },
 
   // https://hub.nuxt.com/docs/getting-started/installation#options
-  hub: {
-    cache: true,
-  },
+  // hub: {
+  //   cache: true,
+  // },
   hooks: {
     async 'prerender:routes'(ctx) {
       const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
