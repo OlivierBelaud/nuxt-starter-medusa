@@ -1,7 +1,7 @@
 <template>
   <UApp>
     <NuxtRouteAnnouncer />
-    <AppHeader />
+    <!-- <AppHeader /> -->
     <NuxtLoadingIndicator color="black" />
     <main class="relative">
       <slot />
