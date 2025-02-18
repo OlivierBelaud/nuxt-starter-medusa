@@ -16,12 +16,12 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
-  // runtimeConfig: {
+  runtimeConfig: {
   //   public: {
   //     medusaBackendUrl: process.env.MEDUSA_PUBLIC_BACKEND_URL,
   //     medusaPublishableKey: process.env.MEDUSA_PUBLIC_PUBLISHABLE_KEY,
   //   },
-  // },
+  },
 
   future: {
     compatibilityVersion: 4,
