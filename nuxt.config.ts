@@ -44,14 +44,14 @@ export default defineNuxtConfig({
   },
   hooks: {
     async 'prerender:routes'(ctx) {
-      const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
+      const { regions } = await fetch(`https://medusa-base-production.up.railway.app/store/regions`, {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
+          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
         },
       }).then(res => res.json())
-      const countries = regions.map((region: StoreRegion) => region.countries).flat()
+      const countries = regions?.map((region: StoreRegion) => region.countries).flat()
       for (const country of countries) {
         ctx.routes.add(`/${country.iso_2.toLowerCase()}`)
       }
