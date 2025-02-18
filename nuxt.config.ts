@@ -19,10 +19,6 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
-  //   public: {
-  //     medusaBackendUrl: process.env.MEDUSA_PUBLIC_BACKEND_URL,
-  //     medusaPublishableKey: process.env.MEDUSA_PUBLIC_PUBLISHABLE_KEY,
-  //   },
   },
 
   future: {
@@ -38,41 +34,21 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-06',
   nitro: {
     prerender: {
-      // TODO: Get all pages dynamically
-      // routes: [
-      //   '/at',
-      //   '/be',
-      //   '/hr',
-      //   '/cy',
-      //   '/ee',
-      //   '/fi',
-      //   '/fr',
-      //   '/de',
-      //   '/gr',
-      //   '/ie',
-      //   '/it',
-      //   '/lv',
-      //   '/lt',
-      //   '/lu',
-      //   '/mt',
-      //   '/nl',
-      //   '/pt',
-      //   '/sk',
-      //   '/si',
-      //   '/es',
-      //   '/gb',
-      //   '/us',
-      // ],
       crawlLinks: true,
     },
   },
+
+  // https://hub.nuxt.com/docs/getting-started/installation#options
+  hub: {
+    cache: true,
+  },
   hooks: {
     async 'prerender:routes'(ctx) {
-      const { regions } = await fetch(`https://medusa-base-production.up.railway.app/store/regions`, {
+      const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
-          'x-publishable-api-key': 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
+          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
         },
       }).then(res => res.json())
       const countries = regions.map((region: StoreRegion) => region.countries).flat()
@@ -90,7 +66,7 @@ export default defineNuxtConfig({
 
   medusa: {
     baseUrl: process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL,
-    publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
+    publishableKey: process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
     server: true,
   },
 })
