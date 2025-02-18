@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@nuxtjs/medusa',
     '@nuxt/ui',
     '@nuxt/image',
-    // '@nuxthub/core',
+    '@nuxthub/core',
     '@nuxt/eslint',
   ],
   devtools: { enabled: true },
