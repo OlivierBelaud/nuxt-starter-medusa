@@ -29,9 +29,6 @@ jobs:
 
       - name: Build application
         run: pnpm build
-        env:
-          NUXT_PUBLIC_MEDUSA_BACKEND_URL: ${{ vars.NUXT_PUBLIC_MEDUSA_BACKEND_URL }}
-          NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY: ${{ vars.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY }}
 
       - name: Deploy to NuxtHub
         uses: nuxt-hub/action@v1
