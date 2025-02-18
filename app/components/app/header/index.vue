@@ -27,6 +27,11 @@ const isSideMenuOpen = ref(false)
           >
             Account
           </AppLink> -->
+          <AppLink
+            :to="`/store`"
+          >
+            Store
+          </AppLink>
           <LazyCartDropdown />
         </nav>
       </UContainer>

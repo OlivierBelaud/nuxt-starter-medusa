@@ -40,6 +40,13 @@ const items = ref([
           Store
         </AppLink>
       </li>
+      <li>
+        <AppLink
+          to="/account"
+        >
+          Account
+        </AppLink>
+      </li>
     </ul>
   </div>
 </template>
