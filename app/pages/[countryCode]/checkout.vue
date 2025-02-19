@@ -7,7 +7,7 @@ const { data: cart, status } = useFetchCart()
 
 <template>
   <UContainer class="py-12">
-    <div v-if="status === 'pending'">
+    <div v-if="!cart">
       ... Loading
     </div>
     <div
@@ -16,7 +16,6 @@ const { data: cart, status } = useFetchCart()
     >
       <CheckoutForm />
       <CartSummary
-        v-if="cart"
         title="In your Cart"
         :cart="cart"
         is-checkout

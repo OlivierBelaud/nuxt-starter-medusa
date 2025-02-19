@@ -1,10 +1,10 @@
 <script setup lang="ts">
-const { data: cart, status } = useFetchCart()
+const { data: cart } = useFetchCart()
 </script>
 
 <template>
   <UContainer class="py-12">
-    <div v-if="status === 'pending'">
+    <div v-if="!cart">
       ... Loading
     </div>
     <div v-else>
