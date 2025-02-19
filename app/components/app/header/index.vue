@@ -22,6 +22,12 @@ const isSideMenuOpen = ref(false)
         </AppLink>
         <nav class="flex items-center space-x-6 flex-1 basis-0 justify-end">
           <AppLink
+            to="/store"
+            class="hidden sm:flex"
+          >
+            Store
+          </AppLink>
+          <AppLink
             to="/account"
             class="hidden sm:flex"
           >
