@@ -38,7 +38,7 @@ export const useFetchCart = () => {
     'cart',
     async () => await retrieveCart(),
     {
-      dedupe: 'defer',
+      // dedupe: 'defer',
     },
   )
 }
