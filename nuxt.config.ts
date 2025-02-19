@@ -20,10 +20,10 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
   },
-  routeRules: {
-    '/**/cart': { ssr: false },
-    '/**/checkout': { ssr: false },
-  },
+  // routeRules: {
+  //   '/**/cart': { ssr: false },
+  //   '/**/checkout': { ssr: false },
+  // },
 
   future: {
     compatibilityVersion: 4,
@@ -46,6 +46,8 @@ export default defineNuxtConfig({
             '/**/categories/**',
             '/**/account',
             '/**/store',
+            '/**/cart',
+            '/**/checkout',
           ],
         },
       },
@@ -91,6 +93,8 @@ export default defineNuxtConfig({
         ctx.routes.add(`/${country.iso_2}`)
         ctx.routes.add(`/${country.iso_2}/account`)
         ctx.routes.add(`/${country.iso_2}/store`)
+        ctx.routes.add(`/${country.iso_2}/cart`)
+        ctx.routes.add(`/${country.iso_2}/checkout`)
         for (const product of products) {
           ctx.routes.add(`/${country.iso_2}/products/${product.handle}`)
         }
