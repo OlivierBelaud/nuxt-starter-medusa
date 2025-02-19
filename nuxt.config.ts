@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/image',
     '@nuxt/eslint',
+    '@nuxthub/core',
   ],
   devtools: { enabled: true },
 
@@ -32,61 +33,53 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-11-06',
   nitro: {
-    prerender: {
-      // TODO: Get all pages dynamically
-      routes: [
-        '/at',
-        '/be',
-        '/hr',
-        '/cy',
-        '/ee',
-        '/fi',
-        '/fr',
-        '/de',
-        '/gr',
-        '/ie',
-        '/it',
-        '/lv',
-        '/lt',
-        '/lu',
-        '/mt',
-        '/nl',
-        '/pt',
-        '/sk',
-        '/si',
-        '/es',
-        '/gb',
-        '/us',
-      ],
-      crawlLinks: true,
+    // prerender: {
+    //   crawlLinks: true,
+    // },
+    cloudflare: {
+      pages: {
+        routes: {
+          exclude: [
+            '/**/products/**',
+          ],
+        },
+      },
     },
   },
 
-  // hooks: {
-  //   async 'prerender:routes'(ctx) {
-  //     const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
-  //       credentials: 'include',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-  //       },
-  //     }).then(res => res.json())
-  //     // const { products } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/products`, {
-  //     //   credentials: 'include',
-  //     //   headers: {
-  //     //     'Content-Type': 'application/json',
-  //     //     'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-  //     //   },
-  //     // }).then(res => res.json())
-  //     const countries = regions?.map((region: StoreRegion) => region.countries).flat()
-  //     for (const country of countries) {
-  //       ctx.routes.add(`/${country.iso_2.toLowerCase()}`)
-  //       // for (const product of products) {
-  //       //   ctx.routes.add(`/${country.iso_2.toLowerCase()}/products/${product.handle.toLowerCase()}`)
-  //       // }
-  //     }
-  //   },
+  // https://hub.nuxt.com/docs/getting-started/installation#options
+  // hub: {
+  //   cache: true,
   // },
+  hooks: {
+    async 'prerender:routes'(ctx) {
+      const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
+        },
+      }).then(res => res.json())
+      const { products } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/products`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
+        },
+      }).then(res => res.json())
+      const countries = regions?.map((region: StoreRegion) => region.countries).flat()
+      for (const country of countries) {
+        ctx.routes.add(`/${country.iso_2.toLowerCase()}`)
+        for (const product of products) {
+          ctx.routes.add(`/${country.iso_2.toLowerCase()}/products/${product.handle.toLowerCase()}`)
+        }
+      }
+      // ctx.routes.add(`/fr`)
+      // for (const product of products) {
+      //   ctx.routes.add(`/fr/products/${product.handle.toLowerCase()}`)
+      // }
+    },
+  },
 
   eslint: {
     config: {
