@@ -17,6 +17,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
+    public: {
+      medusaBackendUrl: process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL,
+      medusaPublishableKey: process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
+    },
   },
   // routeRules: {
   //   '/**/': { swr: true },
