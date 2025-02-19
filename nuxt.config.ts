@@ -21,9 +21,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
   },
 
-  routeRules: {
-    '/fr/products/pinnacle-posh-pack': { prerender: true },
-  },
+  // routeRules: {
+  //   '/fr/products/pinnacle-posh-pack': { prerender: true },
+  // },
 
   future: {
     compatibilityVersion: 4,
@@ -48,13 +48,13 @@ export default defineNuxtConfig({
   // },
   hooks: {
     async 'prerender:routes'(ctx) {
-      const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-        },
-      }).then(res => res.json())
+      // const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
+      //   credentials: 'include',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
+      //   },
+      // }).then(res => res.json())
       const { products } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/products`, {
         credentials: 'include',
         headers: {
@@ -62,12 +62,16 @@ export default defineNuxtConfig({
           'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
         },
       }).then(res => res.json())
-      const countries = regions?.map((region: StoreRegion) => region.countries).flat()
-      for (const country of countries) {
-        ctx.routes.add(`/${country.iso_2.toLowerCase()}`)
-        for (const product of products) {
-          ctx.routes.add(`/${country.iso_2.toLowerCase()}/products/${product.handle.toLowerCase()}`)
-        }
+      // const countries = regions?.map((region: StoreRegion) => region.countries).flat()
+      // for (const country of countries) {
+      //   ctx.routes.add(`/${country.iso_2.toLowerCase()}`)
+      //   for (const product of products) {
+      //     ctx.routes.add(`/${country.iso_2.toLowerCase()}/products/${product.handle.toLowerCase()}`)
+      //   }
+      // }
+      ctx.routes.add(`/fr`)
+      for (const product of products) {
+        ctx.routes.add(`/fr/products/${product.handle.toLowerCase()}`)
       }
     },
   },
