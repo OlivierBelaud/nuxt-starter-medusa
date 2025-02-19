@@ -1,4 +1,4 @@
-import type { StoreRegion } from '@medusajs/types'
+// import type { StoreRegion } from '@medusajs/types'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -21,10 +21,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
   },
   routeRules: {
-    '/**': { prerender: true },
-    '/**/products/**': { prerender: true },
-    '/**/collections/**': { prerender: true },
-    '/**/categories/**': { prerender: true },
+    '/*': { prerender: true },
+    '/**/products/**': { isr: true },
+    '/**/collections/**': { isr: true },
+    '/**/categories/**': { isr: true },
     '/**/account': { prerender: true },
     '/**/store': { prerender: true },
     '/**/cart': { prerender: true },
