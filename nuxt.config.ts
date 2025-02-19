@@ -1,5 +1,3 @@
-import type { StoreRegion } from '@medusajs/types'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -43,10 +41,8 @@ export default defineNuxtConfig({
   },
   compatibilityDate: '2024-11-06',
   nitro: {
-    // prerender: {
-    //   routes: ['/'],
-    //   crawlLinks: true,
-    // },
+    // Use pattern to avoid 100 the Cloudflare 100 routes limit
+    // https://hub.nuxt.com/docs/recipes/pre-rendering#cloudflare-100-routes-limit
     cloudflare: {
       pages: {
         routes: {
@@ -67,55 +63,6 @@ export default defineNuxtConfig({
   // https://hub.nuxt.com/docs/getting-started/installation#options
   hub: {
     cache: true,
-  },
-  hooks: {
-    async 'prerender:routes'(ctx) {
-      const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-        },
-      }).then(res => res.json())
-      const { products } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/products`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-        },
-      }).then(res => res.json())
-      const { collections } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/collections`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-        },
-      }).then(res => res.json())
-      const { product_categories: categories } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/product-categories`, {
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
-        },
-      }).then(res => res.json())
-      const countries = regions?.map((region: StoreRegion) => region.countries).flat()
-      for (const country of countries) {
-        ctx.routes.add(`/${country.iso_2}`)
-        ctx.routes.add(`/${country.iso_2}/account`)
-        ctx.routes.add(`/${country.iso_2}/store`)
-        ctx.routes.add(`/${country.iso_2}/cart`)
-        ctx.routes.add(`/${country.iso_2}/checkout`)
-        for (const product of products) {
-          ctx.routes.add(`/${country.iso_2}/products/${product.handle}`)
-        }
-        for (const collection of collections) {
-          ctx.routes.add(`/${country.iso_2}/collections/${collection.handle}`)
-        }
-        for (const category of categories) {
-          ctx.routes.add(`/${country.iso_2}/categories/${category.handle}`)
-        }
-      }
-    },
   },
 
   eslint: {
