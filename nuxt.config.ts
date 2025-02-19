@@ -21,6 +21,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
   },
 
+  routeRules: {
+    '/fr/products/pinnacle-posh-pack': { prerender: true },
+  },
+
   future: {
     compatibilityVersion: 4,
   },
