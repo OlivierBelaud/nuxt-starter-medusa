@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { StoreProduct } from '@medusajs/types'
 
-const { currentRegionId } = useCurrentCountry()
+// const { currentRegionId } = useCurrentCountry()
 
 const {
   product: _product,
@@ -19,9 +19,9 @@ const currentPrice = computed(() => cheapestVariant.value?.calculated_price?.cal
 const originalPrice = computed(() => cheapestVariant.value?.calculated_price?.original_amount || undefined)
 const currencyCode = computed(() => cheapestVariant.value?.calculated_price?.currency_code || undefined)
 
-onMounted(() => {
-  refreshNuxtData(`product:${_product.handle}:region:${currentRegionId.value}`)
-})
+// onMounted(() => {
+//   refreshNuxtData(`product:${_product.handle}:region:${currentRegionId.value}`)
+// })
 </script>
 
 <template>
