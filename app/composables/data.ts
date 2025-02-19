@@ -82,10 +82,10 @@ export const useFetchClientProducts = ({ query }: {
 
   return useLazyFetch('/api/products', {
     params: queryParams,
-    cache: 'force-cache',
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    },
+    // cache: 'force-cache',
+    // getCachedData(key, nuxtApp) {
+    //   return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
+    // },
   })
 }
 
