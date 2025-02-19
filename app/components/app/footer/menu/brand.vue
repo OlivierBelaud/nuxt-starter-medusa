@@ -33,20 +33,6 @@ const items = ref([
           {{ item.title }}
         </NuxtLink>
       </li>
-      <li>
-        <AppLink
-          :to="`/store`"
-        >
-          Store
-        </AppLink>
-      </li>
-      <li>
-        <AppLink
-          to="/account"
-        >
-          Account
-        </AppLink>
-      </li>
     </ul>
   </div>
 </template>

@@ -21,16 +21,11 @@ const isSideMenuOpen = ref(false)
           {{ title }}
         </AppLink>
         <nav class="flex items-center space-x-6 flex-1 basis-0 justify-end">
-          <!-- <AppLink
+          <AppLink
             to="/account"
             class="hidden sm:flex"
           >
             Account
-          </AppLink> -->
-          <AppLink
-            :to="`/store`"
-          >
-            Store
           </AppLink>
           <LazyCartDropdown />
         </nav>
