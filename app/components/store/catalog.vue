@@ -24,6 +24,15 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
+// watch(pageNumber, () => {
+//   // Trigger a manual re-fetch here
+//   console.log('pageNumber', pageNumber.value)
+// })
+
+watchEffect(() => {
+  console.log('pageNumber', pageNumber.value)
+})
+
 const { data } = await useFetchProductsWithCache({
   query: productsQuery,
 })
@@ -56,7 +65,6 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
         {{ title }} ({{ count }})
       </AppHeading>
       <ProductList
-        :key="pageNumber"
         :products="products"
         :sort-by="sortBy"
         class="mb-8"

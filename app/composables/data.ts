@@ -80,6 +80,10 @@ export const useFetchProductsWithCache = ({ query }: {
     ...queryRef.value,
   }))
 
+  watchEffect(() => {
+    console.log('queryParams', queryParams.value)
+  })
+
   return useLazyFetch('/api/products', {
     params: queryParams,
     cache: 'force-cache',

@@ -22,6 +22,23 @@ export const useFilters = () => {
   const pageNumber = ref(route.query.page ? parseInt(route.query.page as string) : 1)
   const sortBy = ref((route.query.sortBy as SortOptionsType | undefined) || SORT_OPTIONS.CREATED_AT)
 
+  // watch(route, () => {
+  //   console.log('route.query.page', route.query.page)
+  // })
+
+  // watchEffect(() => {
+  //   console.log('watchEffect')
+  //   pageNumber.value = route.query.page ? parseInt(route.query.page as string) : 1
+  //   console.log('pageNumber', pageNumber.value)
+  // })
+
+  // onMounted(() => {
+  //   pageNumber.value = route.query.page ? parseInt(route.query.page as string) : 1
+  //   sortBy.value = (route.query.sortBy as SortOptionsType | undefined) || SORT_OPTIONS.CREATED_AT
+
+  //   console.log('onMounted', pageNumber.value)
+  // })
+
   watch(pageNumber, (newPageNumber) => {
     const newQuery = { ...route.query }
     delete newQuery.page
