@@ -54,7 +54,12 @@ watchEffect(() => {
 })
 
 onMounted(() => {
-  refresh()
+  nextTick(() => {
+    if (pageNumber.value !== 1) {
+      console.log('onMounted: refresh forcé car pageNumber vaut', pageNumber.value)
+      refresh()
+    }
+  })
 })
 </script>
 
