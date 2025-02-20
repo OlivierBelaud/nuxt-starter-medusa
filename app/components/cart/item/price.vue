@@ -6,7 +6,7 @@ const {
   currencyCode,
 } = defineProps<{
   item: StoreCartLineItem | StoreOrderLineItem
-  currencyCode: string
+  currencyCode?: string
 }>()
 
 const adjustmentsSum = computed(() => {

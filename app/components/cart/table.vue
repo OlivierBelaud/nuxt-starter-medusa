@@ -57,13 +57,6 @@ const columnVisibility = computed(() => {
 
 <template>
   <div class="flex flex-col gap-y-3">
-    <AppHeading
-      v-if="!isSmall"
-      as="h1"
-    >
-      Cart
-    </AppHeading>
-
     <UTable
       v-model:column-visibility="columnVisibility"
       :data="data"
@@ -108,7 +101,7 @@ const columnVisibility = computed(() => {
       <template #price-cell="{ row }">
         <StoreLocalizedPrice
           :amount="row.original.unit_price"
-          :currency-code="cart.currency_code"
+          :currency-code="cart?.currency_code"
         />
       </template>
       <template #total-cell="{ row }">
@@ -126,17 +119,17 @@ const columnVisibility = computed(() => {
             <span>
               <StoreLocalizedPrice
                 :amount="row.original.unit_price"
-                :currency-code="cart.currency_code"
+                :currency-code="cart?.currency_code"
               />
             </span>
           </div>
           <CartItemPrice
             :item="row.original"
-            :currency-code="cart.currency_code"
+            :currency-code="cart?.currency_code"
           />
         </div>
       </template>
     </UTable>
-    <USeparator v-if="!isSmall" />
+    <USeparator />
   </div>
 </template>
