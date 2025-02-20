@@ -44,7 +44,7 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
 watch(pageNumber, (newPage, oldPage) => {
   if (newPage !== oldPage) {
-    console.log('pageNumber changed', newPage, oldPage)
+    console.log('pageNumber changed', newPage, oldPage, productsQuery.value)
     refresh()
   }
 })
