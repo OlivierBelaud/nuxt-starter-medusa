@@ -1,13 +1,9 @@
-import { CartTableWrapper } from '../../../.nuxt/components';
 <script setup lang="ts">
 // const { data: cart } = useFetchCart()
 </script>
 
 <template>
   <UContainer class="py-12">
-    <!-- <div v-if="!cart">
-      ... Loading
-    </div> -->
     <div>
       <div
         class="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-x-20 xl:gap-x-40"
@@ -19,7 +15,12 @@ import { CartTableWrapper } from '../../../.nuxt/components';
             >
               Cart
             </AppHeading>
-            <LazyCartTableWrapper />
+            <ClientOnly>
+              <CartTableWrapper />
+              <template #fallback>
+                <CartTableSkeleton />
+              </template>
+            </ClientOnly>
           </div>
         </div>
         <div class="relative">
@@ -34,7 +35,6 @@ import { CartTableWrapper } from '../../../.nuxt/components';
           </div>
         </div>
       </div>
-      <!-- <CartEmpty v-else /> -->
     </div>
   </UContainer>
 </template>
