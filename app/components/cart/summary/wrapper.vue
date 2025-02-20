@@ -11,6 +11,6 @@ const { data: cart } = useFetchCart()
   <CartSummary
     :cart="cart || undefined"
     :title="title"
-    :has-checkout-button="isCheckout"
+    :is-checkout="isCheckout"
   />
 </template>
