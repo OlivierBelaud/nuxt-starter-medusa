@@ -23,10 +23,10 @@ export default defineNuxtConfig({
   routeRules: {
     '/**/': { prerender: true },
     '/**/products/**': { prerender: true },
-    '/**/collections/**': { swr: true },
-    '/**/categories/**': { swr: true },
+    '/**/collections/**': { isr: true },
+    '/**/categories/**': { isr: true },
     '/**/account': { prerender: true },
-    '/**/store': { swr: true },
+    '/**/store': { isr: true },
     '/**/cart': { prerender: true },
     '/**/checkout': { prerender: true },
   },
