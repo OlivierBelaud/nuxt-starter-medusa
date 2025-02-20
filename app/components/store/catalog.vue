@@ -75,14 +75,6 @@ onMounted(() => {
           :sort-by="sortBy"
           class="mb-8"
         />
-        <template #fallback>
-          <p>Loading comments...</p>
-          <!-- <ProductList
-            :products="products"
-            :sort-by="sortBy"
-            class="mb-8"
-          /> -->
-        </template>
       </ClientOnly>
       <div
         v-if="displayPagination"
