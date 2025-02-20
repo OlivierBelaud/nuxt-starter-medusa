@@ -9,7 +9,7 @@ const {
 
 const { data: collection } = await useFetchCollectionByHandle(handle)
 
-const { data } = await useFetchProductsWithCache({
+const { data, refresh } = await useFetchProductsWithCache({
   query: {
     collection_id: collection.value?.id,
     limit: 4,
@@ -17,6 +17,10 @@ const { data } = await useFetchProductsWithCache({
 })
 
 const products = computed(() => data.value?.products || [])
+
+onMounted(() => {
+  refresh()
+})
 </script>
 
 <template>
