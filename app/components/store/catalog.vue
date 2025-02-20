@@ -42,8 +42,18 @@ const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
-watch(pageNumber, () => {
-  console.log('pageNumber have changed', pageNumber.value)
+watch(pageNumber, (newPage, oldPage) => {
+  if (newPage !== oldPage) {
+    console.log('pageNumber changed', newPage, oldPage)
+    refresh()
+  }
+})
+
+watchEffect(() => {
+  console.log('data', data.value)
+})
+
+onMounted(() => {
   refresh()
 })
 </script>
