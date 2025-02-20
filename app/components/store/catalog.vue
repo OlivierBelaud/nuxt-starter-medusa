@@ -56,6 +56,7 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
         {{ title }} ({{ count }})
       </AppHeading>
       <ProductList
+        :key="pageNumber"
         :products="products"
         :sort-by="sortBy"
         class="mb-8"
