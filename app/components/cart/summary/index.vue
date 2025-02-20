@@ -5,28 +5,35 @@ const { currentCountryCode } = useCurrentCountry()
 
 defineProps<{
   title: string
-  cart: StoreCart
+  cart?: StoreCart
   isCheckout?: boolean
 }>()
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-4">
+  <div
+    v-if="!cart || (cart.items && cart.items.length > 0)"
+    :cart="cart && cart.items && cart.items.length > 0 ? cart : undefined"
+    class="flex flex-col gap-y-4"
+  >
     <AppHeading as="h2">
       {{ title }}
     </AppHeading>
     <USeparator />
-    <CartTotals :cart="cart" />
-    <CartTable
+    <CartTotals
+      :cart="cart"
+    />
+    <!-- <CartTable
       v-if="isCheckout"
       :cart="cart"
       is-preview
-    />
+    /> -->
     <UButton
       v-if="!isCheckout"
       :to="`/${currentCountryCode}/checkout`"
       :block="true"
       color="neutral"
+      :disabled="!cart"
       size="lg"
     >
       Go to checkout
