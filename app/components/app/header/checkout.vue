@@ -1,7 +1,5 @@
 <script setup lang="ts">
 const { title } = useAppConfig()
-
-const isSideMenuOpen = ref(false)
 </script>
 
 <template>
@@ -25,8 +23,5 @@ const isSideMenuOpen = ref(false)
       </AppLink>
       <div class="flex-1 basis-0" />
     </UContainer>
-    <AppHeaderSideMenu
-      v-model="isSideMenuOpen"
-    />
   </header>
 </template>

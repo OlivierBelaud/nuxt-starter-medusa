@@ -9,9 +9,13 @@ definePageMeta({
     <div
       class="grid grid-cols-1 sm:grid-cols-[1fr_416px] gap-x-40"
     >
-      <ClientOnly>
+      <!-- <CheckoutForm /> -->
+      <!-- <ClientOnly>
         <CheckoutForm />
-      </ClientOnly>
+        <template #fallback>
+          <div>Hello World</div>
+        </template>
+      </ClientOnly> -->
       <CartSummaryWrapper
         title="In your Cart"
         is-checkout

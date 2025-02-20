@@ -14,12 +14,13 @@
             >
               Cart
             </AppHeading>
-            <ClientOnly>
+            <CartTableWrapper />
+            <!-- <ClientOnly>
               <CartTableWrapper />
               <template #fallback>
                 <CartTableSkeleton />
               </template>
-            </ClientOnly>
+            </ClientOnly> -->
           </div>
         </div>
         <div class="relative">
