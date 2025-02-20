@@ -36,11 +36,7 @@ const subtotal = computed(() => convertToLocale({
         </h3>
       </div>
       <div class="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
-        <CartTable
-          v-if="cart"
-          :cart="cart"
-          is-drop-down
-        />
+        <CartTableWrapper is-drop-down />
       </div>
       <div
         v-if="cartItemsCount && cartItemsCount > 0"

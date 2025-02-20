@@ -47,8 +47,8 @@ const paymentDate = computed(() => {
         Summary
       </AppHeading>
       <USeparator />
-      <CartTable
-        :cart="order"
+      <OrderTableWrapper
+        :order="order"
         is-preview
       />
       <CartTotals :cart="order" />

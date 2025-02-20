@@ -29,7 +29,7 @@ const columns = [
 ]
 
 const data = computed(() => {
-  return [{}, {}]
+  return [{}]
 })
 
 const breakpoints = useBreakpoints(breakpointsTailwind, { ssrWidth: 768 })

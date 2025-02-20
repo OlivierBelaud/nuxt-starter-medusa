@@ -1,20 +1,23 @@
 <script setup lang="ts">
+import type { StoreOrder } from '@medusajs/types'
+
 const {
+  order,
   isPreview,
   isDropDown,
 } = defineProps<{
+  order?: StoreOrder
   isPreview?: boolean
   isDropDown?: boolean
 }>()
-const { data: cart } = useFetchCart()
 </script>
 
 <template>
   <div>
-    <template v-if="cart?.items">
+    <template v-if="order?.items">
       <CartTable
-        v-if="cart.items.length > 0"
-        :cart="cart"
+        v-if="order.items.length > 0"
+        :cart="order"
         :is-preview="isPreview"
         :is-drop-down="isDropDown"
       />

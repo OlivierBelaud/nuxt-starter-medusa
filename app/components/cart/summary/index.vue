@@ -23,11 +23,10 @@ defineProps<{
     <CartTotals
       :cart="cart"
     />
-    <!-- <CartTable
+    <CartTableWrapper
       v-if="isCheckout"
-      :cart="cart"
       is-preview
-    /> -->
+    />
     <UButton
       v-if="!isCheckout"
       :to="`/${currentCountryCode}/checkout`"
