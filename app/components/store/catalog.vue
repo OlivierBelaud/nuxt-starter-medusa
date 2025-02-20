@@ -68,13 +68,11 @@ onMounted(() => {
       >
         {{ title }} ({{ count }})
       </AppHeading>
-      <ClientOnly>
-        <ProductList
-          :products="products"
-          :sort-by="sortBy"
-          class="mb-8"
-        />
-      </ClientOnly>
+      <ProductList
+        :products="products"
+        :sort-by="sortBy"
+        class="mb-8"
+      />
       <div
         v-if="displayPagination"
         class="flex justify-end"
