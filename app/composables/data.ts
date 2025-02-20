@@ -68,7 +68,7 @@ export const useFetchRegions = () => {
     })
 }
 
-export const useFetchClientProducts = ({ query }: {
+export const useFetchProductsWithCache = ({ query }: {
   query: MaybeRef<StoreProductListParams>
 }) => {
   const { currentRegionId } = useCurrentCountry()
@@ -79,10 +79,6 @@ export const useFetchClientProducts = ({ query }: {
     region_id: currentRegionId.value,
     ...queryRef.value,
   }))
-
-  watchEffect(() => {
-    console.log('Query params changed:', queryParams.value)
-  })
 
   return useLazyFetch('/api/products', {
     params: queryParams,
