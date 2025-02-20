@@ -42,7 +42,7 @@ const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
-onMounted(() => {
+watch(pageNumber, () => {
   refresh()
 })
 </script>
