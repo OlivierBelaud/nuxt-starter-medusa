@@ -1,5 +1,7 @@
 import type { StoreCartAddress } from '@medusajs/types'
-import { isEqual, pick } from 'lodash'
+import lodash from 'lodash'
+
+const { isEqual, pick } = lodash
 
 export function compareAddresses(address1?: StoreCartAddress, address2?: StoreCartAddress) {
   return isEqual(
