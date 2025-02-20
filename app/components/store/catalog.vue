@@ -33,7 +33,7 @@ watchEffect(() => {
   console.log('pageNumber', pageNumber.value)
 })
 
-const { data } = await useFetchProductsWithCache({
+const { data, refresh } = await useFetchProductsWithCache({
   query: productsQuery,
 })
 
@@ -41,6 +41,11 @@ const products = computed(() => data.value?.products || [])
 const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
+
+onMounted(() => {
+  console.log('onMounted')
+  refresh()
+})
 </script>
 
 <template>
