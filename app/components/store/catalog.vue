@@ -24,6 +24,10 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
+watchEffect(() => {
+  console.log(' productsQuery.value', productsQuery.value)
+})
+
 const { data } = await useFetchClientProducts({
   query: productsQuery,
 })

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const handle = route.params.handle as string
-const { data: product } = await useFetchProductByHandle(handle)
+const handle = computed(() => route.params.handle as string)
+const { data: product } = await useFetchProductByHandle(handle.value)
 </script>
 
 <template>

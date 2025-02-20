@@ -80,12 +80,13 @@ export const useFetchClientProducts = ({ query }: {
     ...queryRef.value,
   }))
 
+  watchEffect(() => {
+    console.log('Query params changed:', queryParams.value)
+  })
+
   return useLazyFetch('/api/products', {
     params: queryParams,
     cache: 'force-cache',
-    getCachedData(key, nuxtApp) {
-      return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-    },
   })
 }
 

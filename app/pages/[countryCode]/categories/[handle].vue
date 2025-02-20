@@ -1,8 +1,8 @@
 <script setup lang="ts">
 const route = useRoute()
 
-const handle = route.params.handle as string
-const { data: category } = await useFetchCategoryByHandle(handle)
+const handle = computed(() => route.params.handle as string)
+const { data: category } = await useFetchCategoryByHandle(handle.value)
 </script>
 
 <template>
