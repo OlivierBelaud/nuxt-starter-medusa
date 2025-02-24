@@ -39,6 +39,9 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
 //   }
 // })
 
+onMounted(() => {
+  refreshNuxtData(`test-key:${productsQuery.value.offset}`)
+})
 // onMounted(() => {
 //   nextTick(() => {
 //     if (pageNumber.value !== 1) {
