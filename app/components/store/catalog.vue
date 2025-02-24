@@ -33,29 +33,19 @@ const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
-// watch(pageNumber, (newPage, oldPage) => {
-//   if (newPage !== oldPage) {
-//     refresh()
-//   }
-// })
-
-onMounted(() => {
-  // if page = 1, we kill the pre-rendered cache to update the cache with le latest data
-  if (pageNumber.value === 1) {
-    refreshNuxtData(`test-key:${productsQuery.value.offset}`)
-  }
-  // if page > 1, we refresh the data
-  else {
+watch(pageNumber, (newPage, oldPage) => {
+  if (newPage !== oldPage) {
     refresh()
   }
 })
-// onMounted(() => {
-//   nextTick(() => {
-//     if (pageNumber.value !== 1) {
-//       refresh()
-//     }
-//   })
-// })
+
+onMounted(() => {
+  nextTick(() => {
+    if (pageNumber.value !== 1) {
+      refresh()
+    }
+  })
+})
 </script>
 
 <template>
