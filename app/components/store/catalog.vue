@@ -24,7 +24,7 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data } = await useFetchProductsWithCache({
+const { data, refresh } = await useFetchProductsWithCache({
   query: productsQuery,
 })
 
@@ -40,7 +40,14 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
 // })
 
 onMounted(() => {
-  refreshNuxtData(`test-key:${productsQuery.value.offset}`)
+  // if page = 1, we kill the pre-rendered cache to update the cache with le latest data
+  if (pageNumber.value === 1) {
+    refreshNuxtData(`test-key:${productsQuery.value.offset}`)
+  }
+  // if page > 1, we refresh the data
+  else {
+    refresh()
+  }
 })
 // onMounted(() => {
 //   nextTick(() => {
