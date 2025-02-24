@@ -24,7 +24,7 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data, refresh } = await useFetchProductsWithCache({
+const { data } = await useFetchProductsWithCache({
   query: productsQuery,
 })
 
@@ -33,19 +33,19 @@ const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
-watch(pageNumber, (newPage, oldPage) => {
-  if (newPage !== oldPage) {
-    refresh()
-  }
-})
+// watch(pageNumber, (newPage, oldPage) => {
+//   if (newPage !== oldPage) {
+//     refresh()
+//   }
+// })
 
-onMounted(() => {
-  nextTick(() => {
-    if (pageNumber.value !== 1) {
-      refresh()
-    }
-  })
-})
+// onMounted(() => {
+//   nextTick(() => {
+//     if (pageNumber.value !== 1) {
+//       refresh()
+//     }
+//   })
+// })
 </script>
 
 <template>
