@@ -15,12 +15,6 @@
               Cart
             </AppHeading>
             <CartTableWrapper />
-            <!-- <ClientOnly>
-              <CartTableWrapper />
-              <template #fallback>
-                <CartTableSkeleton />
-              </template>
-            </ClientOnly> -->
           </div>
         </div>
         <div class="relative">

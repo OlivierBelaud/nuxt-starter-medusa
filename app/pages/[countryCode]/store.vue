@@ -2,7 +2,16 @@
 </script>
 
 <template>
-  <StoreCatalog
-    title="All products"
-  />
+  <div>
+    <ClientOnly>
+      <StoreCatalog
+        title="All products"
+      />
+      <template #fallback>
+        <StoreCatalog
+          title="All products"
+        />
+      </template>
+    </ClientOnly>
+  </div>
 </template>
