@@ -3,28 +3,30 @@ import type { StoreProduct } from '@medusajs/types'
 import lodash from 'lodash'
 
 const { isEqual } = lodash
-const { currentRegionId } = useCurrentCountry()
+// const { currentRegionId } = useCurrentCountry()
 
 const {
-  product: _product,
+  product,
+  loading,
 } = defineProps<{
-  product: StoreProduct
+  product?: StoreProduct
+  loading: boolean
 }>()
 
-const { data } = await useFetchProductByHandle(_product?.handle)
+// const { data } = await useFetchProductByHandle(_product?.handle)
 
-const product = computed(() => data.value || _product)
+// const product = computed(() => data.value || _product)
 
-onMounted(() => {
-  refreshNuxtData(`product:${_product?.handle}:region:${currentRegionId.value}`)
-})
+// onMounted(() => {
+//   refreshNuxtData(`product:${_product?.handle}:region:${currentRegionId.value}`)
+// })
 const selectedOptions = ref<Record<string, string | undefined>>()
 
-const cheapestVariant = computed(() => getCheapestVariant(product.value))
-const hasMoreThanOneVariant = computed(() => (product.value?.variants?.length ?? 0) > 1)
+const cheapestVariant = computed(() => getCheapestVariant(product))
+const hasMoreThanOneVariant = computed(() => (product?.variants?.length ?? 0) > 1)
 
 // If there is only 1 variant, preselect the options
-watch(() => product.value?.variants, (variants) => {
+watch(() => product?.variants, (variants) => {
   if (variants?.length === 1 && variants[0]?.options) {
     const variantOptions = optionsAsKeyMap(variants[0].options)
     if (!variantOptions) return
@@ -33,15 +35,15 @@ watch(() => product.value?.variants, (variants) => {
 }, { immediate: true })
 
 const selectedVariant = computed(() => {
-  if (!selectedOptions.value || !product.value?.variants || product.value.variants.length === 0) return
-  return product.value.variants.find((variant) => {
+  if (!selectedOptions.value || !product?.variants || product.variants.length === 0) return
+  return product.variants.find((variant) => {
     const variantOptions = optionsAsKeyMap(variant.options)
     return isEqual(variantOptions, selectedOptions.value)
   })
 })
 
 const isValidVariant = computed(() => {
-  return product.value?.variants?.some((variant) => {
+  return product?.variants?.some((variant) => {
     const variantOptions = optionsAsKeyMap(variant.options)
     return isEqual(variantOptions, selectedOptions.value)
   })
@@ -83,7 +85,7 @@ const buttonLabel = computed(() => {
 })
 
 const disabled = computed(() => {
-  return !selectedVariant.value || !inStock.value || !isValidVariant.value
+  return !selectedVariant.value || !inStock.value || !isValidVariant.value || loading
 })
 
 // update the options when a variant is selected
@@ -93,7 +95,7 @@ function setOptionValue({ optionId, value }: { optionId: string, value: string }
     [optionId]: value,
   }
 }
-const { loading, mutate } = useAddToCart()
+const { loading: isAdding, mutate } = useAddToCart()
 const { isCartDropdownOpen } = useCartDropdown()
 async function handleAddToCart() {
   if (!selectedVariant.value) return
@@ -139,7 +141,7 @@ const currencyCode = computed(() => variantForPrice.value?.calculated_price?.cur
       class="cursor-pointer"
       :block="true"
       :disabled="disabled"
-      :loading="loading"
+      :loading="isAdding"
       @click="handleAddToCart"
     >
       {{ buttonLabel }}

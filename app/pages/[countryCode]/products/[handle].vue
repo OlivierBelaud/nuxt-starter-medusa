@@ -2,15 +2,15 @@
 const route = useRoute()
 
 const handle = computed(() => route.params.handle as string)
-const { data } = await useFetchProductByHandle(handle.value)
+const { data, isStatic } = await useFetchProductByHandle(handle.value)
 const product = computed(() => data.value?.products[0])
 </script>
 
 <template>
   <div>
-    <LazyProductDetail
-      v-if="product"
+    <ProductDetail
       :product="product"
+      :loading="isStatic"
     />
     <!-- TODO: Implement ProductRelated component -->
     <!-- <LazyProductRelated :product="product" /> -->
