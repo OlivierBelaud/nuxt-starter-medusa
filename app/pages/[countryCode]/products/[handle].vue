@@ -2,8 +2,12 @@
 const route = useRoute()
 
 const handle = computed(() => route.params.handle as string)
-const { data, isStatic } = await useFetchProductByHandle(handle.value)
+const { data, isStatic, refresh } = await useFetchProductByHandle(handle.value)
 const product = computed(() => data.value?.products[0])
+
+onMounted(() => {
+  refresh()
+})
 </script>
 
 <template>
