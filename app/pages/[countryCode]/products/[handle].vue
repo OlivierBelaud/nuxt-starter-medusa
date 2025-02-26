@@ -14,6 +14,7 @@ onMounted(() => {
 <template>
   <div>
     <ProductDetail
+      :class="{ 'animate-pulse': isStatic }"
       :product="product"
       :loading="isStatic"
     />
