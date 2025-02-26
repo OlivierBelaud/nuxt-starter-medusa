@@ -23,9 +23,11 @@ export const useStaticAsyncData = <T>(
   )
 
   const refresh = async (): Promise<void> => {
-    refreshAsyncData().then(() => {
-      isStatic.value = false
-    })
+    await refreshNuxtData(key)
+    isStatic.value = false
+    // refreshAsyncData().then(() => {
+    //   isStatic.value = false
+    // })
   }
 
   return {
