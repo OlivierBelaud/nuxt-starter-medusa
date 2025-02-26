@@ -1,4 +1,5 @@
-import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
+import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProduct, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
+import { useStaticAsyncData } from './static'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
@@ -113,7 +114,7 @@ export const useFetchProductByHandle = (handle: string) => {
   const medusa = useMedusaClient()
   const { currentRegionId } = useCurrentCountry()
 
-  return useLazyAsyncData(
+  return useStaticAsyncData(
     `product:${handle}:region:${currentRegionId.value}`,
     async () => {
       return await medusa.store.product.list({
@@ -123,8 +124,8 @@ export const useFetchProductByHandle = (handle: string) => {
       })
     },
     {
-      transform: data => data.products[0],
-      dedupe: 'cancel',
+      // transform: data => data.products[0],
+      dedupe: 'defer',
     })
 }
 

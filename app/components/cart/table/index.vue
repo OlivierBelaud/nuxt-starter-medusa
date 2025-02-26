@@ -7,7 +7,7 @@ const {
   isPreview,
   isDropDown,
 } = defineProps<{
-  cart: StoreCart | StoreOrder
+  cart?: StoreCart | StoreOrder
   isPreview?: boolean
   isDropDown?: boolean
 }>()
@@ -57,7 +57,13 @@ const columnVisibility = computed(() => {
 
 <template>
   <div class="flex flex-col gap-y-3">
+    <CartTableSkeleton
+      v-if="!cart"
+      :is-preview="isPreview"
+      :is-drop-down="isDropDown"
+    />
     <UTable
+      v-else
       v-model:column-visibility="columnVisibility"
       :data="data"
       :columns="columns"
@@ -130,6 +136,7 @@ const columnVisibility = computed(() => {
         </div>
       </template>
     </UTable>
+
     <USeparator />
   </div>
 </template>

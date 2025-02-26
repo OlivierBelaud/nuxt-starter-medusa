@@ -11,7 +11,7 @@ const {
 
 const { data } = await useFetchProductByHandle(_product.handle)
 
-const product = computed(() => data.value || _product)
+const product = computed(() => data.value?.products[0] || _product)
 
 const cheapestVariant = computed(() => getCheapestVariant(product.value))
 

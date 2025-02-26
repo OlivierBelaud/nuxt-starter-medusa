@@ -48,53 +48,50 @@ const columnVisibility = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-y-3">
-    <UTable
-      v-model:column-visibility="columnVisibility"
-      :data="data"
-      :columns="columns"
-      :loading="true"
-      class="flex-1"
-      :ui="{
-        thead: isSmall ? 'hidden' : 'default',
-      }"
-    >
-      <template #item-cell>
-        <div
-          class="flex items-center gap-x-4"
-          :class="{
-            '-ml-4': isSmall,
-          }"
-        >
-          <USkeleton :class="isPreview ? 'w-16 h-16' : 'w-24 h-24'" />
+  <UTable
+    v-model:column-visibility="columnVisibility"
+    :data="data"
+    :columns="columns"
+    :loading="true"
+    class="flex-1"
+    :ui="{
+      thead: isSmall ? 'hidden' : 'default',
+    }"
+  >
+    <template #item-cell>
+      <div
+        class="flex items-center gap-x-4"
+        :class="{
+          '-ml-4': isSmall,
+        }"
+      >
+        <USkeleton :class="isPreview ? 'w-16 h-16' : 'w-24 h-24'" />
 
+        <div>
           <div>
-            <div>
-              <USkeleton class="h-4 w-[200px] mb-2" />
-            </div>
-            <div>
-              <USkeleton class="h-4 w-[150px]" />
-            </div>
+            <USkeleton class="h-4 w-[200px] mb-2" />
+          </div>
+          <div>
+            <USkeleton class="h-4 w-[150px]" />
           </div>
         </div>
-      </template>
-      <template #quantity-cell>
-        <USkeleton class="h-6 w-[100px]" />
-      </template>
-      <template #price-cell>
+      </div>
+    </template>
+    <template #quantity-cell>
+      <USkeleton class="h-6 w-[100px]" />
+    </template>
+    <template #price-cell>
+      <USkeleton class="h-4 w-[60px]" />
+    </template>
+    <template #total-cell>
+      <div
+        class="flex justify-end"
+        :class="{
+          '-mr-4': isSmall,
+        }"
+      >
         <USkeleton class="h-4 w-[60px]" />
-      </template>
-      <template #total-cell>
-        <div
-          class="flex justify-end"
-          :class="{
-            '-mr-4': isSmall,
-          }"
-        >
-          <USkeleton class="h-4 w-[60px]" />
-        </div>
-      </template>
-    </UTable>
-    <USeparator />
-  </div>
+      </div>
+    </template>
+  </UTable>
 </template>

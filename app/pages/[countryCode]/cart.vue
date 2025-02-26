@@ -1,4 +1,7 @@
 <script setup lang="ts">
+const { data: cart } = useFetchCart()
+
+// const cart = computed(() => data.value || undefined)
 </script>
 
 <template>
@@ -14,15 +17,19 @@
             >
               Cart
             </AppHeading>
-            <CartTableWrapper />
+            <CartEmpty v-if="cart?.items?.length === 0" />
+            <CartTable
+              v-else
+              :cart="cart"
+            />
           </div>
         </div>
         <div class="relative">
           <div class="flex flex-col gap-y-8 sticky top-12">
             <div class="bg-white py-6">
-              <CartSummaryWrapper
+              <CartSummary
                 title="Summary"
-                has-checkout-button
+                :cart="cart"
               />
             </div>
           </div>

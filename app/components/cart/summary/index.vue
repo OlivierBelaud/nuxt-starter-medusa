@@ -23,8 +23,9 @@ defineProps<{
     <CartTotals
       :cart="cart"
     />
-    <CartTableWrapper
+    <CartTable
       v-if="isCheckout"
+      :cart="cart"
       is-preview
     />
     <UButton
