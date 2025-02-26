@@ -8,6 +8,11 @@ export const useStaticAsyncData = <T>(
   const nuxtApp = useNuxtApp()
   const isStatic = useState<boolean>(`isStatic-${key}`, () => !!nuxtApp.payload.prerenderedAt)
 
+  watchEffect(() => {
+    console.log('isStatic', isStatic.value)
+    console.log('nuxtApp.payload', nuxtApp.payload.data[key])
+  })
+
   const { data, status, error, refresh: refreshAsyncData } = useLazyAsyncData<T>(
     key,
     () => {
