@@ -11,7 +11,7 @@ export const useStaticAsyncData = <T>(
   const { data, status, error, refresh: refreshAsyncData } = useLazyAsyncData<T>(
     key,
     () => {
-      console.log('fetching data from', isStatic.value ? 'server' : 'client')
+      console.log('fetching data from', import.meta.server ? 'server' : 'client')
       return fetcher()
     },
     options,
