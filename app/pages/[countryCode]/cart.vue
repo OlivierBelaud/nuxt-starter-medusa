@@ -11,10 +11,10 @@ watchEffect(() => {
   console.log('Cart:', cart.value)
 })
 
-onMounted(() => {
-  console.log('Product page mounted')
-  refresh()
-})
+// onMounted(() => {
+//   console.log('Product page mounted')
+//   refresh()
+// })
 
 // const cart = computed(() => data.value || undefined)
 </script>

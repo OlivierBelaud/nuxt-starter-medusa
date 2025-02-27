@@ -12,14 +12,6 @@ export const useStaticAsyncData = <T>(
   const origin = ref()
   const time = ref()
 
-  watchEffect(() => {
-    console.log('isStatic', key, isStatic.value)
-    // console.log('isServer', key, isServer.value)
-    // console.log('isClient', key, isClient.value)
-    console.log('import.meta', key, import.meta)
-    console.log('nuxtApp.payload', nuxtApp.payload)
-  })
-
   const { data, status, error } = useLazyAsyncData<T>(
     key,
     () => {
@@ -35,16 +27,25 @@ export const useStaticAsyncData = <T>(
         origin.value = 'client'
       }
       time.value = callTimestamp
-      console.log('callTimestamp', key, callTimestamp)
-      console.log('import.meta', key, import.meta)
-      console.log('isServer', key, import.meta.server)
-      console.log('isClient', key, import.meta.client)
-      console.log('origin.value', origin.value, time.value)
-      console.log('fetching data from', import.meta.server ? 'server' : 'client')
+      // console.log('callTimestamp', key, callTimestamp)
+      // console.log('import.meta', key, import.meta)
+      // console.log('isServer', key, import.meta.server)
+      // console.log('isClient', key, import.meta.client)
+      // console.log('origin.value', origin.value, time.value)
+      // console.log('fetching data from', import.meta.server ? 'server' : 'client')
       return fetcher()
     },
     options,
   )
+
+  watchEffect(() => {
+    console.log('origin.value', origin.value, time.value)
+    // console.log('isStatic', key, isStatic.value)
+    // // console.log('isServer', key, isServer.value)
+    // // console.log('isClient', key, isClient.value)
+    // console.log('import.meta', key, import.meta)
+    // console.log('nuxtApp.payload', nuxtApp.payload)
+  })
 
   const refresh = async (): Promise<void> => {
     await refreshNuxtData(key)
