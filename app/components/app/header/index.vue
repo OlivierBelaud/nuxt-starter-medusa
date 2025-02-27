@@ -33,7 +33,7 @@ const isSideMenuOpen = ref(false)
           >
             Account
           </AppLink>
-          <LazyCartDropdown />
+          <!-- <LazyCartDropdown /> -->
         </nav>
       </UContainer>
       <AppHeaderSideMenu

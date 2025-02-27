@@ -79,18 +79,25 @@ export const useFetchProductsWithCache = ({ query }: {
 export const useFetchProducts = ({ query }: {
   query: MaybeRef<StoreProductListParams>
 }) => {
-  const medusa = useMedusaClient()
+  // const medusa = useMedusaClient()
   const { currentRegionId } = useCurrentCountry()
 
   const queryRef = toRef(query)
   return useStaticAsyncData(
     `products:${JSON.stringify(queryRef.value)}:region:${currentRegionId.value}`,
     async () => {
-      return await medusa.store.product.list({
-        fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
-        region_id: currentRegionId.value,
-        ...queryRef.value,
+      return $fetch(`/api/products`, {
+        params: {
+          region_id: currentRegionId.value,
+          ...queryRef.value,
+        },
+        cache: 'force-cache',
       })
+      // return await medusa.store.product.list({
+      //   fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
+      //   region_id: currentRegionId.value,
+      //   ...queryRef.value,
+      // })
     }, {
       watch: [queryRef],
     })

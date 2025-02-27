@@ -24,27 +24,37 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data, refresh } = await useFetchProducts({
+const { data, refreshCachedData, origin } = await useFetchProducts({
   query: productsQuery,
 })
+
+const isStatic = computed(() => origin.value.fetchOrigin === 'static')
 
 const products = computed(() => data.value?.products || [])
 const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
-watch(pageNumber, (newPage, oldPage) => {
-  if (newPage !== oldPage) {
-    refresh()
-  }
-})
+// watch(pageNumber, (newPage, oldPage) => {
+//   if (newPage !== oldPage) {
+//     refresh()
+//   }
+// })
 
+// onMounted(() => {
+//   nextTick(() => {
+//     if (pageNumber.value !== 1) {
+//       refresh()
+//     }
+//   })
+// })
 onMounted(() => {
-  nextTick(() => {
-    if (pageNumber.value !== 1) {
-      refresh()
-    }
-  })
+  if (isStatic.value) {
+    refreshCachedData()
+  }
+  // else {
+  //   refresh()
+  // }
 })
 </script>
 
