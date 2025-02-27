@@ -10,10 +10,10 @@ export const useStaticAsyncData = <T>(
 
   watchEffect(() => {
     console.log('isStatic', isStatic.value)
-    console.log('nuxtApp.payload', nuxtApp.payload.data[key])
+    console.log('nuxtApp.payload', nuxtApp.payload)
   })
 
-  const { data, status, error, refresh: refreshAsyncData } = useLazyAsyncData<T>(
+  const { data, status, error } = useLazyAsyncData<T>(
     key,
     () => {
       console.log('fetching data from', import.meta.server ? 'server' : 'client')
@@ -25,9 +25,6 @@ export const useStaticAsyncData = <T>(
   const refresh = async (): Promise<void> => {
     await refreshNuxtData(key)
     isStatic.value = false
-    // refreshAsyncData().then(() => {
-    //   isStatic.value = false
-    // })
   }
 
   return {
