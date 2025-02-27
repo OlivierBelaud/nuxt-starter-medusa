@@ -50,7 +50,7 @@ export default defineNuxtConfig({
       pages: {
         routes: {
           exclude: [
-            // '/**/products/**',
+            process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true' ? '/**/products/**' : '',
             '/**/collections/**',
             '/**/categories/**',
             '/**/account',
