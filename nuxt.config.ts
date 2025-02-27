@@ -26,12 +26,30 @@ export default defineNuxtConfig({
       prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
       swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
     },
-    '/**/collections/**': { prerender: true },
-    '/**/categories/**': { prerender: true },
-    '/**/account': { prerender: true },
-    '/**/store': { prerender: true },
-    '/**/cart': { prerender: true },
-    '/**/checkout': { prerender: true },
+    '/**/collections/**': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
+    },
+    '/**/categories/**': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
+    },
+    '/**/store': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
+    },
+    '/**/account': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      ssr: !(!process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false'),
+    },
+    '/**/cart': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      ssr: !(!process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false'),
+    },
+    '/**/checkout': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      ssr: !(!process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false'),
+    },
   },
 
   future: {
@@ -50,13 +68,17 @@ export default defineNuxtConfig({
       pages: {
         routes: {
           exclude: [
-            ...(process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true' ? ['/**/products/**'] : []),
-            '/**/collections/**',
-            '/**/categories/**',
-            '/**/account',
-            '/**/store',
-            '/**/cart',
-            '/**/checkout',
+            ...(process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true'
+              ? [
+                  '/**/products/**',
+                  '/**/collections/**',
+                  '/**/categories/**',
+                  '/**/account',
+                  '/**/store',
+                  '/**/cart',
+                  '/**/checkout',
+                ]
+              : []),
           ],
         },
       },
@@ -100,20 +122,20 @@ export default defineNuxtConfig({
       const countries = regions?.map((region: StoreRegion) => region.countries).flat()
       for (const country of countries) {
         ctx.routes.add(`/${country.iso_2}`)
-        ctx.routes.add(`/${country.iso_2}/account`)
-        ctx.routes.add(`/${country.iso_2}/store`)
-        ctx.routes.add(`/${country.iso_2}/cart`)
-        ctx.routes.add(`/${country.iso_2}/checkout`)
         if (process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true') {
+          ctx.routes.add(`/${country.iso_2}/account`)
+          ctx.routes.add(`/${country.iso_2}/store`)
+          ctx.routes.add(`/${country.iso_2}/cart`)
+          ctx.routes.add(`/${country.iso_2}/checkout`)
           for (const product of products) {
             ctx.routes.add(`/${country.iso_2}/products/${product.handle}`)
           }
-        }
-        for (const collection of collections) {
-          ctx.routes.add(`/${country.iso_2}/collections/${collection.handle}`)
-        }
-        for (const category of categories) {
-          ctx.routes.add(`/${country.iso_2}/categories/${category.handle}`)
+          for (const collection of collections) {
+            ctx.routes.add(`/${country.iso_2}/collections/${collection.handle}`)
+          }
+          for (const category of categories) {
+            ctx.routes.add(`/${country.iso_2}/categories/${category.handle}`)
+          }
         }
       }
     },
