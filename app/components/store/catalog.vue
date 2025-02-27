@@ -24,7 +24,7 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data, refresh } = await useFetchProductsWithCache({
+const { data, refresh } = useFetchProducts({
   query: productsQuery,
 })
 
