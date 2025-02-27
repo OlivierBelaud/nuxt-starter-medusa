@@ -23,7 +23,7 @@ export const useStaticAsyncData = <T>(
     key,
     async () => {
       console.log('Fetching data from', import.meta.server ? 'server' : 'client')
-      return await fetcher(nuxtApp).then((data) => {
+      return await fetcher().then((data) => {
         const callTimestamp = Date.now()
         if (import.meta.server) {
           origin.value = {

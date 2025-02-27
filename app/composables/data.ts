@@ -3,7 +3,7 @@ import { useStaticAsyncData } from './static'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
-  return useAsyncData(
+  return useStaticAsyncData(
     `categories`,
     async () => {
       return await medusa.store.category.list({
@@ -14,7 +14,7 @@ export const useFetchCategories = () => {
 
 export const useFetchCategoryByHandle = (handle: string) => {
   const medusa = useMedusaClient()
-  return useAsyncData(
+  return useStaticAsyncData(
     `category:${handle}`,
     async () => {
       return await medusa.store.category.list({
@@ -23,13 +23,13 @@ export const useFetchCategoryByHandle = (handle: string) => {
       })
     },
     {
-      transform: data => data.product_categories[0],
+      // transform: data => data.product_categories[0],
     })
 }
 
 export const useFetchCollections = () => {
   const medusa = useMedusaClient()
-  return useAsyncData(
+  return useStaticAsyncData(
     `collections`,
     async () => {
       return await medusa.store.collection.list({
@@ -40,7 +40,7 @@ export const useFetchCollections = () => {
 
 export const useFetchCollectionByHandle = (handle: string) => {
   const medusa = useMedusaClient()
-  return useAsyncData(
+  return useStaticAsyncData(
     `collection:${handle}`,
     async () => {
       return await medusa.store.collection.list({
@@ -49,23 +49,18 @@ export const useFetchCollectionByHandle = (handle: string) => {
       })
     },
     {
-      transform: data => data.collections[0],
+      // transform: data => data.collections[0],
     })
 }
 
 export const useFetchRegions = () => {
   const medusa = useMedusaClient()
-  return useLazyAsyncData(
+  return useStaticAsyncData(
     `regions`,
     async () => {
       return await medusa.store.region.list({
         fields: 'id,countries.iso_2,countries.name,countries.display_name,countries.region_id',
       })
-    },
-    {
-      getCachedData(key, nuxtApp) {
-        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-      },
     })
 }
 
@@ -104,9 +99,6 @@ export const useFetchProducts = ({ query }: {
       })
     }, {
       watch: [queryRef],
-      getCachedData(key, nuxtApp) {
-        return nuxtApp.payload.data[key] || nuxtApp.static.data[key]
-      },
     })
 }
 
