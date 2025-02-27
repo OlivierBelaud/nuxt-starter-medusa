@@ -8,12 +8,12 @@ export const useStaticAsyncData = <T>(
   const nuxtApp = useNuxtApp()
   const isStatic = useState<boolean>(`isStatic-${key}`, () => !!nuxtApp.payload.prerenderedAt)
   const isServer = useState<boolean>(`isStatic-${key}`, () => !!import.meta.server)
-  const isServer = useState<boolean>(`isStatic-${key}`, () => !!import.meta.client)
+  const isClient = useState<boolean>(`isStatic-${key}`, () => !!import.meta.client)
 
   watchEffect(() => {
     console.log('isStatic', key, isStatic.value)
     console.log('isServer', key, isServer.value)
-    console.log('isServer', key, isServer.value)
+    console.log('isClient', key, isClient.value)
     console.log('nuxtApp.payload', nuxtApp.payload)
   })
 
