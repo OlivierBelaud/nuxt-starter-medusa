@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const { data: cart } = useFetchCart()
+// const { data: cart } = useFetchCart()
+const { retrieveCart } = useCart()
+
+const { data: cart } = useStaticAsyncData(
+  `cart-exp`,
+  async () => await retrieveCart(),
+)
 
 // const cart = computed(() => data.value || undefined)
 </script>

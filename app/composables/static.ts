@@ -9,14 +9,14 @@ export const useStaticAsyncData = <T>(
   const isStatic = useState<boolean>(`isStatic-${key}`, () => !!nuxtApp.payload.prerenderedAt)
   const isServer = useState<boolean>(`isStatic-${key}`, () => import.meta.server)
   const isClient = useState<boolean>(`isStatic-${key}`, () => import.meta.client)
-  const callTime = new Date()
+  const callTimestamp = Date.now()
 
   watchEffect(() => {
     console.log('isStatic', key, isStatic.value)
     console.log('isServer', key, isServer.value)
     console.log('isClient', key, isClient.value)
     console.log('import.meta', key, import.meta)
-    console.log('callTime', key, callTime)
+    console.log('callTimestamp', key, callTimestamp)
     console.log('nuxtApp.payload', nuxtApp.payload)
   })
 
