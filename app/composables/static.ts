@@ -1,23 +1,21 @@
 import type { AsyncDataOptions, NuxtApp } from '#app'
 
-// interface Context {
-//   fetchOrigin: 'server' | 'client' | 'static'
-//   fetchTimestamp: number
-// }
+interface Context {
+  fetchOrigin: 'server' | 'client' | 'static'
+  fetchTimestamp: number
+}
 
 export const useStaticAsyncData = <T>(
   key: string,
   fetcher: (nuxtApp?: NuxtApp) => Promise<T>,
   options?: AsyncDataOptions<T>,
 ) => {
-  // const nuxtApp = useNuxtApp()
+  const nuxtApp = useNuxtApp()
 
-  // const origin = useState<Context>(`context-${key}`, () => ({
-  //   fetchOrigin: nuxtApp.payload?.prerenderedAt ? 'static' : 'server',
-  //   fetchTimestamp: nuxtApp.payload?.prerenderedAt || Date.now(),
-  // }))
-
-  const origin = ref({ fetchOrigin: 'static', fetchTimestamp: Date.now() })
+  const origin = useState<Context>(`context-${key}`, () => ({
+    fetchOrigin: nuxtApp.payload?.prerenderedAt ? 'static' : 'server',
+    fetchTimestamp: nuxtApp.payload?.prerenderedAt || Date.now(),
+  }))
 
   const { data, status, error, refresh, execute, clear } = useLazyAsyncData<T>(
     key,
