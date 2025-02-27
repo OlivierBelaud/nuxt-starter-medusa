@@ -12,13 +12,12 @@ export const useStaticAsyncData = <T>(
 ) => {
   const nuxtApp = useNuxtApp()
 
-  // Utilisation d'un ref local pour ne pas conserver l'état entre navigations
-  const origin = ref<Context>({
+  const origin = useState<Context>(key, () => ({
     fetchOrigin: (nuxtApp.payload && nuxtApp.payload.prerenderedAt)
       ? 'static'
       : (import.meta.server ? 'server' : 'client'),
     fetchTimestamp: (nuxtApp.payload && nuxtApp.payload.prerenderedAt) || Date.now(),
-  })
+  }))
 
   const { data, status, error, refresh, execute, clear } = useLazyAsyncData<T>(
     key,
