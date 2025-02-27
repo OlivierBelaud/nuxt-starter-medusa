@@ -24,7 +24,7 @@ export default defineNuxtConfig({
     '/**/': { prerender: true },
     '/**/products/**': {
       prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING,
+      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
     },
     '/**/collections/**': { prerender: true },
     '/**/categories/**': { prerender: true },
@@ -104,8 +104,10 @@ export default defineNuxtConfig({
         ctx.routes.add(`/${country.iso_2}/store`)
         ctx.routes.add(`/${country.iso_2}/cart`)
         ctx.routes.add(`/${country.iso_2}/checkout`)
-        for (const product of products) {
-          ctx.routes.add(`/${country.iso_2}/products/${product.handle}`)
+        if (process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true') {
+          for (const product of products) {
+            ctx.routes.add(`/${country.iso_2}/products/${product.handle}`)
+          }
         }
         for (const collection of collections) {
           ctx.routes.add(`/${country.iso_2}/collections/${collection.handle}`)
