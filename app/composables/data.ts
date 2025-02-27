@@ -3,7 +3,7 @@ import { useStaticAsyncData } from './static'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
-  return useStaticAsyncData(
+  return useAsyncData(
     `categories`,
     async () => {
       return await medusa.store.category.list({
@@ -26,7 +26,7 @@ export const useFetchCategoryByHandle = (handle: string) => {
 
 export const useFetchCollections = () => {
   const medusa = useMedusaClient()
-  return useStaticAsyncData(
+  return useAsyncData(
     `collections`,
     async () => {
       return await medusa.store.collection.list({
