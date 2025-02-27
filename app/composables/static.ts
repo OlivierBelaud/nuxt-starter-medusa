@@ -23,21 +23,23 @@ export const useStaticAsyncData = <T>(
   const { data, status, error, refresh, execute, clear } = useLazyAsyncData<T>(
     key,
     async () => {
-      const callTimestamp = Date.now()
-      if (import.meta.server) {
-        origin.value = {
-          fetchOrigin: (nuxtApp.payload && nuxtApp.payload.prerenderedAt) ? 'static' : 'server',
-          fetchTimestamp: callTimestamp,
-        }
-      }
-      else if (import.meta.client) {
-        origin.value = {
-          fetchOrigin: 'client',
-          fetchTimestamp: callTimestamp,
-        }
-      }
       console.log('Fetching data from', import.meta.server ? 'server' : 'client')
-      return await fetcher(nuxtApp)
+      return await fetcher(nuxtApp).then((data) => {
+        const callTimestamp = Date.now()
+        if (import.meta.server) {
+          origin.value = {
+            fetchOrigin: (nuxtApp.payload && nuxtApp.payload.prerenderedAt) ? 'static' : 'server',
+            fetchTimestamp: callTimestamp,
+          }
+        }
+        else if (import.meta.client) {
+          origin.value = {
+            fetchOrigin: 'client',
+            fetchTimestamp: callTimestamp,
+          }
+        }
+        return data
+      })
     },
     options,
   )
