@@ -10,7 +10,7 @@ const {
 const { data } = useFetchCollectionByHandle(handle)
 const collection = computed(() => data.value?.collections?.[0])
 
-const { data: productsFromCollection } = useFetchProducts({
+const { data: productsFromCollection } = await useFetchProductsWithCache({
   query: {
     collection_id: collection.value?.id,
     limit: 4,

@@ -23,7 +23,7 @@ export const useStaticAsyncData = <T>(
     key,
     async () => {
       console.log('Fetching data from', import.meta.server ? 'server' : 'client')
-      return await fetcher().then((data) => {
+      return await fetcher(nuxtApp).then((data) => {
         const callTimestamp = Date.now()
         if (import.meta.server) {
           origin.value = {
@@ -45,7 +45,7 @@ export const useStaticAsyncData = <T>(
 
   // Pour le debug : observe les mises à jour de origin
   watchEffect(() => {
-    console.log('origin.value', origin.value)
+    console.log('origin.value', key, origin.value)
   })
 
   const refreshCachedData = async (): Promise<void> => {

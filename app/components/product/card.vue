@@ -4,16 +4,16 @@ import type { StoreProduct } from '@medusajs/types'
 // const { currentRegionId } = useCurrentCountry()
 
 const {
-  product: _product,
+  product,
 } = defineProps<{
   product: StoreProduct
 }>()
 
-const { data } = await useFetchProductByHandle(_product.handle)
+// const { data } = await useFetchProductByHandle(_product.handle)
 
-const product = computed(() => data.value?.products[0] || _product)
+// const product = computed(() => data.value?.products[0] || _product)
 
-const cheapestVariant = computed(() => getCheapestVariant(product.value))
+const cheapestVariant = computed(() => getCheapestVariant(product))
 
 const currentPrice = computed(() => cheapestVariant.value?.calculated_price?.calculated_amount || undefined)
 const originalPrice = computed(() => cheapestVariant.value?.calculated_price?.original_amount || undefined)

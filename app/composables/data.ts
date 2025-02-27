@@ -49,7 +49,7 @@ export const useFetchCollectionByHandle = (handle: string) => {
 
 export const useFetchRegions = () => {
   const medusa = useMedusaClient()
-  return useStaticAsyncData(
+  return useLazyAsyncData(
     `regions`,
     async () => {
       return await medusa.store.region.list({
