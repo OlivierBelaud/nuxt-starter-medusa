@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { data } = useFetchCategories()
+const { data } = await useFetchCategories()
 const categories = computed(() => data.value?.product_categories)
 </script>
 

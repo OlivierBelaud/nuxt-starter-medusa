@@ -2,7 +2,7 @@
 const route = useRoute()
 
 const handle = computed(() => route.params.handle as string)
-const { data, origin, refreshCachedData, refresh } = useFetchProductByHandle(handle.value)
+const { data, origin, refreshCachedData, refresh } = await useFetchProductByHandle(handle.value)
 const product = computed(() => data.value?.products[0])
 const isStatic = computed(() => origin.value.fetchOrigin === 'static')
 

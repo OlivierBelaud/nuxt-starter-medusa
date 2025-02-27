@@ -14,7 +14,7 @@ export const useFetchCategories = () => {
 
 export const useFetchCategoryByHandle = (handle: string) => {
   const medusa = useMedusaClient()
-  return useStaticAsyncData(
+  return useAsyncData(
     `category:${handle}`,
     async () => {
       return await medusa.store.category.list({
@@ -37,7 +37,7 @@ export const useFetchCollections = () => {
 
 export const useFetchCollectionByHandle = (handle: string) => {
   const medusa = useMedusaClient()
-  return useStaticAsyncData(
+  return useAsyncData(
     `collection:${handle}`,
     async () => {
       return await medusa.store.collection.list({

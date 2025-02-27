@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { data } = useFetchCollections()
+const { data } = await useFetchCollections()
 const collections = computed(() => data.value?.collections)
 </script>
 
