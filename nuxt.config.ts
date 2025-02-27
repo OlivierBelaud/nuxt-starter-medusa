@@ -50,7 +50,7 @@ export default defineNuxtConfig({
       pages: {
         routes: {
           exclude: [
-            '/**/products/**',
+            // '/**/products/**',
             '/**/collections/**',
             '/**/categories/**',
             '/**/account',
