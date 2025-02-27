@@ -35,19 +35,6 @@ const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
 
-// watch(pageNumber, (newPage, oldPage) => {
-//   if (newPage !== oldPage) {
-//     refresh()
-//   }
-// })
-
-// onMounted(() => {
-//   nextTick(() => {
-//     if (pageNumber.value !== 1) {
-//       refresh()
-//     }
-//   })
-// })
 onMounted(() => {
   if (isStatic.value) {
     refreshCachedData()
@@ -55,9 +42,6 @@ onMounted(() => {
   else {
     refresh()
   }
-  // else {
-  //   refresh()
-  // }
 })
 </script>
 
