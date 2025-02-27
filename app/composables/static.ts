@@ -24,6 +24,8 @@ export const useStaticAsyncData = <T>(
       const callTimestamp = Date.now()
       console.log('callTimestamp', key, callTimestamp)
       console.log('import.meta', key, import.meta)
+      console.log('isServer', key, import.meta.server)
+      console.log('isClient', key, import.meta.client)
       console.log('fetching data from', import.meta.server ? 'server' : 'client')
       return fetcher()
     },
