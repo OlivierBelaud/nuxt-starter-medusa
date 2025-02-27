@@ -1,5 +1,7 @@
 import type { StoreRegion } from '@medusajs/types'
 
+const isPartial = process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -22,34 +24,13 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/**/': { prerender: true },
-    '/**/products/**': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
-    },
-    '/**/collections/**': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
-    },
-    '/**/categories/**': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
-    },
-    '/**/store': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false',
-    },
-    '/**/account': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      ssr: !(!process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false'),
-    },
-    '/**/cart': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      ssr: !(!process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false'),
-    },
-    '/**/checkout': {
-      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
-      ssr: !(!process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING || process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'false'),
-    },
+    '/**/products/**': { prerender: isPartial, swr: !isPartial },
+    '/**/collections/**': { prerender: isPartial, swr: !isPartial },
+    '/**/categories/**': { prerender: isPartial, swr: !isPartial },
+    '/**/store': { prerender: isPartial, swr: !isPartial },
+    '/**/account': { prerender: isPartial, ssr: false },
+    '/**/cart': { prerender: isPartial, ssr: false },
+    '/**/checkout': { prerender: isPartial, ssr: false },
   },
 
   future: {
