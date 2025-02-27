@@ -48,14 +48,17 @@ export const useFetchCollectionByHandle = (handle: string) => {
 }
 
 export const useFetchRegions = () => {
-  const medusa = useMedusaClient()
-  return useStaticAsyncData(
-    `regions`,
-    async () => {
-      return await medusa.store.region.list({
-        fields: 'id,countries.iso_2,countries.name,countries.display_name,countries.region_id',
-      })
-    })
+  // const medusa = useMedusaClient()
+  return useLazyFetch('/api/regions', {
+    cache: 'force-cache',
+  })
+  // return useAsyncData(
+  //   `regions`,
+  //   async () => {
+  //     return await medusa.store.region.list({
+  //       fields: 'id,countries.iso_2,countries.name,countries.display_name,countries.region_id',
+  //     })
+  //   })
 }
 
 export const useFetchProductsWithCache = ({ query }: {
