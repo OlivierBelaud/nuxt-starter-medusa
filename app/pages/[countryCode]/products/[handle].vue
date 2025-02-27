@@ -12,8 +12,6 @@ watchEffect(() => {
 
 onMounted(() => {
   if (isStatic.value) {
-    // Here we want to have the freshest data possible.
-    console.log('Product page mounted')
     refreshCachedData()
   }
   else {
@@ -25,7 +23,6 @@ onMounted(() => {
 <template>
   <div>
     <ProductDetail
-      v-if="product"
       :class="{ 'animate-pulse': isStatic }"
       :product="product"
     />

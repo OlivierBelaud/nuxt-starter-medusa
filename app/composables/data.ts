@@ -1,4 +1,4 @@
-import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProduct, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
+import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
 import { useStaticAsyncData } from './static'
 
 export const useFetchCategories = () => {
@@ -21,9 +21,6 @@ export const useFetchCategoryByHandle = (handle: string) => {
         handle: handle,
         fields: 'handle,name',
       })
-    },
-    {
-      // transform: data => data.product_categories[0],
     })
 }
 
@@ -47,9 +44,6 @@ export const useFetchCollectionByHandle = (handle: string) => {
         handle: handle,
         fields: 'handle,title',
       })
-    },
-    {
-      // transform: data => data.collections[0],
     })
 }
 

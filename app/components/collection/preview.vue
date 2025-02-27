@@ -7,16 +7,17 @@ const {
   handle: StoreCollection['handle']
 }>()
 
-const { data: collection } = await useFetchCollectionByHandle(handle)
+const { data } = useFetchCollectionByHandle(handle)
+const collection = computed(() => data.value?.collections?.[0])
 
-const { data } = await useFetchProductsWithCache({
+const { data: productsFromCollection } = await useFetchProductsWithCache({
   query: {
     collection_id: collection.value?.id,
     limit: 4,
   },
 })
 
-const products = computed(() => data.value?.products || [])
+const products = computed(() => productsFromCollection.value?.products || [])
 </script>
 
 <template>
