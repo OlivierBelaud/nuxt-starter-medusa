@@ -40,8 +40,6 @@ export const useStaticAsyncData = <T>(
     status,
     error,
     isStatic,
-    isServer,
-    isClient,
     refresh,
   }
 }
