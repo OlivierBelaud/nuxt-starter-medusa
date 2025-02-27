@@ -7,23 +7,31 @@ export const useStaticAsyncData = <T>(
 ) => {
   const nuxtApp = useNuxtApp()
   const isStatic = useState<boolean>(`isStatic-${key}`, () => !!nuxtApp.payload.prerenderedAt)
+
+  const origin = useState<string>(`origin-${key}`, () => nuxtApp.payload.prerenderedAt ? 'static' : 'server')
   // const isServer = useState<boolean>(`isStatic-${key}`, () => import.meta.server)
   // const isClient = useState<boolean>(`isStatic-${key}`, () => import.meta.client)
-  const origin = ref()
+  // const origin = ref()
   const time = ref()
 
   const { data, status, error } = useLazyAsyncData<T>(
     key,
     () => {
       const callTimestamp = Date.now()
-      if (isStatic.value) {
-        origin.value = 'static'
-        time.value = nuxtApp.payload.prerenderedAt
-      }
-      else if (import.meta.server) {
+      // if (isStatic.value) {
+      //   origin.value = 'static'
+      //   time.value = nuxtApp.payload.prerenderedAt
+      // }
+      // else if (import.meta.server) {
+      //   origin.value = 'server'
+      // }
+      // else {
+      //   origin.value = 'client'
+      // }
+      if (import.meta.server) {
         origin.value = 'server'
       }
-      else {
+      else if (import.meta.client) {
         origin.value = 'client'
       }
       time.value = callTimestamp
@@ -32,7 +40,7 @@ export const useStaticAsyncData = <T>(
       // console.log('isServer', key, import.meta.server)
       // console.log('isClient', key, import.meta.client)
       // console.log('origin.value', origin.value, time.value)
-      // console.log('fetching data from', import.meta.server ? 'server' : 'client')
+      console.log('fetching data from', import.meta.server ? 'server' : 'client')
       return fetcher()
     },
     options,
