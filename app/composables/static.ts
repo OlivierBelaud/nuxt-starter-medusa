@@ -13,8 +13,8 @@ export const useStaticAsyncData = <T>(
   const nuxtApp = useNuxtApp()
 
   const origin = useState<Context>(`context-${key}`, () => ({
-    fetchOrigin: nuxtApp.payload.prerenderedAt ? 'static' : 'server',
-    fetchTimestamp: nuxtApp.payload.prerenderedAt || Date.now(),
+    fetchOrigin: nuxtApp.payload?.prerenderedAt ? 'static' : 'server',
+    fetchTimestamp: nuxtApp.payload?.prerenderedAt || Date.now(),
   }))
 
   const { data, status, error, refresh, execute, clear } = useLazyAsyncData<T>(
