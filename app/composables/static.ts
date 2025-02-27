@@ -1,15 +1,20 @@
-import type { AsyncDataOptions, NuxtApp } from '#app'
+import type { AsyncData, AsyncDataOptions, NuxtApp } from '#app'
 
 interface Context {
   fetchOrigin: 'server' | 'client' | 'static'
   fetchTimestamp: number
 }
 
-export const useStaticAsyncData = async <T>(
+type StaticAsyncDataReturn<T, E = unknown> = AsyncData<T, E> & {
+  origin: Ref<Context>
+  refreshCachedData: () => Promise<void>
+}
+
+export const useStaticAsyncData = async <T, E = unknown>(
   key: string,
   fetcher: (nuxtApp?: NuxtApp) => Promise<T>,
   options?: AsyncDataOptions<T>,
-) => {
+): Promise<StaticAsyncDataReturn<T, E>> => {
   const nuxtApp = useNuxtApp()
 
   const origin = useState<Context>(key, () => ({

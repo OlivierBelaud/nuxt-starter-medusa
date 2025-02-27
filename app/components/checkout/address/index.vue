@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-// const { data: cart } = useFetchCart()
-const cart = ref()
+const { data: cart } = useFetchCart()
+// const cart = ref()
 const { data: regions } = await useFetchRegions()
 const countries = computed(() => getCountriesFromRegions(regions.value?.regions))
 

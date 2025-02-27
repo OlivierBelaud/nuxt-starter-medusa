@@ -2,8 +2,8 @@
 const emit = defineEmits<{
   validate: [boolean]
 }>()
-// const { data: cart } = useFetchCart()
-const cart = ref()
+const { data: cart } = useFetchCart()
+// const cart = ref()
 const { data } = useFetchShippingOptions()
 const { loading, mutate } = useSetShippingMethod()
 
