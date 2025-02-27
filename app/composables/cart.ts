@@ -35,7 +35,7 @@ export const useFetchCart = () => {
   const { retrieveCart } = useCart()
 
   return useLazyAsyncData(
-    'cart',
+    'cart-exp',
     async () => await retrieveCart(),
     {
       // server: false,
