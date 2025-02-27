@@ -124,7 +124,6 @@ export const useFetchProductByHandle = (handle: string) => {
       })
     },
     {
-      // transform: data => data.products[0],
       dedupe: 'defer',
     })
 }

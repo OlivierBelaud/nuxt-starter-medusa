@@ -12,34 +12,37 @@ export const useStaticAsyncData = <T>(
 ) => {
   const nuxtApp = useNuxtApp()
 
-  const origin = useState<Context>(`context-${key}`, () => ({
-    fetchOrigin: nuxtApp.payload?.prerenderedAt ? 'static' : 'server',
-    fetchTimestamp: nuxtApp.payload?.prerenderedAt || Date.now(),
-  }))
+  // Utilisation d'un ref local pour ne pas conserver l'état entre navigations
+  const origin = ref<Context>({
+    fetchOrigin: (nuxtApp.payload && nuxtApp.payload.prerenderedAt)
+      ? 'static'
+      : (import.meta.server ? 'server' : 'client'),
+    fetchTimestamp: (nuxtApp.payload && nuxtApp.payload.prerenderedAt) || Date.now(),
+  })
 
   const { data, status, error, refresh, execute, clear } = useLazyAsyncData<T>(
     key,
-    () => {
+    async () => {
       const callTimestamp = Date.now()
       if (import.meta.server) {
         origin.value = {
-          fetchOrigin: 'server',
+          fetchOrigin: (nuxtApp.payload && nuxtApp.payload.prerenderedAt) ? 'static' : 'server',
           fetchTimestamp: callTimestamp,
         }
       }
       else if (import.meta.client) {
-        console.log('fetching data from client')
         origin.value = {
           fetchOrigin: 'client',
           fetchTimestamp: callTimestamp,
         }
       }
-      console.log('fetching data from', import.meta.server ? 'server' : 'client')
-      return fetcher()
+      console.log('Fetching data from', import.meta.server ? 'server' : 'client')
+      return await fetcher(nuxtApp)
     },
     options,
   )
 
+  // Pour le debug : observe les mises à jour de origin
   watchEffect(() => {
     console.log('origin.value', origin.value)
   })
