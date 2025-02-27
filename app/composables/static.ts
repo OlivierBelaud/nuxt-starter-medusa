@@ -9,6 +9,8 @@ export const useStaticAsyncData = <T>(
   const isStatic = useState<boolean>(`isStatic-${key}`, () => !!nuxtApp.payload.prerenderedAt)
   // const isServer = useState<boolean>(`isStatic-${key}`, () => import.meta.server)
   // const isClient = useState<boolean>(`isStatic-${key}`, () => import.meta.client)
+  const origin = ref()
+  const time = ref()
 
   watchEffect(() => {
     console.log('isStatic', key, isStatic.value)
@@ -22,10 +24,22 @@ export const useStaticAsyncData = <T>(
     key,
     () => {
       const callTimestamp = Date.now()
+      if (isStatic.value) {
+        origin.value = 'static'
+        time.value = nuxtApp.payload.prerenderedAt
+      }
+      else if (import.meta.server) {
+        origin.value = 'server'
+      }
+      else {
+        origin.value = 'client'
+      }
+      time.value = callTimestamp
       console.log('callTimestamp', key, callTimestamp)
       console.log('import.meta', key, import.meta)
       console.log('isServer', key, import.meta.server)
       console.log('isClient', key, import.meta.client)
+      console.log('origin.value', origin.value, time.value)
       console.log('fetching data from', import.meta.server ? 'server' : 'client')
       return fetcher()
     },

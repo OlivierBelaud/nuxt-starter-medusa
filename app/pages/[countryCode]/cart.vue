@@ -2,13 +2,18 @@
 // const { data: cart } = useFetchCart()
 const { retrieveCart } = useCart()
 
-const { data: cart } = useStaticAsyncData(
+const { data: cart, refresh } = useStaticAsyncData(
   `cart-exp`,
   async () => await retrieveCart(),
 )
 
 watchEffect(() => {
   console.log('Cart:', cart.value)
+})
+
+onMounted(() => {
+  console.log('Product page mounted')
+  refresh()
 })
 
 // const cart = computed(() => data.value || undefined)
