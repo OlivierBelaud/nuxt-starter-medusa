@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const { data: cart } = useFetchCart()
+const { data: cart, refreshCachedData, origin } = useFetchCart()
+
+const isStatic = computed(() => origin.value.fetchOrigin === 'static')
 // const { retrieveCart } = useCart()
 
 // const { data: cart, refresh } = useStaticAsyncData(
@@ -11,10 +13,12 @@ watchEffect(() => {
   console.log('Cart:', cart.value)
 })
 
-// onMounted(() => {
-//   console.log('Product page mounted')
-//   refresh()
-// })
+onMounted(() => {
+  console.log('Product page mounted')
+  if (isStatic.value) {
+    refreshCachedData()
+  }
+})
 
 // const cart = computed(() => data.value || undefined)
 </script>
