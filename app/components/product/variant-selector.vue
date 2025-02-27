@@ -3,23 +3,13 @@ import type { StoreProduct } from '@medusajs/types'
 import lodash from 'lodash'
 
 const { isEqual } = lodash
-// const { currentRegionId } = useCurrentCountry()
 
 const {
   product,
-  loading,
 } = defineProps<{
   product?: StoreProduct
-  loading: boolean
 }>()
 
-// const { data } = await useFetchProductByHandle(_product?.handle)
-
-// const product = computed(() => data.value || _product)
-
-// onMounted(() => {
-//   refreshNuxtData(`product:${_product?.handle}:region:${currentRegionId.value}`)
-// })
 const selectedOptions = ref<Record<string, string | undefined>>()
 
 const cheapestVariant = computed(() => getCheapestVariant(product))
@@ -85,7 +75,7 @@ const buttonLabel = computed(() => {
 })
 
 const disabled = computed(() => {
-  return !selectedVariant.value || !inStock.value || !isValidVariant.value || loading
+  return !selectedVariant.value || !inStock.value || !isValidVariant.value
 })
 
 // update the options when a variant is selected
@@ -95,7 +85,7 @@ function setOptionValue({ optionId, value }: { optionId: string, value: string }
     [optionId]: value,
   }
 }
-const { loading: isAdding, mutate } = useAddToCart()
+const { loading, mutate } = useAddToCart()
 const { isCartDropdownOpen } = useCartDropdown()
 async function handleAddToCart() {
   if (!selectedVariant.value) return
@@ -141,7 +131,7 @@ const currencyCode = computed(() => variantForPrice.value?.calculated_price?.cur
       class="cursor-pointer"
       :block="true"
       :disabled="disabled"
-      :loading="isAdding"
+      :loading="loading"
       @click="handleAddToCart"
     >
       {{ buttonLabel }}

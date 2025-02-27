@@ -3,7 +3,6 @@ import type { StoreProduct } from '@medusajs/types'
 
 defineProps<{
   product?: StoreProduct
-  loading: boolean
 }>()
 </script>
 
