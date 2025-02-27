@@ -14,7 +14,8 @@ const isStatic = computed(() => origin.value.fetchOrigin === 'static')
 
 <template>
   <div>
-    <LazyProductDetail
+    <ProductDetail
+      v-if="product"
       :class="{ 'animate-pulse': isStatic }"
       :product="product"
       :loading="isStatic"
