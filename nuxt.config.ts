@@ -26,7 +26,7 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/**/': { prerender: true },
-    '/**/products/**': { prerender: isPartial, swr: !isPartial },
+    '/**/products/**': { prerender: isPartial },
     '/**/collections/**': { prerender: isPartial, swr: !isPartial },
     '/**/categories/**': { prerender: isPartial, swr: !isPartial },
     '/**/store': { prerender: isPartial, swr: !isPartial },
