@@ -24,7 +24,7 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data, refreshCachedData, origin } = await useFetchProducts({
+const { data, refreshCachedData, origin, refresh } = await useFetchProducts({
   query: productsQuery,
 })
 
@@ -51,6 +51,9 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
 onMounted(() => {
   if (isStatic.value) {
     refreshCachedData()
+  }
+  else {
+    refresh()
   }
   // else {
   //   refresh()

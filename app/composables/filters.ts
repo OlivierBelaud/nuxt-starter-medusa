@@ -14,6 +14,7 @@ export const useFilters = () => {
   // Flag pour différencier SSR et client
   const isMounted = ref(false)
   onMounted(() => {
+    console.log('isMounted', isMounted.value)
     isMounted.value = true
   })
 
