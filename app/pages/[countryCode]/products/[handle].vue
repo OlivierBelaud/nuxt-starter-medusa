@@ -12,7 +12,7 @@ watchEffect(() => {
 
 onMounted(() => {
   if (isStatic.value) {
-    // refreshCachedData()
+    refreshCachedData()
   }
   else {
     refresh()
