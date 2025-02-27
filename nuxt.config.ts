@@ -30,9 +30,9 @@ export default defineNuxtConfig({
     '/**/collections/**': { prerender: isPartial, swr: !isPartial },
     '/**/categories/**': { prerender: isPartial, swr: !isPartial },
     '/**/store': { prerender: isPartial, swr: !isPartial },
-    '/**/account': { prerender: isPartial, ssr: false },
-    '/**/cart': { prerender: isPartial, ssr: false },
-    '/**/checkout': { prerender: isPartial, ssr: false },
+    '/**/account': { prerender: isPartial },
+    '/**/cart': { prerender: isPartial },
+    '/**/checkout': { prerender: isPartial },
   },
 
   future: {

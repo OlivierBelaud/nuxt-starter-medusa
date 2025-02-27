@@ -6,10 +6,10 @@ const { data, origin, refreshCachedData } = await useFetchProductByHandle(handle
 const product = computed(() => data.value?.products[0])
 const isStatic = computed(() => origin.value.fetchOrigin === 'static')
 
-onMounted(() => {
-  console.log('Product page mounted')
-  refreshCachedData()
-})
+// onMounted(() => {
+//   console.log('Product page mounted')
+//   refreshCachedData()
+// })
 </script>
 
 <template>
