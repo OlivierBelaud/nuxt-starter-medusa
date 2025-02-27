@@ -7,6 +7,10 @@ const { data: cart } = useStaticAsyncData(
   async () => await retrieveCart(),
 )
 
+watchEffect(() => {
+  console.log('Cart:', cart.value)
+})
+
 // const cart = computed(() => data.value || undefined)
 </script>
 
