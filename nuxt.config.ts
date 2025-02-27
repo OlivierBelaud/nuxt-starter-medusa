@@ -22,7 +22,10 @@ export default defineNuxtConfig({
   },
   routeRules: {
     '/**/': { prerender: true },
-    '/**/products/**': { prerender: true },
+    '/**/products/**': {
+      prerender: process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING === 'true',
+      swr: !process.env.NUXT_PUBLIC_PARTIAL_PRE_RENDERING,
+    },
     '/**/collections/**': { prerender: true },
     '/**/categories/**': { prerender: true },
     '/**/account': { prerender: true },

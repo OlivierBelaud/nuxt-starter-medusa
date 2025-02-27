@@ -17,7 +17,7 @@ export const useStaticAsyncData = <T>(
     fetchTimestamp: nuxtApp.payload.prerenderedAt || Date.now(),
   }))
 
-  const { data, status, error, execute, clear } = useLazyAsyncData<T>(
+  const { data, status, error, refresh, execute, clear } = useLazyAsyncData<T>(
     key,
     () => {
       const callTimestamp = Date.now()
@@ -44,7 +44,7 @@ export const useStaticAsyncData = <T>(
     console.log('origin.value', origin.value)
   })
 
-  const refresh = async (): Promise<void> => {
+  const refreshCachedData = async (): Promise<void> => {
     await refreshNuxtData(key)
   }
 
@@ -56,5 +56,6 @@ export const useStaticAsyncData = <T>(
     refresh,
     execute,
     clear,
+    refreshCachedData,
   }
 }
