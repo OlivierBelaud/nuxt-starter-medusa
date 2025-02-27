@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 const { currentStep, goToStep } = useCheckoutStep()
-const { data: cart } = useFetchCart()
+// const { data: cart } = useFetchCart()
+const cart = ref()
 
 const isAddressValid = computed(() => {
   return !!cart.value?.shipping_address && !!cart.value?.billing_address && !!cart.value?.email

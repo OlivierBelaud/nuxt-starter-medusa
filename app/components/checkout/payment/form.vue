@@ -3,7 +3,8 @@ const emit = defineEmits<{
   validate: [boolean]
 }>()
 
-const { data: cart } = useFetchCart()
+// const { data: cart } = useFetchCart()
+const cart = ref()
 const { data } = useFetchPaymentProviders()
 const { loading, mutate } = useInitiatePaymentSession()
 

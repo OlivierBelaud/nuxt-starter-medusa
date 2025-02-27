@@ -7,7 +7,8 @@ const emit = defineEmits<{
 }>()
 
 const { currentCountry } = useCurrentCountry()
-const { data: cart } = useFetchCart()
+// const { data: cart } = useFetchCart()
+const cart = ref()
 const { mutate: updateCart, loading } = useUpdateCart()
 
 const { data: regions } = await useFetchRegions()

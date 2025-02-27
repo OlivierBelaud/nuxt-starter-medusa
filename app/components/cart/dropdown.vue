@@ -3,7 +3,8 @@ const { isCartDropdownOpen } = useCartDropdown()
 
 const { currentCountryCode } = useCurrentCountry()
 
-const { data: cart } = useFetchCart()
+// const { data: cart } = useFetchCart()
+const cart = ref()
 
 const cartItemsCount = computed(() => cart.value?.items?.reduce((acc, item) => acc + item.quantity, 0))
 const subtotal = computed(() => convertToLocale({

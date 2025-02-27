@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-const { data: cart } = useFetchCart()
+// const { data: cart } = useFetchCart()
+const cart = ref()
 
 const activeSession = computed(() => cart.value?.payment_collection?.payment_sessions?.find(
   paymentSession => paymentSession.status === 'pending',
