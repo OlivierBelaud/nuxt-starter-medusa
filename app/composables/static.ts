@@ -58,5 +58,5 @@ export const useStaticAsyncData = async <T, E = unknown>(
     ),
     origin,
     refreshCachedData,
-  }
+  } as unknown as AsyncData<T, E>
 }

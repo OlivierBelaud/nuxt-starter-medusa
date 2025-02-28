@@ -34,12 +34,12 @@ export const useCartDropdown = () => {
 export const useFetchCart = () => {
   const { retrieveCart } = useCart()
 
-  return useLazyAsyncData(
+  return useStaticAsyncData(
     'cart',
     async () => await retrieveCart(),
     {
       // server: false,
-      transform: data => data || undefined,
+      // transform: data => data || undefined,
       dedupe: 'defer',
     },
   )
