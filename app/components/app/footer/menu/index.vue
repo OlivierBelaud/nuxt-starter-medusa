@@ -1,5 +1,10 @@
 <script lang="ts" setup>
 const { title } = useAppConfig()
+const nuxtApp = useNuxtApp()
+
+watchEffect(() => {
+  console.log('nuxtApp.payload:', nuxtApp.payload)
+})
 </script>
 
 <template>
