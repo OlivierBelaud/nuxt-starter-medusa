@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const { data } = await useFetchRegions()
-const countries = computed(() => getCountriesFromRegions(data.value?.regions))
+const countries = await useCountries()
 const value = defineModel<string>()
 </script>
 

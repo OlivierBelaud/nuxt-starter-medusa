@@ -1,9 +1,8 @@
-import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreRegionListResponse, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
-import { useStaticAsyncData } from './static'
+import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
-  return useAsyncData(
+  return useLazyAsyncData(
     `categories`,
     async () => {
       return await medusa.store.category.list({
@@ -12,21 +11,9 @@ export const useFetchCategories = () => {
     })
 }
 
-export const useFetchCategoryByHandle = (handle: string) => {
-  const medusa = useMedusaClient()
-  return useAsyncData(
-    `category:${handle}`,
-    async () => {
-      return await medusa.store.category.list({
-        handle: handle,
-        fields: 'handle,name',
-      })
-    })
-}
-
 export const useFetchCollections = () => {
   const medusa = useMedusaClient()
-  return useAsyncData(
+  return useLazyAsyncData(
     `collections`,
     async () => {
       return await medusa.store.collection.list({
@@ -35,131 +22,102 @@ export const useFetchCollections = () => {
     })
 }
 
-export const useFetchCollectionByHandle = (handle: string) => {
-  const medusa = useMedusaClient()
-  return useAsyncData(
-    `collection:${handle}`,
-    async () => {
-      return await medusa.store.collection.list({
-        handle: handle,
-        fields: 'handle,title',
-      })
-    })
-}
+export const useFetchCollectionByHandle = (handle: string) => useLazyFetch(`/api/collections/${handle}`, {
+  key: `collection:${handle}`,
+})
 
-export const useFetchRegions = () => {
-  // const medusa = useMedusaClient()
-  return useLazyFetch<StoreRegionListResponse>('/api/regions', {
-    cache: 'force-cache',
-  })
-  // return useAsyncData(
-  //   `regions`,
-  //   async () => {
-  //     return await medusa.store.region.list({
-  //       fields: 'id,countries.iso_2,countries.name,countries.display_name,countries.region_id',
-  //     })
-  //   })
-}
+export const useFetchCategoryByHandle = (handle: string) => useLazyFetch(`/api/categories/${handle}`, {
+  key: `category:${handle}`,
+})
 
-export const useFetchProductsWithCache = ({ query }: {
-  query: MaybeRef<StoreProductListParams>
-}) => {
-  const { currentRegionId } = useCurrentCountry()
+export const useFetchProducts = (query: MaybeRef<StoreProductListParams>, prefetch?: boolean) => {
+  const { country } = useCountry()
 
   const queryRef = toRef(query)
 
   const queryParams = computed(() => ({
-    region_id: currentRegionId.value,
+    region_id: country.value?.region_id,
     ...queryRef.value,
   }))
 
+  const key = computed(() => `products:${queryParams.value?.collection_id}:${queryParams.value?.category_id}:${queryParams.value?.limit}:${queryParams.value?.offset}:${country.value?.region_id}`)
+
   return useLazyFetch('/api/products', {
+    key: key.value,
     params: queryParams,
-    cache: 'force-cache',
+    watch: prefetch ? false : [queryParams],
+    immediate: !prefetch,
   })
 }
 
-export const useFetchProducts = ({ query }: {
-  query: MaybeRef<StoreProductListParams>
-}) => {
-  // const medusa = useMedusaClient()
-  const { currentRegionId } = useCurrentCountry()
+export const useFetchProductByHandle = (handle: string) => {
+  const { country } = useCountry()
+  const NuxtApp = useNuxtApp()
 
-  const queryRef = toRef(query)
-  return useStaticAsyncData(
-    `products:${JSON.stringify(queryRef.value)}:region:${currentRegionId.value}`,
-    async () => {
-      return $fetch(`/api/products`, {
-        params: {
-          region_id: currentRegionId.value,
-          ...queryRef.value,
-        },
-        cache: 'force-cache',
-      })
-      // return await medusa.store.product.list({
-      //   fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
-      //   region_id: currentRegionId.value,
-      //   ...queryRef.value,
-      // })
-    }, {
-      watch: [queryRef],
+  return useLazyFetch(
+    `/api/products/${handle}`,
+    {
+      key: `product:${handle}:region:${country.value?.region_id}`,
+      params: {
+        region_id: country.value?.region_id,
+      },
+      default: () => {
+        for (const key of Object.keys(NuxtApp.payload.data)) {
+          if (key.startsWith('products')) {
+            const productsList = NuxtApp.payload.data[key].products
+            if (Array.isArray(productsList)) {
+              for (const product of productsList) {
+                if (product.handle === handle) {
+                  return product
+                }
+              }
+            }
+          }
+        }
+      },
     })
 }
 
-export const useFetchProductByHandle = (handle: string) => {
-  const medusa = useMedusaClient()
-  const { currentRegionId } = useCurrentCountry()
-
-  return useStaticAsyncData(
-    `product:${handle}:region:${currentRegionId.value}`,
-    async () => {
-      return await medusa.store.product.list({
-        handle: handle,
-        region_id: currentRegionId.value,
-        fields: '*variants,*variants.calculated_price,+variants.inventory_quantity',
-      })
-    },
-    {
-      dedupe: 'defer',
-    })
+export const useFetchCountries = () => {
+  return useLazyFetch('/api/regions', {
+    key: 'countries',
+    transform: data => getCountriesFromRegions(data?.regions),
+  })
 }
 
 export const useCart = () => {
   const medusa = useMedusaClient()
   const { cartId, setCartId } = useUserCart()
-  const { currentRegionId } = useCurrentCountry()
+  const { country } = useCountry()
 
   const retrieveCart = async () => {
     if (!cartId.value)
-      return null
+      return { cart: null }
 
     const cartResponse = await medusa.store.cart.retrieve(cartId.value, {
       fields: '*items,*region,*items.product,*items.variant,*items.thumbnail,*items.metadata,+items.total,*promotions,+shipping_methods.name',
     })
 
-    const cart = cartResponse.cart
-
-    if (cart && cart?.region_id !== currentRegionId.value) {
-      return await updateCart({ region_id: currentRegionId.value })
+    if (cartResponse.cart && cartResponse.cart?.region_id !== country.value?.region_id) {
+      updateCart({ region_id: country.value?.region_id })
     }
 
-    return cart
+    return cartResponse
   }
 
   const createCart = async () => {
     const cartResponse = await medusa.store.cart.create({
-      region_id: currentRegionId.value,
+      region_id: country.value?.region_id,
     })
-    const cart = cartResponse.cart
-    setCartId(cart.id)
-    return cart
+    setCartId(cartResponse.cart.id)
+    return cartResponse
   }
 
   const retrieveOrCreateCart = async () => {
-    const cart = await retrieveCart()
-    if (!cart)
+    const cartResponse = await retrieveCart()
+    if (!cartResponse.cart)
       return await createCart()
-    return cart
+    return cartResponse
   }
 
   const updateCart = async (data: StoreUpdateCart) => {
@@ -167,7 +125,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.update(cartId.value, data)
-    refreshNuxtData('cart')
+    refreshNuxtData(`cart`)
     return cartResponse.cart
   }
 
@@ -176,7 +134,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.createLineItem(cartId.value, item)
-    refreshNuxtData('cart')
+    refreshNuxtData(`cart`)
     return cartResponse.cart
   }
 
@@ -184,22 +142,17 @@ export const useCart = () => {
     if (!cartId.value)
       throw new Error('No existing cart found, please create one before updating')
 
-    // const cartResponse = await $fetch(`/api/cart/line-item/${lineItemId}/update`, {
-    //   method: 'POST',
-    //   body: JSON.stringify(data),
-    // })
-
     const cartResponse = await medusa.store.cart.updateLineItem(cartId.value, lineItemId, data)
-    refreshNuxtData('cart')
+    refreshNuxtData(`cart`)
     return cartResponse.cart
   }
 
   const updateOrCreateLineItem = async (item: StoreAddCartLineItem) => {
-    const cart = await retrieveOrCreateCart()
-    if (!cart)
+    const cartResponse = await retrieveOrCreateCart()
+    if (!cartResponse.cart)
       throw new Error('No existing cart found, please create one before adding items')
 
-    const existingItem = cart.items?.find(
+    const existingItem = cartResponse.cart.items?.find(
       lineItem => lineItem.variant_id === item.variant_id,
     )
 
@@ -217,7 +170,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.deleteLineItem(cartId.value, lineItemId)
-    refreshNuxtData('cart')
+    refreshNuxtData(`cart`)
     return cartResponse.deleted
   }
 
@@ -226,7 +179,7 @@ export const useCart = () => {
       throw new Error('No existing cart found, please create one before updating')
 
     const cartResponse = await medusa.store.cart.addShippingMethod(cartId.value, { option_id: shippingMethodId })
-    refreshNuxtData('cart')
+    refreshNuxtData(`cart`)
     return cartResponse.cart
   }
 
@@ -285,16 +238,16 @@ export const useFetchShippingOptions = () => {
 
 export const useFetchPaymentProviders = () => {
   const medusa = useMedusaClient()
-  const { currentRegionId } = useCurrentCountry()
+  const { country } = useCountry()
 
   return useLazyAsyncData(
     `payment-providers`,
     async () => {
-      if (!currentRegionId.value) {
+      if (!country.value?.region_id) {
         return null
       }
       return await medusa.store.payment.listPaymentProviders({
-        region_id: currentRegionId.value,
+        region_id: country.value?.region_id,
       })
     },
     {},
@@ -306,14 +259,14 @@ export const usePaymentSession = () => {
   const { retrieveCart } = useCart()
 
   const initiatePaymentSession = async (provider_id: string) => {
-    const cart = await retrieveCart()
-    if (!cart)
+    const cartResponse = await retrieveCart()
+    if (!cartResponse.cart)
       throw new Error('No existing cart found, please create one before updating')
 
-    const paymentResponse = await medusa.store.payment.initiatePaymentSession(cart, {
+    const paymentResponse = await medusa.store.payment.initiatePaymentSession(cartResponse.cart, {
       provider_id,
     })
-    await refreshNuxtData('cart')
+    await refreshNuxtData(`cart`)
     return paymentResponse.payment_collection
   }
 

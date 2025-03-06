@@ -1,6 +1,8 @@
 <script lang="ts" setup>
-const { data: cart } = useFetchCart()
-// const cart = ref()
+import type { StoreCartResponse } from '@medusajs/types'
+
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
 
 const activeSession = computed(() => cart.value?.payment_collection?.payment_sessions?.find(
   paymentSession => paymentSession.status === 'pending',

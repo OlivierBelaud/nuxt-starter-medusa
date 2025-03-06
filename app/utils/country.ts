@@ -5,11 +5,11 @@ export interface BaseRegionCountryWithRegionId extends StoreRegionCountry {
   region_id: string
 }
 
-export function getCountryFromCountryCode(countries: BaseRegionCountryWithRegionId[], countryCode?: string) {
+export function getCountryFromCountryCode(countries?: BaseRegionCountryWithRegionId[], countryCode?: string) {
   if (!countryCode)
     return
 
-  return countries.find(country => country?.iso_2 === countryCode)
+  return countries?.find(country => country?.iso_2 === countryCode)
 }
 
 export function getCountriesFromRegions(regions?: StoreRegion[]) {

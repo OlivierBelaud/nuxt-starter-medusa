@@ -24,25 +24,12 @@ const productsQuery = computed(() => ({
   offset: (pageNumber.value - 1) * defaultProductsPerPage,
 }))
 
-const { data, refreshCachedData, origin, refresh } = await useFetchProducts({
-  query: productsQuery,
-})
+const { data } = await useFetchProducts(productsQuery)
 
-const isStatic = computed(() => origin.value.fetchOrigin === 'static')
-
-const products = computed(() => data.value?.products || [])
+const products = computed(() => data.value?.products)
 const count = computed(() => data.value?.count || 0)
 
 const displayPagination = computed(() => count.value > defaultProductsPerPage)
-
-onMounted(() => {
-  if (isStatic.value) {
-    refreshCachedData()
-  }
-  else {
-    refresh()
-  }
-})
 </script>
 
 <template>
@@ -67,8 +54,13 @@ onMounted(() => {
         {{ title }} ({{ count }})
       </AppHeading>
       <ProductList
+        v-if="products"
         :products="products"
         :sort-by="sortBy"
+        class="mb-8"
+      />
+      <ProductListSkeleton
+        v-else
         class="mb-8"
       />
       <div

@@ -2,9 +2,8 @@
 const isOpen = defineModel<boolean>()
 const { title } = useAppConfig()
 
-const { data } = await useFetchRegions()
-const countries = getCountriesFromRegions(data.value?.regions)
-const { currentCountry } = useCurrentCountry()
+const countries = await useCountries()
+const { country } = useCountry()
 </script>
 
 <template>
@@ -12,6 +11,7 @@ const { currentCountry } = useCurrentCountry()
     v-model:open="isOpen"
     side="left"
     title="Menu"
+    description="Navigation menu"
   >
     <template #body>
       <div class="h-full min-h-48 flex flex-col justify-between">
@@ -51,8 +51,8 @@ const { currentCountry } = useCurrentCountry()
             >
               <div class="text-xs flex items-center space-x-2">
                 <span>Shipping to:</span>
-                <UIcon :name="`i-flag-${currentCountry?.iso_2}-4x3`" />
-                <span>{{ currentCountry?.display_name }}</span>
+                <UIcon :name="`i-flag-${country?.iso_2}-4x3`" />
+                <span>{{ country?.display_name }}</span>
               </div>
               <UIcon
                 name="i-lucide-arrow-right"

@@ -7,17 +7,7 @@ const {
   handle: StoreCollection['handle']
 }>()
 
-const { data } = await useFetchCollectionByHandle(handle)
-const collection = computed(() => data.value?.collections?.[0])
-
-const { data: productsFromCollection } = await useFetchProducts({
-  query: {
-    collection_id: collection.value?.id,
-    limit: 4,
-  },
-})
-
-const products = computed(() => productsFromCollection.value?.products || [])
+const { data: collection } = await useFetchCollectionByHandle(handle)
 </script>
 
 <template>
@@ -35,8 +25,10 @@ const products = computed(() => productsFromCollection.value?.products || [])
         View all
       </AppLinkButton>
     </div>
-    <ProductList
-      :products="products"
+    <CollectionPreviewProducts
+      v-if="collection?.id"
+      :collection-id="collection.id"
     />
+    <ProductListSkeleton v-else />
   </UContainer>
 </template>

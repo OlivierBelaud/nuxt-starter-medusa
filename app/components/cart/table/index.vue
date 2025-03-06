@@ -53,19 +53,16 @@ const columnVisibility = computed(() => {
     quantity: !isSmall.value,
   }
 })
+const isCartUndefined = computed(() => cart === undefined)
 </script>
 
 <template>
   <div class="flex flex-col gap-y-3">
-    <CartTableSkeleton
-      v-if="!cart"
-      :is-preview="isPreview"
-      :is-drop-down="isDropDown"
-    />
     <UTable
-      v-else
+      v-if="!isCartUndefined"
       v-model:column-visibility="columnVisibility"
       :data="data"
+      :loading="false"
       :columns="columns"
       class="flex-1"
       :ui="{
@@ -136,7 +133,7 @@ const columnVisibility = computed(() => {
         </div>
       </template>
     </UTable>
-
+    <CartTableSkeleton v-if="isCartUndefined" />
     <USeparator />
   </div>
 </template>

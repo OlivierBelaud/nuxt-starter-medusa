@@ -5,12 +5,11 @@ const orderId = computed(() => route.params.orderId as string)
 
 const { data: order } = useFetchOrder(orderId.value)
 
-const { data: regions } = await useFetchRegions()
-const countries = computed(() => getCountriesFromRegions(regions.value?.regions))
+const countries = await useCountries()
 
 function getCountryName(countryCode?: string) {
   if (!countryCode) return
-  return countries.value.find(country => country.iso_2 === countryCode)?.display_name
+  return countries.value?.find(country => country.iso_2 === countryCode)?.display_name
 }
 
 const paymentMethod = computed(() => order.value?.payment_collections?.[0]?.payments?.[0])

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { currentCountryCode } = useCurrentCountry()
+const { country } = useCountry()
 
 const {
   to,
@@ -10,15 +10,17 @@ const {
 }>()
 
 const link = computed(() => {
-  return `/${countryCode || currentCountryCode.value}${to}`
+  return `/${countryCode || country.value?.iso_2}${to}`
 })
 </script>
 
 <template>
-  <ULink
-    active-class="text-color-highlighted"
-    :to="link"
-  >
-    <slot />
-  </ULink>
+  <div>
+    <NuxtLink
+      prefetch
+      :to="link"
+    >
+      <slot />
+    </NuxtLink>
+  </div>
 </template>

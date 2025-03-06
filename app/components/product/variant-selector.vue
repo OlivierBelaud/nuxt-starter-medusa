@@ -85,8 +85,10 @@ function setOptionValue({ optionId, value }: { optionId: string, value: string }
     [optionId]: value,
   }
 }
-const { loading, mutate } = useAddToCart()
+
 const { isCartDropdownOpen } = useCartDropdown()
+
+const { loading, mutate } = useAddToCart()
 async function handleAddToCart() {
   if (!selectedVariant.value) return
   await mutate({

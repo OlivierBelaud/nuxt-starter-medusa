@@ -4,23 +4,14 @@ export const useFilters = () => {
   const route = useRoute()
   const router = useRouter()
 
-  // Options de tri disponibles
   const sortOptions = [
     { value: SORT_OPTIONS.CREATED_AT, label: 'Latest Arrivals' },
     { value: SORT_OPTIONS.PRICE_ASC, label: 'Price: Low -> High' },
     { value: SORT_OPTIONS.PRICE_DESC, label: 'Price: High -> Low' },
   ]
 
-  // Flag pour différencier SSR et client
-  const isMounted = ref(false)
-  onMounted(() => {
-    console.log('isMounted', isMounted.value)
-    isMounted.value = true
-  })
-
   const pageNumber = computed<number>({
     get: () => {
-      if (!isMounted.value) return 1
       return route.query.page ? parseInt(route.query.page as string) : 1
     },
     set: (newPage: number) => {
@@ -37,7 +28,6 @@ export const useFilters = () => {
 
   const sortBy = computed<SortOptionsType>({
     get: () => {
-      if (!isMounted.value) return SORT_OPTIONS.CREATED_AT
       return (route.query.sortBy as SortOptionsType) || SORT_OPTIONS.CREATED_AT
     },
     set: async (newSortBy: SortOptionsType) => {

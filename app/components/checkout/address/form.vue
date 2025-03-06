@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import * as z from 'zod'
+import type { StoreCartResponse } from '@medusajs/types'
 import type { FormSubmitEvent } from '#ui/types'
 
 const emit = defineEmits<{
   validate: [boolean]
 }>()
 
-const { currentCountry } = useCurrentCountry()
-const { data: cart } = useFetchCart()
-// const cart = ref()
-const { mutate: updateCart, loading } = useUpdateCart()
+const { country } = useCountry()
 
-const { data: regions } = await useFetchRegions()
-const countries = computed(() => getCountriesFromRegions(regions.value?.regions))
-const { setCurrentCountry } = useCurrentCountry()
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
+const { mutate: updateCart, loading } = useUpdateCart()
 
 const schema = z.object({
   shipping_address: z.object({
@@ -91,17 +89,15 @@ async function onSubmit(event: FormSubmitEvent<PartialSchema>) {
 }
 
 // Use the current user country as the default shipping address country
-watch(currentCountry, (country) => {
-  if (country?.iso_2 && state.shipping_address) {
-    state.shipping_address.country_code = country.iso_2
+watch(country, (newCountry) => {
+  if (newCountry?.iso_2 && state.shipping_address) {
+    state.shipping_address.country_code = newCountry?.iso_2
   }
 }, { immediate: true })
 
 // Redirect to the right store if shipping address changes - Not applicable for billing address
 watch(state, (value) => {
-  if (value.shipping_address?.country_code !== currentCountry.value?.iso_2) {
-    const country = countries.value.find(country => country.iso_2 === value.shipping_address?.country_code)
-    setCurrentCountry(country)
+  if (value.shipping_address?.country_code !== country.value?.iso_2) {
     navigateTo(`/${value.shipping_address?.country_code}/checkout?step=address`)
   }
 })

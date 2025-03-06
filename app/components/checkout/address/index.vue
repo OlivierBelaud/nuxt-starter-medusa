@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-const { data: cart } = useFetchCart()
-// const cart = ref()
-const { data: regions } = await useFetchRegions()
-const countries = computed(() => getCountriesFromRegions(regions.value?.regions))
+import type { StoreCartResponse } from '@medusajs/types'
+
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
+
+const countries = await useCountries()
 
 function getCountryName(countryCode?: string) {
   if (!countryCode) return
-  return countries.value.find(country => country.iso_2 === countryCode)?.display_name
+  return countries.value?.find(country => country.iso_2 === countryCode)?.display_name
 }
 
 const sameAsBilling = computed(() => {

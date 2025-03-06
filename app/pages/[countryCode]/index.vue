@@ -3,7 +3,7 @@
 
 <template>
   <div>
-    <!-- <StoreHero /> -->
+    <StoreHero />
     <LazyCollectionList />
   </div>
 </template>

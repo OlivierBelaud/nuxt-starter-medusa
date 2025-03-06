@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import type { StoreCartResponse } from '@medusajs/types'
+
 const emit = defineEmits<{
   validate: [boolean]
 }>()
 
-const { data: cart } = useFetchCart()
-// const cart = ref()
-const { data } = useFetchPaymentProviders()
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
+
+const { data } = await useFetchPaymentProviders()
 const { loading, mutate } = useInitiatePaymentSession()
 
 const paymentProviders = computed(() => data.value?.payment_providers?.map(provider => ({

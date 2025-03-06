@@ -1,9 +1,12 @@
 <script lang="ts" setup>
+import type { StoreCartResponse } from '@medusajs/types'
+
 const emit = defineEmits<{
   validate: [boolean]
 }>()
-const { data: cart } = useFetchCart()
-// const cart = ref()
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
+
 const { data } = useFetchShippingOptions()
 const { loading, mutate } = useSetShippingMethod()
 

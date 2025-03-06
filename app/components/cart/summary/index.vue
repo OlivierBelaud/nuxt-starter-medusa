@@ -1,18 +1,23 @@
 <script lang="ts" setup>
 import type { StoreCart } from '@medusajs/types'
 
-const { currentCountryCode } = useCurrentCountry()
+const { country } = useCountry()
 
-defineProps<{
+const {
+  cart,
+} = defineProps<{
   title: string
   cart?: StoreCart
   isCheckout?: boolean
 }>()
+
+const isCartEmpty = computed(() => cart?.items?.length === 0)
+const isCartUndefined = computed(() => cart === undefined)
 </script>
 
 <template>
   <div
-    v-if="!cart || (cart.items && cart.items.length > 0)"
+    v-if="isCartUndefined || !isCartEmpty"
     :cart="cart && cart.items && cart.items.length > 0 ? cart : undefined"
     class="flex flex-col gap-y-4"
   >
@@ -30,10 +35,10 @@ defineProps<{
     />
     <UButton
       v-if="!isCheckout"
-      :to="`/${currentCountryCode}/checkout`"
+      :to="`/${country?.iso_2}/checkout`"
       :block="true"
       color="neutral"
-      :disabled="!cart"
+      :disabled="isCartUndefined"
       size="lg"
     >
       Go to checkout

@@ -1,38 +1,31 @@
-export const useUserCountry = () => {
+export const useCountry = () => {
   const countryCodeFromCookie = useCookie('country_code', {
     maxAge: 60 * 60 * 24 * 365,
   })
+  const country = useState<BaseRegionCountryWithRegionId | undefined>('country', () => undefined)
 
-  const setUserCountry = (country?: BaseRegionCountryWithRegionId) => {
-    if (!country)
+  const setCountry = (newCountry?: BaseRegionCountryWithRegionId) => {
+    if (!newCountry)
       return null
-    countryCodeFromCookie.value = country.iso_2
+    country.value = newCountry
+    countryCodeFromCookie.value = newCountry.iso_2
   }
 
   return {
-    userCountryCode: computed(() => countryCodeFromCookie.value || undefined),
-    setUserCountry,
+    countryCode: computed(() => countryCodeFromCookie.value || undefined),
+    country: readonly(country),
+    setCountry: setCountry,
   }
 }
 
-// CurrentCountryStore
-export const useCurrentCountry = () => {
-  const { userCountryCode, setUserCountry } = useUserCountry()
+export const useCountries = async () => {
+  const NuxtApp = useNuxtApp()
+  const countries = ref<BaseRegionCountryWithRegionId[] | undefined>(NuxtApp.payload.data['countries'])
 
-  const country = useState<BaseRegionCountryWithRegionId | undefined>('country', () => undefined)
-
-  function setCurrentCountry(newCountry?: BaseRegionCountryWithRegionId) {
-    if (!newCountry)
-      return
-    country.value = newCountry
-    setUserCountry(newCountry)
+  if (!countries.value) {
+    const { data } = await useFetchCountries()
+    countries.value = data.value
   }
 
-  return {
-    userCountryCode,
-    currentCountry: readonly(country),
-    currentCountryCode: computed(() => country.value?.iso_2),
-    currentRegionId: computed(() => country.value?.region_id),
-    setCurrentCountry,
-  }
+  return countries
 }

@@ -31,17 +31,12 @@ export const useCartDropdown = () => {
   }
 }
 
-export const useFetchCart = () => {
+export const useFetchCart = async () => {
   const { retrieveCart } = useCart()
 
   return useLazyAsyncData(
     'cart',
     async () => await retrieveCart(),
-    {
-      // server: false,
-      // transform: data => data || undefined,
-      dedupe: 'defer',
-    },
   )
 }
 
@@ -188,7 +183,7 @@ export const useSetShippingMethod = () => {
 export const usePlaceOrder = () => {
   const { completeOrder } = useCart()
   const { setCartId } = useUserCart()
-  const { currentCountryCode } = useCurrentCountry()
+  const { country } = useCountry()
 
   const loading = ref(false)
   const data = ref<StoreOrder | StoreCart>()
@@ -200,8 +195,9 @@ export const usePlaceOrder = () => {
       const orderResponse = await completeOrder()
       if (orderResponse.type === 'order') {
         setCartId()
+        refreshNuxtData(`cart`)
         data.value = orderResponse.order
-        navigateTo(`/${currentCountryCode.value}/order/${orderResponse.order.id}/confirmed`)
+        navigateTo(`/${country.value?.iso_2}/order/${orderResponse.order.id}/confirmed`)
       }
       else
         data.value = orderResponse.cart

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import type { StoreCartResponse } from '@medusajs/types'
+
 const { currentStep, goToStep } = useCheckoutStep()
-const { data: cart } = useFetchCart()
-// const cart = ref()
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
 
 const isAddressValid = computed(() => {
   return !!cart.value?.shipping_address && !!cart.value?.billing_address && !!cart.value?.email

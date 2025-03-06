@@ -1,26 +1,10 @@
 <script setup lang="ts">
-const { data: cart, refreshCachedData, origin } = useFetchCart()
+import type { StoreCartResponse } from '@medusajs/types'
 
-const isStatic = computed(() => origin.value.fetchOrigin === 'static')
-// const { retrieveCart } = useCart()
+const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+const cart = computed(() => cartResponse.value?.cart)
 
-// const { data: cart, refresh } = useStaticAsyncData(
-//   `cart-exp`,
-//   async () => await retrieveCart(),
-// )
-
-watchEffect(() => {
-  console.log('Cart:', cart.value)
-})
-
-onMounted(() => {
-  console.log('Product page mounted')
-  if (isStatic.value) {
-    refreshCachedData()
-  }
-})
-
-// const cart = computed(() => data.value || undefined)
+const isCartEmpty = computed(() => !cart.value || cart.value?.items?.length === 0)
 </script>
 
 <template>
@@ -36,20 +20,36 @@ onMounted(() => {
             >
               Cart
             </AppHeading>
-            <CartEmpty v-if="cart?.items?.length === 0" />
-            <CartTable
-              v-else
-              :cart="cart"
-            />
+            <ClientOnly>
+              <CartEmpty
+                v-if="isCartEmpty"
+              />
+              <CartTable
+                v-else
+                :cart="cart"
+              />
+              <template #fallback>
+                <CartTableSkeleton />
+              </template>
+            </ClientOnly>
           </div>
         </div>
         <div class="relative">
           <div class="flex flex-col gap-y-8 sticky top-12">
             <div class="bg-white py-6">
-              <CartSummary
-                title="Summary"
-                :cart="cart"
-              />
+              <ClientOnly>
+                <CartSummary
+                  v-if="!isCartEmpty"
+                  title="Summary"
+                  :cart="cart"
+                />
+                <template #fallback>
+                  <CartSummary
+                    title="Summary"
+                    :cart="undefined"
+                  />
+                </template>
+              </ClientOnly>
             </div>
           </div>
         </div>

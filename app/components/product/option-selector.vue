@@ -11,7 +11,7 @@ defineEmits<{
 }>()
 
 const optionValues = computed(() => {
-  return props.option.values?.map(v => v.value)
+  return props.option.values?.map(v => v.value).sort((a, b) => a.localeCompare(b)) ?? []
 })
 </script>
 

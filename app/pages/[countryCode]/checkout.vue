@@ -2,6 +2,9 @@
 definePageMeta({
   layout: 'checkout',
 })
+
+const { data: cartResponse } = await useFetchCart()
+const cart = computed(() => cartResponse.value?.cart || undefined)
 </script>
 
 <template>
@@ -10,8 +13,9 @@ definePageMeta({
       class="grid grid-cols-1 sm:grid-cols-[1fr_416px] gap-x-40"
     >
       <CheckoutForm />
-      <CartSummaryWrapper
+      <CartSummary
         title="In your Cart"
+        :cart="cart"
         is-checkout
       />
     </div>

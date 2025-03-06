@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import type { UPopover } from '#components'
-
 const {
   countries,
 } = defineProps<{
-  countries: BaseRegionCountryWithRegionId[]
+  countries?: BaseRegionCountryWithRegionId[]
 }>()
 
 const emit = defineEmits<{
@@ -12,14 +10,12 @@ const emit = defineEmits<{
 }>()
 
 const route = useRoute()
-const { setCurrentCountry } = useCurrentCountry()
 
 const isOpen = ref(false)
 
-function handleCountryChange(country: BaseRegionCountryWithRegionId) {
+function handleCountryChange(newCountry: BaseRegionCountryWithRegionId) {
   const path = route.path.split('/').slice(2).join('/') ? `/${route.path.split('/').slice(2).join('/')}` : ''
-  setCurrentCountry(country)
-  navigateTo(`/${country.iso_2}${path}`)
+  navigateTo(`/${newCountry.iso_2}${path}`)
   isOpen.value = false
   setTimeout(() => {
     emit('select:country')

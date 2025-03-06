@@ -2,8 +2,7 @@
 const route = useRoute()
 
 const handle = computed(() => route.params.handle as string)
-const { data } = await useFetchCollectionByHandle(handle.value)
-const collection = computed(() => data.value?.collections?.[0])
+const { data: collection } = await useFetchCollectionByHandle(handle.value)
 </script>
 
 <template>

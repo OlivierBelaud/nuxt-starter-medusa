@@ -2,8 +2,7 @@
 const route = useRoute()
 
 const handle = computed(() => route.params.handle as string)
-const { data } = await useFetchCategoryByHandle(handle.value)
-const category = computed(() => data.value?.product_categories?.[0])
+const { data: category } = await useFetchCategoryByHandle(handle.value)
 </script>
 
 <template>

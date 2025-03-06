@@ -1,39 +1,29 @@
 export default defineNuxtRouteMiddleware(async (to) => {
   const newCountryCode = to.params.countryCode as string | undefined
   const { defaultCountry: defaultCountryCode } = useAppConfig()
-  const { userCountryCode, setCurrentCountry } = useCurrentCountry()
+  const { countryCode, country, setCountry } = useCountry()
 
-  // setCurrentCountry({
-  //   iso_2: newCountryCode,
-  // })
-  // return
+  const countries = await useCountries()
 
-  const { data } = await useFetchRegions()
-  const countries = getCountriesFromRegions(data.value?.regions)
-
-  function getCountryFromCountryCode(countryCode?: string) {
-    return countries.find(country => country.iso_2 === countryCode)
-  }
-
-  const defaultCountry = getCountryFromCountryCode(defaultCountryCode)
-  const newCountry = getCountryFromCountryCode(newCountryCode)
+  const defaultCountry = getCountryFromCountryCode(countries.value, defaultCountryCode)
+  const newCountry = getCountryFromCountryCode(countries.value, newCountryCode)
 
   // Handle User Country from cookie
-  if (userCountryCode.value) {
-    const userCountry = getCountryFromCountryCode(userCountryCode.value)
+  if (countryCode.value && !country.value) {
+    const userCountry = getCountryFromCountryCode(countries.value, countryCode.value)
     if (userCountry?.iso_2 !== newCountryCode) {
-      setCurrentCountry(userCountry)
+      setCountry(userCountry)
       return navigateTo(`/${userCountry?.iso_2}`)
     }
-    setCurrentCountry(newCountry)
+    setCountry(newCountry)
     return
   }
 
   if (newCountry) { // Check if the asked country is valid
-    setCurrentCountry(newCountry)
+    setCountry(newCountry)
     return
   }
 
-  setCurrentCountry(defaultCountry)
+  setCountry(defaultCountry)
   return navigateTo(`/${defaultCountry?.iso_2}`)
 })

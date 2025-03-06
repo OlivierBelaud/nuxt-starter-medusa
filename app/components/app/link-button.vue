@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { currentCountryCode } = useCurrentCountry()
+const { country } = useCountry()
 
 const {
   to,
@@ -10,13 +10,14 @@ const {
 }>()
 
 const link = computed(() => {
-  return `/${countryCode || currentCountryCode.value}${to}`
+  return `/${countryCode || country.value?.iso_2}${to}`
 })
 </script>
 
 <template>
   <UButton
     :to="link"
+    prefetch
     color="primary"
     variant="link"
     :trailing="true"
