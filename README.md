@@ -41,15 +41,14 @@ Features include:
   - Product Detail Page
   - Product Overview Page
   - Product Collections
-  - Cart: in progress
-  - Checkout with Stripe: in progress
+  - Cart
+  - Checkout 
+  - Stripe Integration: in progress
   - User Accounts: in progress
-  - Order Details: in progress
+  - Order Details
 - Full Nuxt support:
   - App Router
   - Nuxt fetching/caching
-  - Server Components
-  - Static Pre-Rendering
   - NuxtHub (Cloudflare deployment)
   - NuxtUi
 
