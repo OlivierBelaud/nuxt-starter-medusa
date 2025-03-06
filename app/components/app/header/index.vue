@@ -33,7 +33,17 @@ const isSideMenuOpen = ref(false)
           >
             Account
           </AppLink>
-          <LazyCartDropdown />
+          <ClientOnly>
+            <LazyCartDropdown />
+            <template #fallback>
+              <AppLink
+                to="/cart"
+                class="hidden sm:flex"
+              >
+                Cart
+              </AppLink>
+            </template>
+          </ClientOnly>
         </nav>
       </UContainer>
       <AppHeaderSideMenu
