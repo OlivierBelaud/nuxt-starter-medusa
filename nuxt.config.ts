@@ -1,3 +1,5 @@
+import type { StoreRegion } from '@medusajs/types'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 
@@ -23,16 +25,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
   },
 
-  // routeRules: {
-  //   '/**/': { swr: true },
-  //   '/**/products/**': { swr: true },
-  //   '/**/collections/**': { swr: true },
-  //   '/**/categories/**': { swr: true },
-  //   '/**/store': { swr: true },
-  //   '/**/account': { swr: true },
-  //   // '/**/cart': { swr: true },
-  //   // '/**/checkout': { swr: true },
-  // },
+  routeRules: {
+    '/**/': { prerender: true },
+  },
 
   future: {
     compatibilityVersion: 4,
@@ -40,16 +35,24 @@ export default defineNuxtConfig({
 
   experimental: {
     payloadExtraction: true,
-    // componentIslands: {
-    //   selectiveClient: true,
-    // },
   },
   compatibilityDate: '2024-11-06',
 
-  // https://hub.nuxt.com/docs/getting-started/installation#options
-  // hub: {
-  //   cache: true,
-  // },
+  hooks: {
+    async 'prerender:routes'(ctx) {
+      const { regions } = await fetch(`${process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL}/store/regions`, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-publishable-api-key': process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY || '',
+        },
+      }).then(res => res.json())
+      const countries = regions?.map((region: StoreRegion) => region.countries).flat()
+      for (const country of countries) {
+        ctx.routes.add(`/${country.iso_2}`)
+      }
+    },
+  },
 
   eslint: {
     config: {
@@ -58,8 +61,8 @@ export default defineNuxtConfig({
   },
 
   medusa: {
-    baseUrl: 'https://medusa-base-production.up.railway.app',
-    publishableKey: 'pk_c4b94535c4afd1c93b8f0dce331bf3177c268bf8bcd6773daed4ff6e3fbf6b07',
+    baseUrl: process.env.NUXT_PUBLIC_MEDUSA_BACKEND_URL,
+    publishableKey: process.env.NUXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY,
     server: true,
   },
 })
