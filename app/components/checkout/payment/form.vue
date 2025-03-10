@@ -32,7 +32,10 @@ const validatePayment = async () => {
 
 <template>
   <div>
-    <div class="w-full mb-6">
+    <div
+      v-if="paymentProviders"
+      class="w-full mb-6"
+    >
       <URadioGroup
         v-model="value"
         :items="paymentProviders"
@@ -61,6 +64,15 @@ const validatePayment = async () => {
         </template>
         <template #description />
       </URadioGroup>
+    </div>
+    <div
+      v-else
+      class="mb-6"
+    >
+      <UIcon
+        name="i-lucide-loader-circle"
+        class="size-6 animate-spin"
+      />
     </div>
     <UButton
       class="cursor-pointer"

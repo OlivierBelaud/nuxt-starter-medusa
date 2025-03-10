@@ -4,7 +4,7 @@ import type { StoreCartResponse } from '@medusajs/types'
 const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
 const cart = computed(() => cartResponse.value?.cart)
 
-const isCartEmpty = computed(() => !cart.value || cart.value?.items?.length === 0)
+const isCartEmpty = computed(() => cart.value?.items?.length === 0)
 </script>
 
 <template>
@@ -25,9 +25,10 @@ const isCartEmpty = computed(() => !cart.value || cart.value?.items?.length === 
                 v-if="isCartEmpty"
               />
               <CartTable
-                v-else
+                v-else-if="cart"
                 :cart="cart"
               />
+              <CartTableSkeleton v-else />
               <template #fallback>
                 <CartTableSkeleton />
               </template>

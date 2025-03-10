@@ -14,15 +14,11 @@ const shippingOptions = computed(() => data.value?.shipping_options)
 
 const value = ref(cart.value?.shipping_methods?.at(-1)?.shipping_option_id)
 
-watch(value, (newValue) => {
-  if (newValue)
-    mutate(newValue)
-})
-
-const validateDelivery = () => {
-  if (cart.value?.shipping_methods?.at(-1)?.shipping_option_id) {
-    emit('validate', true)
+const validateDelivery = async () => {
+  if (value.value) {
+    await mutate(value.value)
   }
+  emit('validate', true)
 }
 </script>
 
@@ -62,6 +58,15 @@ const validateDelivery = () => {
           </div>
         </template>
       </URadioGroup>
+    </div>
+    <div
+      v-else
+      class="mb-6"
+    >
+      <UIcon
+        name="i-lucide-loader-circle"
+        class="size-6 animate-spin"
+      />
     </div>
     <UButton
       class="cursor-pointer"
