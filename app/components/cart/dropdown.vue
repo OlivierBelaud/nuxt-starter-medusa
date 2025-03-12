@@ -63,7 +63,7 @@ watch(country, () => {
         <div class="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
           <CartTable
             is-drop-down
-            :cart="status === 'pending' ? undefined : cart"
+            :cart="!cart && status === 'pending' ? undefined : cart"
           />
         </div>
         <div
