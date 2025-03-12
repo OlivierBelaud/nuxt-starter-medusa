@@ -30,14 +30,13 @@ const paymentProviders = computed<PaymentProviderData[] | undefined>(() => {
   return availableProviders
 })
 
-const value = ref()
-
 const activeSession = computed(() => {
   const session = cart.value?.payment_collection?.payment_sessions?.find(
     paymentSession => paymentSession.status === 'pending',
   )
   return session
 })
+const value = ref(activeSession.value?.provider_id)
 
 const isButtonDisabled = computed(() => {
   return !value.value
