@@ -5,6 +5,12 @@ const { currentStep, goToStep } = useCheckoutStep()
 const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
 const cart = computed(() => cartResponse.value?.cart)
 
+const config = useRuntimeConfig()
+
+watchEffect(() => {
+  console.log('config from checkout form', config.public)
+})
+
 const isAddressValid = computed(() => {
   return !!cart.value?.shipping_address && !!cart.value?.billing_address && !!cart.value?.email
 })

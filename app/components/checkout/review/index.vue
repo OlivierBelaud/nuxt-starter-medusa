@@ -7,6 +7,10 @@ import type { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-j
 const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
 const cart = computed(() => cartResponse.value?.cart)
 const config = useRuntimeConfig()
+
+watchEffect(() => {
+  console.log('config', config.public)
+})
 // const { country } = useCountry()
 
 const notReady = computed(() => {
