@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 const { data } = await useFetchCategories()
 const categories = computed(() => data.value?.product_categories.filter(category => !category.parent_category))
-
-watchEffect(() => {
-  console.log('categories', categories.value)
-})
 </script>
 
 <template>

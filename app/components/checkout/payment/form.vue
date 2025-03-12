@@ -32,10 +32,6 @@ const paymentProviders = computed<PaymentProviderData[] | undefined>(() => {
 
 const value = ref()
 
-watch(value, (newValue) => {
-  console.log('Payment provider value changed:', newValue)
-}, { immediate: true })
-
 const activeSession = computed(() => {
   const session = cart.value?.payment_collection?.payment_sessions?.find(
     paymentSession => paymentSession.status === 'pending',

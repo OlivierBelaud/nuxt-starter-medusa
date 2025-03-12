@@ -6,10 +6,6 @@ const { cart } = defineProps<{
 }>()
 
 const hasCartItems = computed(() => cart?.items && cart.items.length > 0)
-
-watchEffect(() => {
-  console.log('cart', cart)
-})
 </script>
 
 <template>
