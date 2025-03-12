@@ -16,7 +16,7 @@ const currencyCode = computed(() => cheapestVariant.value?.calculated_price?.cur
 
 <template>
   <AppLink
-    :to="`/products/${product?.handle}`"
+    :to="product?.handle ? `/products/${product?.handle}` : undefined"
     class="group"
   >
     <div

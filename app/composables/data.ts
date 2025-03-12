@@ -1,4 +1,4 @@
-import type { StoreAddCartLineItem, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
+import type { StoreAddCartLineItem, StoreCartResponse, StoreCartShippingMethod, StoreOrder, StoreProductListParams, StoreUpdateCart, StoreUpdateCartLineItem } from '@medusajs/types'
 
 export const useFetchCategories = () => {
   const medusa = useMedusaClient()
@@ -6,7 +6,7 @@ export const useFetchCategories = () => {
     `categories`,
     async () => {
       return await medusa.store.category.list({
-        fields: 'handle,name',
+        fields: 'handle,name,*parent_category,*category_children',
       })
     })
 }
@@ -256,14 +256,13 @@ export const useFetchPaymentProviders = () => {
 
 export const usePaymentSession = () => {
   const medusa = useMedusaClient()
-  const { retrieveCart } = useCart()
 
   const initiatePaymentSession = async (provider_id: string) => {
-    const cartResponse = await retrieveCart()
-    if (!cartResponse.cart)
+    const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
+    if (!cartResponse.value?.cart)
       throw new Error('No existing cart found, please create one before updating')
 
-    const paymentResponse = await medusa.store.payment.initiatePaymentSession(cartResponse.cart, {
+    const paymentResponse = await medusa.store.payment.initiatePaymentSession(cartResponse.value?.cart, {
       provider_id,
     })
     await refreshNuxtData(`cart`)

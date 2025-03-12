@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 const { data } = await useFetchCategories()
-const categories = computed(() => data.value?.product_categories)
+const categories = computed(() => data.value?.product_categories.filter(category => !category.parent_category))
+
+watchEffect(() => {
+  console.log('categories', categories.value)
+})
 </script>
 
 <template>
@@ -18,6 +22,21 @@ const categories = computed(() => data.value?.product_categories)
         >
           {{ category.name }}
         </AppLink>
+        <ul
+          v-if="category.category_children.length"
+          class="grid grid-cols-1 gap-y-2 pl-4 pt-2"
+        >
+          <li
+            v-for="children in category.category_children"
+            :key="children.id"
+          >
+            <AppLink
+              :to="`/categories/${children.handle}`"
+            >
+              {{ children.name }}
+            </AppLink>
+          </li>
+        </ul>
       </li>
     </ul>
   </div>

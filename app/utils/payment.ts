@@ -22,6 +22,6 @@ export const providers = [
   {
     id: 'pp_system_default',
     label: 'Manual Payment',
-    icon: 'i-lucide-credit-card',
+    icon: 'i-lucide-hand-coins',
   },
 ]

@@ -18,25 +18,6 @@ const isPaymentValid = computed(() => {
     paymentSession => paymentSession.status === 'pending',
   )
 })
-
-const activeSession = computed(() => cart.value?.payment_collection?.payment_sessions?.find(
-  paymentSession => paymentSession.status === 'pending',
-))
-
-const notReady = computed(() => {
-  return !cart.value
-    || !cart.value.shipping_address
-    || !cart.value.billing_address
-    || !cart.value.email
-    || (cart.value.shipping_methods?.length ?? 0) < 1
-    || !activeSession.value
-})
-
-const { mutate: placeOrder, loading } = usePlaceOrder()
-
-const handlePlaceOrder = async () => {
-  await placeOrder()
-}
 </script>
 
 <template>
@@ -152,19 +133,7 @@ const handlePlaceOrder = async () => {
         </AppHeading>
       </div>
       <div v-if="currentStep === 'review'">
-        <div class="flex items-start gap-x-1 w-full mb-6 text-sm">
-          By clicking the Place Order button, you confirm that you have read, understand and accept our Terms of Use, Terms of Sale and Returns Policy and acknowledge that you have read Medusa Store's Privacy Policy.
-        </div>
-        <UButton
-          class="cursor-pointer"
-          color="neutral"
-          size="xl"
-          :disabled="notReady"
-          :loading="loading"
-          @click="handlePlaceOrder"
-        >
-          Place order
-        </UButton>
+        <CheckoutReview />
       </div>
     </div>
   </div>

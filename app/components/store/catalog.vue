@@ -48,11 +48,16 @@ const displayPagination = computed(() => count.value > defaultProductsPerPage)
     </div>
     <div class="w-full">
       <AppHeading
+        v-if="title && products"
         as="h1"
         class="mb-8"
       >
         {{ title }} ({{ count }})
       </AppHeading>
+      <USkeleton
+        v-else
+        class="mb-8 h-12 w-[300px]"
+      />
       <ProductList
         v-if="products"
         :products="products"

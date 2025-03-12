@@ -5,11 +5,12 @@ const {
   to,
   countryCode,
 } = defineProps<{
-  to: string
+  to?: string
   countryCode?: string
 }>()
 
 const link = computed(() => {
+  if (!to) return undefined
   return `/${countryCode || country.value?.iso_2}${to}`
 })
 </script>
@@ -17,10 +18,12 @@ const link = computed(() => {
 <template>
   <div>
     <NuxtLink
+      v-if="link"
       prefetch
       :to="link"
     >
       <slot />
     </NuxtLink>
+    <slot v-else />
   </div>
 </template>

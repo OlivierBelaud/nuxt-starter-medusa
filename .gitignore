@@ -26,3 +26,6 @@ logs
 !.env.template
 
 .wrangler
+
+.cursorrules
+.cursorignore
