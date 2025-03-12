@@ -83,8 +83,8 @@ const isCartUndefined = computed(() => cart === undefined)
               :link="`/products/${row.original.product_handle}`"
             />
           </div>
-          <div>
-            <div class="text-black mb-1">
+          <div :class="isDropDown ? 'w-40' : 'w-auto'">
+            <div class="text-black mb-1 truncate">
               {{ row.original.product_title }}
             </div>
             <div>Variant: {{ row.original.variant_title }}</div>
