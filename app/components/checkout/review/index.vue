@@ -48,10 +48,13 @@ const isStripePayment = computed(() => {
 onMounted(async () => {
   if (!isStripePayment.value) return
 
-  const { public: { stripeKey } } = useRuntimeConfig()
+  const config = useRuntimeConfig()
+  if (!config.public.stripeKey) {
+    throw new Error('Stripe key is not set')
+  }
 
   try {
-    const stripeInstance = await loadStripe(stripeKey)
+    const stripeInstance = await loadStripe(config.public.stripeKey)
     if (!stripeInstance) {
       throw new Error('Failed to initialize Stripe')
     }
