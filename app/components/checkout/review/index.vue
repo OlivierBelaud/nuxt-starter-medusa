@@ -6,6 +6,7 @@ import type { Stripe, StripeElements, StripeCardElement } from '@stripe/stripe-j
 
 const { data: cartResponse } = useNuxtData<StoreCartResponse>('cart')
 const cart = computed(() => cartResponse.value?.cart)
+const config = useRuntimeConfig()
 // const { country } = useCountry()
 
 const notReady = computed(() => {
@@ -48,7 +49,6 @@ const isStripePayment = computed(() => {
 onMounted(async () => {
   if (!isStripePayment.value) return
 
-  const config = useRuntimeConfig()
   if (!config.public.stripeKey) {
     throw new Error('Stripe key is not set')
   }
