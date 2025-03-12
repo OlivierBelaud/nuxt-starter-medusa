@@ -43,7 +43,7 @@ Features include:
   - Product Collections
   - Cart
   - Checkout 
-  - Stripe Integration: in progress
+  - Stripe Integration
   - User Accounts: in progress
   - Order Details
 - Full Nuxt support:
@@ -83,7 +83,7 @@ pnpm run dev
 
 Your site is now running at http://localhost:3000!
 
-# Payment integrations: Work In Progress
+# Payment integrations
 
 By default this starter supports the following payment integrations
 
