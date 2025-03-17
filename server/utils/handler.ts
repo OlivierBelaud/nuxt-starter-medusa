@@ -1,4 +1,5 @@
 import type { EventHandler, EventHandlerRequest, H3Event } from 'h3'
+import type { MedusaError } from '../types/medusa-error'
 
 export const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
   handler: EventHandler<T, D>,
@@ -8,11 +9,14 @@ export const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
       return await handler(event)
     }
     catch (err) {
-      // TODO: Handle Medusa errors
       console.error('Error while handling event', err)
+
+      // Handle Medusa errors with appropriate status codes
+      const medusaError = err as MedusaError
+
       throw createError({
-        statusCode: 500,
-        message: 'Internal Server Error',
+        statusCode: medusaError.status || 500,
+        message: medusaError.message || 'Internal Server Error',
       })
     }
   })

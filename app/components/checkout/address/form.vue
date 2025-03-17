@@ -110,147 +110,129 @@ watch(state, (value) => {
       :state="state"
       @submit="onSubmit"
     >
-      <div class="grid grid-cols-2 gap-4 pb-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.first_name"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.first_name"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.first_name"
+            label="First name"
+            required
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">First name<span class="text-red-500">*</span></span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.last_name"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.last_name"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.last_name"
+            label="Last name"
+            required
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Last name<span class="text-red-500">*</span></span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.address_1"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.address_1"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.address_1"
+            label="Address"
+            required
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Address<span class="text-red-500">*</span></span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
-          required
           size="xl"
           class="w-full"
           name="shipping_address.company"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.company"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.company"
+            label="Company"
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Company</span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.postal_code"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.postal_code"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.postal_code"
+            label="Postal code"
+            required
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Postal code<span class="text-red-500">*</span></span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.city"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.city"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.city"
+            label="City"
+            required
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">City<span class="text-red-500">*</span></span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.country_code"
+          :ui="{ error: 'text-xs' }"
         >
           <StoreSelectCountry v-model="state.shipping_address.country_code" />
         </UFormField>
         <UFormField
-          required
           size="xl"
           class="w-full"
           name="shipping_address.province"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.province"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.province"
+            label="Province/State"
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Province</span>
-            </label>
-          </UInput>
+          />
+        </UFormField>
+        <UFormField
+          size="xl"
+          class="w-full"
+          name="shipping_address.phone"
+          :ui="{ error: 'text-xs' }"
+        >
+          <AppInput
+            v-model="state.shipping_address.phone"
+            name="shipping_address.phone"
+            type="tel"
+            label="Phone"
+            size="xl"
+          />
         </UFormField>
       </div>
       <div
@@ -268,43 +250,35 @@ watch(state, (value) => {
           size="xl"
           class="w-full"
           name="email"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.email"
-            placeholder=""
-            color="neutral"
+            name="email"
+            type="email"
+            label="Email"
+            required
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Email<span class="text-red-500">*</span></span>
-            </label>
-          </UInput>
+          />
         </UFormField>
         <UFormField
           required
           size="xl"
           class="w-full"
           name="shipping_address.phone"
+          :ui="{ error: 'text-xs' }"
         >
-          <UInput
+          <AppInput
             v-model="state.shipping_address.phone"
-            placeholder=""
-            color="neutral"
+            name="shipping_address.phone"
+            type="tel"
+            label="Phone"
             size="xl"
-            :ui="{ base: 'peer' }"
-            class="w-full"
-          >
-            <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-              <span class="inline-flex bg-[var(--ui-bg)] px-1">Phone</span>
-            </label>
-          </UInput>
+          />
         </UFormField>
       </div>
       <div
         v-if="!sameAsBilling"
-        class="pb-6"
       >
         <AppHeading
           as="h2"
@@ -312,126 +286,102 @@ watch(state, (value) => {
         >
           Billing Address
         </AppHeading>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pb-8">
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.first_name"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.first_name"
-              placeholder=""
-              color="neutral"
+              name="billing_address.first_name"
+              label="First name"
+              required
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">First name<span class="text-red-500">*</span></span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.last_name"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.last_name"
-              placeholder=""
-              color="neutral"
+              name="billing_address.last_name"
+              label="Last name"
+              required
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">Last name<span class="text-red-500">*</span></span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.address_1"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.address_1"
-              placeholder=""
-              color="neutral"
+              name="billing_address.address_1"
+              label="Address"
+              required
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">Address<span class="text-red-500">*</span></span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.company"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.company"
-              placeholder=""
-              color="neutral"
+              name="billing_address.company"
+              label="Company"
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">Company</span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.postal_code"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.postal_code"
-              placeholder=""
-              color="neutral"
+              name="billing_address.postal_code"
+              label="Postal code"
+              required
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">Postal code<span class="text-red-500">*</span></span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.city"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.city"
-              placeholder=""
-              color="neutral"
+              name="billing_address.city"
+              label="City"
+              required
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">City<span class="text-red-500">*</span></span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.country_code"
+            :ui="{ error: 'text-xs' }"
           >
             <StoreSelectCountry v-model="state.billing_address.country_code" />
           </UFormField>
@@ -441,37 +391,27 @@ watch(state, (value) => {
             class="w-full"
             name="billing_address.province"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.province"
-              placeholder=""
-              color="neutral"
+              name="billing_address.province"
+              label="Province/State"
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">Province</span>
-              </label>
-            </UInput>
+            />
           </UFormField>
           <UFormField
             required
             size="xl"
             class="w-full"
             name="billing_address.phone"
+            :ui="{ error: 'text-xs' }"
           >
-            <UInput
+            <AppInput
               v-model="state.billing_address.phone"
-              placeholder=""
-              color="neutral"
+              name="billing_address.phone"
+              type="tel"
+              label="Phone"
               size="xl"
-              :ui="{ base: 'peer' }"
-              class="w-full"
-            >
-              <label class="pointer-events-none py-1 absolute left-0 -top-2.5 text-[var(--ui-text-highlighted)] text-xs font-medium px-1.5 transition-all peer-focus:-top-2.5 peer-focus:text-[var(--ui-text-highlighted)] peer-focus:text-xs peer-focus:font-medium peer-placeholder-shown:text-sm peer-placeholder-shown:text-[var(--ui-text-dimmed)] peer-placeholder-shown:top-1.5 peer-placeholder-shown:font-normal">
-                <span class="inline-flex bg-[var(--ui-bg)] px-1">Phone</span>
-              </label>
-            </UInput>
+            />
           </UFormField>
         </div>
       </div>

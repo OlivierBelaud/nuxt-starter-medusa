@@ -16,7 +16,7 @@ const link = computed(() => {
 </script>
 
 <template>
-  <div>
+  <span>
     <NuxtLink
       v-if="link"
       prefetch
@@ -25,5 +25,5 @@ const link = computed(() => {
       <slot />
     </NuxtLink>
     <slot v-else />
-  </div>
+  </span>
 </template>
